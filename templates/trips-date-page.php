@@ -47,19 +47,26 @@ try {
             $tripLink = $trip["Trip Link"] ?? "N/A";
             $startDate = $trip["Trip_Start_Date"] ?? "N/A";
             $length = $trip["Length"] ?? "N/A";
+            $countTrip = $trip["Trip_Registration_Count"] ?? "NA";
             $endDate = $trip["Trip_End_Date"] ?? "N/A";
             $earlyBird = $trip["Early Bird"] ?? "N/A";
             $fullPrice = $trip["Full Price"] ?? "N/A";
             $bookingLink = $trip["Booking Link"] ?? "#";
             ?>
             <tr>
-              <td><a href="<?php echo esc_url($tripLink); ?>" class="book-btn"><?php echo esc_url($tripName); ?></a></td>
+              <td><a href="<?php echo $tripLink; ?>" class="book-btn"><?php echo esc_html($tripName); ?></a></td>
               <td><?php echo esc_html($startDate); ?></td>
               <td><?php echo esc_html($length); ?></td>
               <td><?php echo esc_html($endDate); ?></td>
               <td><?php echo esc_html($earlyBird); ?></td>
               <td><?php echo esc_html($fullPrice); ?></td>
-              <td><a href="<?php echo esc_url($bookingLink); ?>" class="book-btn">Book Online</a></td>
+              <?php if ($countTrip < 9 ) : ?>
+                <td><a href="<?php echo esc_url($bookingLink); ?>" class="book-btn">Book Now</a></td>
+              <?php elseif ($countTrip < 12 ) : ?>
+                <td><a href="<?php echo esc_url($bookingLink); ?>" class="book-btn" style="color: #ececec">Book Now (Almost Full) </a></td>
+              <?php else : ?>
+                <td><p class="book-btn" style="color: darkgray">Full Booked</p></td>
+              <?php endif; ?>
             </tr>
             <?php
           }
