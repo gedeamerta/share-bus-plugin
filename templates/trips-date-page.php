@@ -16,6 +16,15 @@ try {
   // Check if response contains the expected structure
   if (isset($response['details']['userMessage'][0])) {
     $data = json_decode($response['details']['userMessage'][0], true);
+
+    usort($data['data'], function ($a, $b) {
+      // Extract date part from the "Name" field (last 10 characters, assuming format like "02/12/2024")
+      $dateA = DateTime::createFromFormat('d/m/Y', substr($a['Name'], -10));
+      $dateB = DateTime::createFromFormat('d/m/Y', substr($b['Name'], -10));
+  
+      // Compare the dates
+      return $dateA <=> $dateB;
+    });
   } else {
     echo "<p>No data found in API response.</p>";
     return;
@@ -44,6 +53,7 @@ try {
           foreach ($data["data"] as $trip) {
             // Check if all necessary fields are present
             $tripName = $trip["Name"] ?? "N/A";
+            $tripNameFiltered = strtok($tripName,"0123456789");
             $tripLink = $trip["Trip Link"] ?? "N/A";
             $startDate = $trip["Trip_Start_Date"] ?? "N/A";
             $length = $trip["Length"] ?? "N/A";
@@ -52,9 +62,18 @@ try {
             $earlyBird = $trip["Early Bird"] ?? "N/A";
             $fullPrice = $trip["Full Price"] ?? "N/A";
             $bookingLink = $trip["Booking Link"] ?? "#";
+
+            // Get the month and year from the start date
+            $monthYear = date('F Y', strtotime($startDate));
+
+            // Check if the month has changed
+            if ($monthYear !== $currentMonth) {
+              $currentMonth = $monthYear;
+              echo "<tr><td colspan='7' style='font-weight: bold; font-size: 1.2em;'>$currentMonth</td></tr>";
+            }
             ?>
             <tr>
-              <td><a href="<?php echo $tripLink; ?>" class="book-btn"><?php echo esc_html($tripName); ?></a></td>
+              <td><a href="<?php echo $tripLink; ?>"><?php echo esc_html($tripNameFiltered); ?></a></td>
               <td><?php echo esc_html($startDate); ?></td>
               <td><?php echo esc_html($length); ?></td>
               <td><?php echo esc_html($endDate); ?></td>
@@ -65,7 +84,7 @@ try {
               <?php elseif ($countTrip < 12 ) : ?>
                 <td><a href="<?php echo esc_url($bookingLink); ?>" class="book-btn" style="color: #ececec">Book Now (Almost Full) </a></td>
               <?php else : ?>
-                <td><p class="book-btn" style="color: darkgray">Full Booked</p></td>
+                <td><p class="full-book-btn">Full Booked</p></td>
               <?php endif; ?>
             </tr>
             <?php

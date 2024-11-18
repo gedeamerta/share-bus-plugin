@@ -13,10 +13,11 @@ table {
     margin: 20px auto;
     background-color: #fff;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
   }
 
   th, td {
-    padding: 12px;
+    padding: 12px !important;
     text-align: left;
     border: 1px solid #ddd;
   }
@@ -42,10 +43,26 @@ table {
     text-decoration: none;
     border-radius: 4px;
     font-weight: bold;
+    transition: background-color 0.3s ease
+  }
+
+  .full-book-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: red;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s ease
   }
 
   .book-btn:hover {
     background-color: #0056b3;
+  }
+
+  .full-book-btn:hover {
+    background-color:  #d62828;
   }
 
   .book-btn-date {
@@ -56,6 +73,11 @@ table {
     text-decoration: none;
     border-radius: 4px;
     font-weight: bold;
+    transition: background-color 0.3s ease
+  }
+
+  .book-btn-date:hover {
+    background-color: #bf4e14;
   }
 
   
