@@ -21,7 +21,7 @@ try {
       // Extract date part from the "Name" field (last 10 characters, assuming format like "02/12/2024")
       $dateA = DateTime::createFromFormat('d/m/Y', substr($a['Name'], -10));
       $dateB = DateTime::createFromFormat('d/m/Y', substr($b['Name'], -10));
-  
+
       // Compare the dates
       return $dateA <=> $dateB;
     });
@@ -32,8 +32,7 @@ try {
 
   // Check if 'data' key exists and is an array
   if (isset($data["data"]) && is_array($data["data"])) {
-    ?>
-
+?>
     <!-- Displaying the data in a table -->
     <div class="container">
       <table>
@@ -50,51 +49,62 @@ try {
         </thead>
         <tbody>
           <?php
-          foreach ($data["data"] as $trip) {
+          $currentMonth = ''; // Initialize current month to detect changes
+
+          // Sort the data array by 'Trip_Start_Date' in ascending order
+          usort($data["data"], function ($a, $b) {
+            return strtotime($a["Trip_Start_Date"]) - strtotime($b["Trip_Start_Date"]);
+          });
+
+          foreach ($data["data"] as $trip) :
             // Check if all necessary fields are present
-            $tripName = $trip["Name"] ?? "N/A";
-            $tripNameFiltered = strtok($tripName,"0123456789");
-            $tripLink = $trip["Trip Link"] ?? "N/A";
+            $tripName = $trip["Related_Trip.Name_for_Form"] ?? "N/A";
             $startDate = $trip["Trip_Start_Date"] ?? "N/A";
-            $length = $trip["Length"] ?? "N/A";
-            $countTrip = $trip["Trip_Registration_Count"] ?? "NA";
+            $length = $trip["Related_Trip.Trip_Days"] ?? "N/A";
+            $countTrip = $trip["Trip_Registration_Count"];
             $endDate = $trip["Trip_End_Date"] ?? "N/A";
-            $earlyBird = $trip["Early Bird"] ?? "N/A";
-            $fullPrice = $trip["Full Price"] ?? "N/A";
-            $bookingLink = $trip["Booking Link"] ?? "#";
+            $earlyBird = $trip["Related_Trip.Early_Bird_Price"] ?? "N/A";
+            $fullPrice = $trip["Related_Trip.Full_Price"] ?? "N/A";
+            $bookingLink = $trip["Related_Trip.Page_Detail_URL"] ?? 'null';
 
             // Get the month and year from the start date
             $monthYear = date('F Y', strtotime($startDate));
 
             // Check if the month has changed
-            if ($monthYear !== $currentMonth) {
+            if ($monthYear !== $currentMonth) :
               $currentMonth = $monthYear;
               echo "<tr><td colspan='7' style='font-weight: bold; font-size: 1.2em;'>$currentMonth</td></tr>";
-            }
-            ?>
-            <tr>
-              <td><a href="<?php echo $tripLink; ?>"><?php echo esc_html($tripNameFiltered); ?></a></td>
-              <td><?php echo esc_html($startDate); ?></td>
-              <td><?php echo esc_html($length); ?></td>
-              <td><?php echo esc_html($endDate); ?></td>
-              <td><?php echo esc_html($earlyBird); ?></td>
-              <td><?php echo esc_html($fullPrice); ?></td>
-              <?php if ($countTrip < 9 ) : ?>
-                <td><a href="<?php echo esc_url($bookingLink); ?>" class="book-btn">Book Now</a></td>
-              <?php elseif ($countTrip < 12 ) : ?>
-                <td><a href="<?php echo esc_url($bookingLink); ?>" class="book-btn" style="color: #ececec">Book Now (Almost Full) </a></td>
-              <?php else : ?>
-                <td><p class="full-book-btn">Full Booked</p></td>
-              <?php endif; ?>
-            </tr>
-            <?php
-          }
+            endif;
           ?>
+            <tr>
+              <td><a href="<?php echo esc_url($bookingLink); ?>"><?php echo esc_html($tripName); ?></a></td>
+              <td><?php echo esc_html($startDate); ?></td>
+              <td><?php echo esc_html($length); ?> days</td>
+              <td><?php echo esc_html($endDate); ?></td>
+              <td>$<?php echo esc_html($earlyBird); ?></td>
+              <td>$<?php echo esc_html($fullPrice); ?></td>
+              
+              <td>
+                <?php if ($countTrip < 10 && $bookingLink != 'null') : ?>
+                  <a href="<?php echo esc_url($bookingLink); ?>" class="book-btn">Book Now</a>
+                <?php elseif ($countTrip == 10 && $bookingLink != 'null') : ?>
+                  <a href="<?php echo esc_url($bookingLink); ?>" class="warning-btn" style="color: #ececec">2 Seats Left</a>
+                <?php elseif ($countTrip == 11 && $bookingLink != 'null') : ?>
+                  <a href="<?php echo esc_url($bookingLink); ?>" class="warning-btn" style="color: #ececec">1 Seat Left</a>
+                <?php elseif ($countTrip == 12 && $bookingLink != 'null') : ?>
+                  <p class="full-book-btn">Fully Booked</p>
+                <?php elseif (empty($countTrip) || $bookingLink != "null") : ?>
+                  <p class="success-btn">More info coming soon</p>
+                <?php endif; ?>
+              <td><?php echo esc_html($countTrip); ?></td>
+              <td><?php echo esc_html($bookingLink); ?></td>
+              </td>
+            </tr>
+          <?php endforeach; ?>
         </tbody>
       </table>
     </div>
-
-    <?php
+<?php
   } else {
     echo "<p>No trip data available.</p>";
   }
