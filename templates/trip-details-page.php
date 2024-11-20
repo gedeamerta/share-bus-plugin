@@ -7,13 +7,21 @@ try {
         'Website' => $actual_link, // Pass the current page URL
     ];
 
-    // Make the POST request using wp_remote_post
-    $response = wp_remote_post("https://www.zohoapis.com/crm/v2/functions/sm_fetch_detail_trip_dates_data/actions/execute?auth_type=apikey&zapikey=1003.ea88241c32d52e7e44a3ccd2b9318ea4.a090fa0945e64dc79683a1abfe560bb5", [
-        'body' => json_encode($body),
-        'headers' => [
-            'Content-Type' => 'application/json',
-        ],
-    ]);
+    $args = array(
+        'method'      => 'POST',
+        'headers'     => array(
+            'Content-Type'  => 'application/json',
+        ),
+        'body'        => json_encode($body),
+    );
+
+    $request = wp_remote_post( "https://www.zohoapis.com/crm/v2/functions/sm_fetch_detail_trip_dates_data/actions/execute?auth_type=apikey&zapikey=1003.ea88241c32d52e7e44a3ccd2b9318ea4.a090fa0945e64dc79683a1abfe560bb5", $args );
+
+    if ( is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) != 200 ) {
+        error_log( print_r( $request, true ) );
+    }
+
+    $response = wp_remote_retrieve_body( $request );
 
     // Check for errors
     if (is_wp_error($response)) {
@@ -22,7 +30,11 @@ try {
     }
 
     // Dump the response
-    var_dump('Response:', wp_remote_retrieve_body($response));
+    var_dump('Response:', $response);
+
+    // Dump the response
+    $responseRes = json_decode(json_decode($response, true)["details"]["output"]);
+    var_dump($responseRes);
 
 ?>
 
