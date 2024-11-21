@@ -4,7 +4,7 @@ try {
 
     // Prepare the request body
     $body = [
-        'Website' => $actual_link, // Pass the current page URL
+        'Website' => basename($actual_link), // Pass the current page URL
     ];
 
     $args = array(
@@ -25,35 +25,36 @@ try {
 
     // Check for errors
     if (is_wp_error($response)) {
-        var_dump('Error:', $response->get_error_message());
+        // var_dump('Error:', $response->get_error_message());
         return;
     }
 
     // Dump the response
-    var_dump('Response:', $response);
+    $data = json_decode(json_decode($response, true)["details"]["output"], true);
 
-    // Dump the response
-    $responseRes = json_decode(json_decode($response, true)["details"]["output"]);
-    var_dump($responseRes);
+    $tripDays = $data["Trip_Days"];
+    $earlyBird = $data["Early_Bird_Price"];
+    $fullPrice = $data["Full_Price"];
 
 ?>
 
     <div class="container">
         <h3>Trip Detail</h3>
-        <p>Trip Length: 30 days</p>
+        <p>Trip Length: <?php echo esc_html($tripDays); ?> days</p>
         <p>Prices:</p>
         <ul>
-            <li>Early Bird: $1440 (6+ weeks before Start Date)</li>
-            <li>Full Fee: $1598</li>
+            <li>Early Bird: $<?php echo esc_html($earlyBird); ?> (6+ weeks before Start Date)</li>
+            <li>Full Fee: $<?php echo esc_html($fullPrice); ?></li>
         </ul>
 
         <p>Start Dates:</p>
         <div class="date-lists">
             <ul>
-                <li><button class="book-btn-date">Book Now - 04/11/2024</button></li>
-                <li><button class="book-btn-date">Book Now - 14/11/2024</button></li>
-                <li><button class="book-btn-date">Book Now - 02/12/2024</button></li>
-                <li><button class="book-btn-date">Book Now - 30/01/2025</button></li>
+                <?php 
+                    foreach ($data["Trip_Dates_List"] as $trip) :
+                ?>
+                    <li><a class="book-btn-date" href="<?php echo "https://forms.zohopublic.com/admin1608/form/TESTFullFormRegistrationandPayment/formperma/ujzk8Yo2qYr13WNZpzz4PF6erUucysO21uTXuvTnYXY?trip=". $data["Name_for_Form"] . "&date=" . $trip["Trip_Start_Date"]; ?>">Book Now - <?php echo esc_html($trip["Trip_Start_Date"]); ?></a></li>
+                <?php endforeach; ?>
             </ul>
         </div>
 
