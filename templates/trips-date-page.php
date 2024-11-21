@@ -65,7 +65,11 @@ try {
             $endDate = $trip["Trip_End_Date"] ?? "N/A";
             $earlyBird = $trip["Related_Trip.Early_Bird_Price"] ?? "N/A";
             $fullPrice = $trip["Related_Trip.Full_Price"] ?? "N/A";
-            $bookingLink = $trip["Related_Trip.Page_Detail_URL"] ?? 'null';
+            $tripDetailLink = $trip["Related_Trip.Page_Detail_URL"] ?? 'null';
+            $startCity = $trip["Related_Trip.Start_City"] ?? "N/A";
+            $zohoFormLink = "https://forms.zohopublic.com/admin1608/form/TESTFullFormRegistrationandPayment/formperma/ujzk8Yo2qYr13WNZpzz4PF6erUucysO21uTXuvTnYXY?trip=" . $tripName . "&date=" . $startDate;
+
+            // var_dump($zohoFormLink);
 
             // Get the month and year from the start date
             $monthYear = date('F Y', strtotime($startDate));
@@ -77,27 +81,25 @@ try {
             endif;
           ?>
             <tr>
-              <td><a href="<?php echo esc_url($bookingLink); ?>"><?php echo esc_html($tripName); ?></a></td>
+              <td><a href="<?php echo esc_url($tripDetailLink); ?>"><?php echo esc_html($tripName); ?></a></td>
               <td><?php echo esc_html($startDate); ?></td>
               <td><?php echo esc_html($length); ?> days</td>
               <td><?php echo esc_html($endDate); ?></td>
               <td>$<?php echo esc_html($earlyBird); ?></td>
               <td>$<?php echo esc_html($fullPrice); ?></td>
-              
+
               <td>
-                <?php if ($countTrip < 10 && $bookingLink != 'null') : ?>
-                  <a href="<?php echo esc_url($bookingLink); ?>" class="book-btn">Book Now</a>
-                <?php elseif ($countTrip == 10 && $bookingLink != 'null') : ?>
-                  <a href="<?php echo esc_url($bookingLink); ?>" class="warning-btn" style="color: #ececec">2 Seats Left</a>
-                <?php elseif ($countTrip == 11 && $bookingLink != 'null') : ?>
-                  <a href="<?php echo esc_url($bookingLink); ?>" class="warning-btn" style="color: #ececec">1 Seat Left</a>
-                <?php elseif ($countTrip == 12 && $bookingLink != 'null') : ?>
+                <?php if ($countTrip < 10 && $tripDetailLink != 'null') : ?>
+                  <a href="<?php echo esc_url($zohoFormLink); ?>" class="book-btn">Book Now</a>
+                <?php elseif ($countTrip == 10 && $tripDetailLink != 'null') : ?>
+                  <a href="<?php echo esc_url($zohoFormLink); ?>" class="warning-btn" style="color: #ececec">2 Seats Left</a>
+                <?php elseif ($countTrip == 11 && $tripDetailLink != 'null') : ?>
+                  <a href="<?php echo esc_url($zohoFormLink); ?>" class="warning-btn" style="color: #ececec">1 Seat Left</a>
+                <?php elseif ($countTrip == 12 && $tripDetailLink != 'null') : ?>
                   <p class="full-book-btn">Fully Booked</p>
-                <?php elseif (empty($countTrip) || $bookingLink != "null") : ?>
+                <?php elseif (empty($countTrip) || $tripDetailLink != "null") : ?>
                   <p class="success-btn">More info coming soon</p>
                 <?php endif; ?>
-              <td><?php echo esc_html($countTrip); ?></td>
-              <td><?php echo esc_html($bookingLink); ?></td>
               </td>
             </tr>
           <?php endforeach; ?>
