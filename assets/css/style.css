@@ -91,6 +91,14 @@ table {
     transition: background-color 0.3s ease
   }
 
+  .text-success-btn {
+    color: #52b788 !important;
+  }
+
+  .text-warning-btn {
+    color: #FFA500;
+  }
+
   .success-btn:hover {
     background-color: #419a6e !important;
   }

@@ -42,8 +42,9 @@ try {
             <th>Start Date</th>
             <th>Trip Length</th>
             <th>End Date</th>
-            <th>Early Bird</th>
-            <th>Full Price</th>
+            <th>Price</th>
+            <th>Notes</th>
+            <th>Weeks</th>
             <th>Book Your Seat</th>
           </tr>
         </thead>
@@ -60,6 +61,14 @@ try {
             // Check if all necessary fields are present
             $tripName = $trip["Related_Trip.Name_for_Form"] ?? "N/A";
             $startDate = $trip["Trip_Start_Date"] ?? "N/A";
+
+            $startDateForCalculationWeeks = DateTime::createFromFormat("Y-m-d", $trip["Trip_Start_Date"]) ?? "N/A";
+
+            $todayDate = new DateTime();
+            $interval = $todayDate->diff($startDateForCalculationWeeks);
+            $totalDays = $interval->days;
+            $totalWeeks = ceil($totalDays / 7);
+
             $length = $trip["Related_Trip.Trip_Days"] ?? "N/A";
             $countTrip = $trip["Trip_Registration_Count"];
             $endDate = $trip["Trip_End_Date"] ?? "N/A";
@@ -67,7 +76,7 @@ try {
             $fullPrice = $trip["Related_Trip.Full_Price"] ?? "N/A";
             $tripDetailLink = $trip["Related_Trip.Page_Detail_URL"] ?? 'null';
             $startCity = $trip["Related_Trip.Start_City"] ?? "N/A";
-            $zohoFormLink = "https://forms.zohopublic.com/admin1608/form/TESTFullFormRegistrationandPayment/formperma/ujzk8Yo2qYr13WNZpzz4PF6erUucysO21uTXuvTnYXY?trip=" . $tripName . "&date=" . $startDate;
+            $zohoFormLink = "https://forms.zohopublic.com/admin1608/form/TripRegistrationandPaymentDriver/formperma/-Fri6gn7uIQWcB6aCKXNdeAfJlPBX9r249ysVueUtTA?trip=" . $tripName . "&date=" . $startDate;
 
             // var_dump($zohoFormLink);
 
@@ -82,23 +91,29 @@ try {
           ?>
             <tr>
               <td><a href="<?php echo esc_url($tripDetailLink); ?>"><?php echo esc_html($tripName); ?></a></td>
-              <td><?php echo esc_html($startDate); ?></td>
+              <td><?php echo esc_html(date("d/m/Y/", strtotime($startDate))); ?></td>
               <td><?php echo esc_html($length); ?> days</td>
-              <td><?php echo esc_html($endDate); ?></td>
-              <td>$<?php echo esc_html($earlyBird); ?></td>
-              <td>$<?php echo esc_html($fullPrice); ?></td>
-
+              <td><?php echo esc_html(date("d/m/Y", strtotime($endDate))); ?></td>
+              <?php if ($totalWeeks >= 6): ?>
+                <td>$<?php echo esc_html($earlyBird); ?></td>
+              <?php elseif($totalWeeks < 6): ?>
+                <td>$<?php echo esc_html($fullPrice); ?></td>
+              <?php endif; ?>
               <td>
-                <?php if ($countTrip < 10 && $tripDetailLink != 'null') : ?>
-                  <a href="<?php echo esc_url($zohoFormLink); ?>" class="book-btn">Book Now</a>
-                <?php elseif ($countTrip == 10 && $tripDetailLink != 'null') : ?>
-                  <a href="<?php echo esc_url($zohoFormLink); ?>" class="warning-btn" style="color: #ececec">2 Seats Left</a>
+                <?php if ($countTrip == 10 && $tripDetailLink != 'null') : ?>
+                  <p style="color: #FFA500">2 Seats Left</p>
                 <?php elseif ($countTrip == 11 && $tripDetailLink != 'null') : ?>
-                  <a href="<?php echo esc_url($zohoFormLink); ?>" class="warning-btn" style="color: #ececec">1 Seat Left</a>
+                  <p style="color: #FFA500">1 Seat Left</p>
                 <?php elseif ($countTrip == 12 && $tripDetailLink != 'null') : ?>
-                  <p class="full-book-btn">Fully Booked</p>
+                  <p style="color: red">Fully Booked</p>
                 <?php elseif (empty($countTrip) || $tripDetailLink != "null") : ?>
-                  <p class="success-btn">More info coming soon</p>
+                  <p class="text-success-btn">More info coming soon</p>
+                <?php endif; ?>
+              </td>
+              <td><?php echo esc_html($totalWeeks); ?></td>
+              <td>
+                <?php if ($countTrip <= 11 && $tripDetailLink != 'null') : ?>
+                  <a href="<?php echo esc_url($zohoFormLink); ?>" class="book-btn">Book Now</a>
                 <?php endif; ?>
               </td>
             </tr>
