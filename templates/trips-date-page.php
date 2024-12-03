@@ -98,7 +98,7 @@ try {
         ?>
             <tr>
               <td><a style="font-weight: bold" href="<?php echo esc_url($tripDetailLink); ?>"><?php echo esc_html($tripName); ?></a></td>
-              <td><?php echo esc_html(date("d/m/Y/", strtotime($startDate))); ?></td>
+              <td><?php echo esc_html(date("d/m/Y", strtotime($startDate))); ?></td>
               <td><?php echo esc_html($length); ?> days</td>
               <td><?php echo esc_html(date("d/m/Y", strtotime($endDate))); ?></td>
               <?php if ($totalWeeks >= 6): ?>
