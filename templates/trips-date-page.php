@@ -126,8 +126,8 @@ try {
               <td><?php echo esc_html($totalWeeks); ?></td>
               <td>
                 <?php if ($tripDetailLink != 'null') : ?>
-                  <?php if ($totalDrivers < 2 && $countTrip >= 9) : ?>
-                    <a href="<?php echo esc_url($zohoFormLinkDrivers); ?>" class="book-btn">Book Now</a>
+                  <?php if ($totalDrivers < 2 && $countTrip >= 9 && $countTrip < 12) : ?>
+                    <a href="<?php echo esc_url($zohoFormLinkDriver); ?>" class="book-btn">Book Now</a>
                   <?php elseif (empty($totalDrivers) || $totalDrivers == 0 || $totalDrivers >= 1) : ?>
                     <?php if($countTrip <= 11): ?>
                     <a href="<?php echo esc_url($zohoFormLink); ?>" class="book-btn">Book Now</a>
