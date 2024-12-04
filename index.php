@@ -26,9 +26,11 @@ add_shortcode('zc_trips_date', 'zc_trips_date_shortcode');
 
 // Shortcode for trip details page
 function zc_trip_details_shortcode() {
-    ob_start();
-    // Fetch data from CRM
 
+    ob_start();
+
+    wp_enqueue_style('zc-crud-style', plugins_url('assets/css/style.css', __FILE__));
+    
     include plugin_dir_path(__FILE__) . 'templates/trip-details-page.php';
     return ob_get_clean();
 }

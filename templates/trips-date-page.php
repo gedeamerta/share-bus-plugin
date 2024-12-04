@@ -46,7 +46,7 @@ try {
 
         foreach ($data["data"] as $trip) :
           // Check if all necessary fields are present
-          $tripName = $trip["Related_Trip.Name_for_Form"] ?? "N/A";
+          $tripName = $trip["Related_Trip.Name_for_Form"] ?? $trip["Name"];
           $startDate = $trip["Trip_Start_Date"] ?? "N/A";
 
           $startDateForCalculationWeeks = DateTime::createFromFormat("Y-m-d", $trip["Trip_Start_Date"]) ?? "N/A";
@@ -60,8 +60,14 @@ try {
           $countTrip = $trip["Trip_Registration_Count"];
           $endDate = $trip["Trip_End_Date"] ?? "N/A";
           $totalDrivers = $trip["Total_Drivers"] ?? "N/A";
-          $earlyBird = $trip["Related_Trip.Early_Bird_Price"] ?? "N/A";
-          $fullPrice = $trip["Related_Trip.Full_Price"] ?? "N/A";
+          $earlyBird = "-";
+          if($trip["Related_Trip.Early_Bird_Price"] != null) {		
+            $earlyBird = "$".$trip["Related_Trip.Early_Bird_Price"];
+          }
+          $fullPrice = "-";
+          if($trip["Related_Trip.Full_Price"] != null) {		
+            $fullPrice = "$".$trip["Related_Trip.Full_Price"];
+          }
           $tripDetailLink = $trip["Related_Trip.Page_Detail_URL"] ?? 'null';
           $startCity = $trip["Related_Trip.Start_City"] ?? "N/A";
           $zohoFormLink = "https://forms.zohopublic.com/admin1608/form/TESTFullFormRegistrationandPayment/formperma/ujzk8Yo2qYr13WNZpzz4PF6erUucysO21uTXuvTnYXY?trip=" . $tripName . "&date=" . $startDate;
@@ -102,9 +108,9 @@ try {
               <td><?php echo esc_html($length); ?> days</td>
               <td><?php echo esc_html(date("d/m/Y", strtotime($endDate))); ?></td>
               <?php if ($totalWeeks >= 6): ?>
-                <td>$<?php echo esc_html($earlyBird); ?></td>
+                <td><?php echo esc_html($earlyBird); ?></td>
               <?php elseif ($totalWeeks < 6): ?>
-                <td>$<?php echo esc_html($fullPrice); ?></td>
+                <td><?php echo esc_html($fullPrice); ?></td>
               <?php endif; ?>
               <td>
                 <?php if ($countTrip == 10 && $tripDetailLink != 'null') : ?>

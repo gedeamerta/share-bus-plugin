@@ -54,7 +54,7 @@ try {
                 <tr>
                     <td>START DATE</td>
                     <td>END DATE</td>
-                    <td>Price</td>
+                    <td>PRICE</td>
                     <td>DETAILS</td>
                     <td></td>
                 </tr>
@@ -114,10 +114,10 @@ try {
                         <td data-label="BOOK NOW">
                             <?php if ($tripDetailLink != 'null'): ?>
                                 <?php if ($totalDrivers < 2 && $countTrip >= 9): ?>
-                                    <a href="<?php echo esc_url($zohoFormLinkDrivers); ?>" class="book-btn">BOOK NOW</a>
+                                    <a href="<?php echo esc_url($zohoFormLinkDrivers); ?>" class="">BOOK NOW</a>
                                 <?php elseif (empty($totalDrivers) || $totalDrivers == 0 || $totalDrivers >= 1): ?>
                                     <?php if ($countTrip <= 11): ?>
-                                        <a href="<?php echo esc_url($zohoFormLink); ?>" class="book-btn">BOOK NOW</a>
+                                        <a href="<?php echo esc_url($zohoFormLink); ?>" class="">BOOK NOW</a>
                                     <?php endif; ?>
                                 <?php endif; ?>
                             <?php endif; ?>

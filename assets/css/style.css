@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'ITCAvantGardeStd-Bold';
+    src: url('https://sharebus.com.au/wp-content/uploads/fonts/5746/itc-avant-garde-std-bold.ttf') format('truetype');
+ }
+
 :root {
   --bodycolor: ;
   --brandColor1: #16a7fb;
@@ -53,6 +58,7 @@
 }
 
 table {
+    font-family: 'ITCAvantGardeStd-Bold';
     width: 100%;
     border-collapse: collapse;
     margin: 20px auto;
@@ -62,13 +68,14 @@ table {
   }
 
   th, td {
+    font-family: 'ITCAvantGardeStd-Bold';
     padding: 12px !important;
     text-align: left;
     border: 1px solid #ddd;
   }
 
   th {
-    background-color: #007BFF;
+    background-color: var(--brandColor1);
     color: white;
   }
 
@@ -83,7 +90,7 @@ table {
   .book-btn {
     display: inline-block;
     padding: 8px 16px;
-    background-color: #007BFF;
+    background-color: var(--brandColor2);
     color: white;
     text-decoration: none;
     border-radius: 4px;
@@ -103,7 +110,7 @@ table {
   }
 
   .book-btn:hover {
-    background-color: #0056b3;
+    background-color: #c65e26;
   }
 
   .full-book-btn:hover {
@@ -182,7 +189,7 @@ table {
   }
 
   .comp_trip_dates table td {
-      font-family: var(--font2);
+      font-family: 'ITCAvantGardeStd-Bold';
       color: var(--brandColor3);
   }
 
@@ -230,7 +237,7 @@ table {
       background: var(--brandColor2);
       color: #fff;
       display: inline-block;
-      padding: 19px 64px;
+      padding: 12px 28px;
       text-align: center;
       text-decoration: none;
       font-size: 12px;
@@ -355,7 +362,7 @@ table {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          font-family: var(--font2);
+          font-family: 'ITCAvantGardeStd-Bold';
       }
 
       .trip-dates-accordion .accordion-title span {
