@@ -55,7 +55,7 @@ try {
                     <td>START DATE</td>
                     <td>END DATE</td>
                     <td>PRICE</td>
-                    <td>DETAILS</td>
+                    <td>NOTES</td>
                     <td></td>
                 </tr>
             </thead>
@@ -63,6 +63,8 @@ try {
                 <?php
                 foreach ($data["Trip_Dates_List"] as $trip):
                     $startDate = $trip["Trip_Start_Date"] ?? "N/A";
+                    $endDate = $trip["Trip_End_Date"] ?? "N/A";
+                    $countTrip = $trip["Trip_Registration_Count"];
 
                     $zohoFormLink = "https://forms.zohopublic.com/admin1608/form/TESTFullFormRegistrationandPayment/formperma/ujzk8Yo2qYr13WNZpzz4PF6erUucysO21uTXuvTnYXY?trip=" . $tripName . "&date=" . $startDate;
                     $zohoFormLinkDriver = "https://forms.zohopublic.com/admin1608/form/TripRegistrationandPaymentDriver/formperma/-Fri6gn7uIQWcB6aCKXNdeAfJlPBX9r249ysVueUtTA?trip=" . $tripName . "&date=" . $startDate;
@@ -79,12 +81,12 @@ try {
                     ?>
                     <tr>
                         <td data-label="START DATE"><?php
-                        $formattedDate = date("j F, Y", strtotime($startDate));
+                        $formattedDate = date("d/m/Y", strtotime($startDate));
                         echo esc_html($formattedDate);
                         ?></td>
 
                         <td data-label="END DATE"><?php
-                        $formattedDate = date("j F, Y", strtotime($endDate));
+                        $formattedDate = date("d/m/Y", strtotime($endDate));
                         echo esc_html($formattedDate);
                         ?></td>
 
@@ -96,13 +98,13 @@ try {
 
                         <td data-label="DETAILS">
                             <?php if ($countTrip == 10 && $tripDetailLink != 'null'): ?>
-                                <p style="color: #FFA500">2 Seats Left</p>
+                                <p style="color: #FFA500; margin: 0px;">2 Seats Left</p>
                             <?php elseif ($countTrip == 11 && $tripDetailLink != 'null'): ?>
-                                <p style="color: #FFA500">1 Seat Left</p>
+                                <p style="color: #FFA500; margin: 0px;">1 Seat Left</p>
                             <?php elseif ($countTrip == 12 && $tripDetailLink != 'null'): ?>
-                                <p style="color: red">Fully Booked</p>
+                                <p style="color: red; margin: 0px;">Fully Booked</p>
                             <?php elseif ($tripDetailLink == 'null'): ?>
-                                <p class="text-success-btn">More info coming soon</p>
+                                <p class="text-success-btn" style="margin: 0px;">More info coming soon</p>
                             <?php endif; ?>
                         </td>
 
@@ -114,10 +116,10 @@ try {
                         <td data-label="BOOK NOW">
                             <?php if ($tripDetailLink != 'null'): ?>
                                 <?php if ($totalDrivers < 2 && $countTrip >= 9): ?>
-                                    <a href="<?php echo esc_url($zohoFormLinkDrivers); ?>" class="">BOOK NOW</a>
+                                    <a href="<?php echo esc_url($zohoFormLinkDrivers); ?>" class="" style="font-family: 'ITCAvantGardeStd-Bold';">BOOK NOW</a>
                                 <?php elseif (empty($totalDrivers) || $totalDrivers == 0 || $totalDrivers >= 1): ?>
                                     <?php if ($countTrip <= 11): ?>
-                                        <a href="<?php echo esc_url($zohoFormLink); ?>" class="">BOOK NOW</a>
+                                        <a href="<?php echo esc_url($zohoFormLink); ?>" class="" style="font-family: 'ITCAvantGardeStd-Bold';">BOOK NOW</a>
                                     <?php endif; ?>
                                 <?php endif; ?>
                             <?php endif; ?>

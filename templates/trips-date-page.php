@@ -95,7 +95,6 @@ try {
                     <th>End Date</th>
                     <th>Price</th>
                     <th>Notes</th>
-                    <th>Weeks</th>
                     <th>Book Your Seat</th>
                 </tr>
             </thead>
@@ -123,7 +122,7 @@ try {
                   <p class="text-success-btn">More info coming soon</p>
                 <?php endif; ?>
               </td>
-              <td><?php echo esc_html($totalWeeks); ?></td>
+              <!-- <td><?php echo esc_html($totalWeeks); ?></td> -->
               <td>
                 <?php if ($tripDetailLink != 'null') : ?>
                   <?php if ($totalDrivers < 2 && $countTrip >= 9 && $countTrip < 12) : ?>
