@@ -50,15 +50,6 @@ try {
         class="compSection compSection_5 comp_trip_dates comp_trip_dates_1 py-sm textcolor__default  " data-animate="1"
         style=" z-index:1">
         <table>
-            <colgroup>
-                <col style="width: 25%;">
-                <col style="width: 15%;">
-                <col style="width: 10%;">
-                <col style="width: 15%;">
-                <col style="width: 15%;">
-                <col style="width: 10%;">
-                <col style="width: 10%;">
-            </colgroup>
             <thead>
                 <tr>
                     <td>START DATE</td>

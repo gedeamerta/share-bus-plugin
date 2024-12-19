@@ -43,6 +43,14 @@ tr:hover {
   background-color: #f1f1f1;
 }
 
+ /* Specific column widths */
+ .table-trips tr th:nth-child(1), .table-trips tr td:nth-child(1) {
+  width: 20%;
+}
+.table-trips tr th:nth-child(n+2), .table-trips tr td:nth-child(n+2) {
+  width: 10%; 
+}
+
 .book-btn {
   display: inline-block;
   padding: 8px 16px;
@@ -164,9 +172,11 @@ tr:hover {
   color: var(--brandColor3);
 }
 
-.comp_trip_dates table thead, .comp_trip_dates table tbody {
+.table-trips thead, .table-trips tbody {
   display: table;
+  width: 100%;
 }
+
 .comp_trip_dates table thead td {
   font-size: 20px;
   text-transform: uppercase;
