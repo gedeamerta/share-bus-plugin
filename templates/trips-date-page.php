@@ -33,9 +33,11 @@ try {
   // Check if 'data' key exists and is an array
   if (isset($data["data"]) && is_array($data["data"])) {
 ?>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="../assets/js/script.js"></script>
     <!-- Displaying the data in a table -->
-    <div class="container">
-      <table>
+    <div class="container-table">
+      <table class="table-trips">
         <?php
         $currentMonth = ''; // Initialize current month to detect changes
 
@@ -61,12 +63,12 @@ try {
           $endDate = $trip["Trip_End_Date"] ?? "N/A";
           $totalDrivers = $trip["Total_Drivers"] ?? "N/A";
           $earlyBird = "-";
-          if($trip["Related_Trip.Early_Bird_Price"] != null) {		
-            $earlyBird = "$".$trip["Related_Trip.Early_Bird_Price"];
+          if ($trip["Related_Trip.Early_Bird_Price"] != null) {
+            $earlyBird = "$" . $trip["Related_Trip.Early_Bird_Price"];
           }
           $fullPrice = "-";
-          if($trip["Related_Trip.Full_Price"] != null) {		
-            $fullPrice = "$".$trip["Related_Trip.Full_Price"];
+          if ($trip["Related_Trip.Full_Price"] != null) {
+            $fullPrice = "$" . $trip["Related_Trip.Full_Price"];
           }
           $tripDetailLink = $trip["Related_Trip.Page_Detail_URL"] ?? 'null';
           $startCity = $trip["Related_Trip.Start_City"] ?? "N/A";
@@ -84,9 +86,13 @@ try {
             endif;
 
             $currentMonth = $monthYear;
-            echo "<p style='font-weight: bold; font-size: 1.2em;'>$currentMonth</p>";
+        ?>
+            <div class="current-month-name">
+              <p style="font-weight: bold; font-size: 1.2em;"><?= $currentMonth ?></p>
+            </div>
+          <?php
             // Start a new table
-            echo '<table>
+            echo '<table class="table-trips">
             <thead>
                 <tr>
                     <th>Road Trip Route</th>
@@ -100,45 +106,123 @@ try {
             </thead>
             <tbody>';
           endif;
-        ?>
-            <tr>
-              <td><a style="font-weight: bold" href="<?php echo esc_url($tripDetailLink); ?>"><?php echo esc_html($tripName); ?></a></td>
-              <td><?php echo esc_html(date("d/m/Y", strtotime($startDate))); ?></td>
-              <td><?php echo esc_html($length); ?> days</td>
-              <td><?php echo esc_html(date("d/m/Y", strtotime($endDate))); ?></td>
-              <?php if ($totalWeeks >= 6): ?>
-                <td><?php echo esc_html($earlyBird); ?></td>
-              <?php elseif ($totalWeeks < 6): ?>
-                <td><?php echo esc_html($fullPrice); ?></td>
+          ?>
+          <tr>
+            <td><a style="font-weight: bold" href="<?php echo esc_url($tripDetailLink); ?>"><?php echo esc_html($tripName); ?></a></td>
+            <td><?php echo esc_html(date("d/m/Y", strtotime($startDate))); ?></td>
+            <td><?php echo esc_html($length); ?> days</td>
+            <td><?php echo esc_html(date("d/m/Y", strtotime($endDate))); ?></td>
+            <?php if ($totalWeeks >= 6): ?>
+              <td><?php echo esc_html($earlyBird); ?></td>
+            <?php elseif ($totalWeeks < 6): ?>
+              <td><?php echo esc_html($fullPrice); ?></td>
+            <?php endif; ?>
+            <td>
+              <?php if ($countTrip == 10 && $tripDetailLink != 'null') : ?>
+                <p style="color: #FFA500">2 Seats Left</p>
+              <?php elseif ($countTrip == 11 && $tripDetailLink != 'null') : ?>
+                <p style="color: #FFA500">1 Seat Left</p>
+              <?php elseif ($countTrip == 12 && $tripDetailLink != 'null') : ?>
+                <p style="color: red">Fully Booked</p>
+              <?php elseif ($tripDetailLink == 'null') : ?>
+                <p class="text-success-btn">More info coming soon</p>
               <?php endif; ?>
-              <td>
-                <?php if ($countTrip == 10 && $tripDetailLink != 'null') : ?>
-                  <p style="color: #FFA500">2 Seats Left</p>
-                <?php elseif ($countTrip == 11 && $tripDetailLink != 'null') : ?>
-                  <p style="color: #FFA500">1 Seat Left</p>
-                <?php elseif ($countTrip == 12 && $tripDetailLink != 'null') : ?>
-                  <p style="color: red">Fully Booked</p>
-                <?php elseif ($tripDetailLink == 'null') : ?>
-                  <p class="text-success-btn">More info coming soon</p>
-                <?php endif; ?>
-              </td>
-              <!-- <td><?php echo esc_html($totalWeeks); ?></td> -->
-              <td>
-                <?php if ($tripDetailLink != 'null') : ?>
-                  <?php if ($totalDrivers < 2 && $countTrip >= 9 && $countTrip < 12) : ?>
-                    <a href="<?php echo esc_url($zohoFormLinkDriver); ?>" class="book-btn">Book Now</a>
-                  <?php elseif (empty($totalDrivers) || $totalDrivers == 0 || $totalDrivers >= 1) : ?>
-                    <?php if($countTrip <= 11): ?>
+            </td>
+            <!-- <td><?php echo esc_html($totalWeeks); ?></td> -->
+            <td>
+              <?php if ($tripDetailLink != 'null') : ?>
+                <?php if ($totalDrivers < 2 && $countTrip >= 9 && $countTrip < 12) : ?>
+                  <a href="<?php echo esc_url($zohoFormLinkDriver); ?>" class="book-btn">Book Now</a>
+                <?php elseif (empty($totalDrivers) || $totalDrivers == 0 || $totalDrivers >= 1) : ?>
+                  <?php if ($countTrip <= 11): ?>
                     <a href="<?php echo esc_url($zohoFormLink); ?>" class="book-btn">Book Now</a>
-                    <?php endif; ?>
                   <?php endif; ?>
                 <?php endif; ?>
-
-              </td>
-            </tr>
-          <?php endforeach; ?>
-          </tbody>
+              <?php endif; ?>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+        </tbody>
       </table>
+    </div>
+
+    <div class="card-container">
+      <?php $count = 0; ?>
+      <?php foreach ($data["data"] as $trip) :
+
+        // Check if all necessary fields are present
+        $tripName = $trip["Related_Trip.Name_for_Form"] ?? $trip["Name"];
+        $startDate = $trip["Trip_Start_Date"] ?? "N/A";
+
+        $startDateForCalculationWeeks = DateTime::createFromFormat("Y-m-d", $trip["Trip_Start_Date"]) ?? "N/A";
+
+        $todayDate = new DateTime();
+        $interval = $todayDate->diff($startDateForCalculationWeeks);
+        $totalDays = $interval->days;
+        $totalWeeks = ceil($totalDays / 7);
+
+        $length = $trip["Related_Trip.Trip_Days"] ?? "N/A";
+        $countTrip = $trip["Trip_Registration_Count"];
+        $endDate = $trip["Trip_End_Date"] ?? "N/A";
+        $totalDrivers = $trip["Total_Drivers"] ?? "N/A";
+        $earlyBird = "-";
+        if ($trip["Related_Trip.Early_Bird_Price"] != null) {
+          $earlyBird = "$" . $trip["Related_Trip.Early_Bird_Price"];
+        }
+        $fullPrice = "-";
+        if ($trip["Related_Trip.Full_Price"] != null) {
+          $fullPrice = "$" . $trip["Related_Trip.Full_Price"];
+        }
+        $tripDetailLink = $trip["Related_Trip.Page_Detail_URL"] ?? 'null';
+        $startCity = $trip["Related_Trip.Start_City"] ?? "N/A";
+        $zohoFormLink = "https://forms.zohopublic.com/admin1608/form/TESTFullFormRegistrationandPayment/formperma/ujzk8Yo2qYr13WNZpzz4PF6erUucysO21uTXuvTnYXY?trip=" . $tripName . "&date=" . $startDate;
+        $zohoFormLinkDriver = "https://forms.zohopublic.com/admin1608/form/TripRegistrationandPaymentDriver/formperma/-Fri6gn7uIQWcB6aCKXNdeAfJlPBX9r249ysVueUtTA?trip=" . $tripName . "&date=" . $startDate;
+
+        $count++;
+      ?>
+        <?php if ($count <= 5) : ?>
+          <div class="card-trips">
+            <h3><a style="font-weight: bold" href="<?php echo esc_url($tripDetailLink); ?>"><?php echo esc_html($tripName); ?></a></h3>
+            <ul>
+              <li>Start Date: <?php echo esc_html(date("d/m/Y", strtotime($startDate))); ?></li>
+              <li>End Date: <?php echo esc_html(date("d/m/Y", strtotime($endDate))); ?></li>
+              <li>Trip Length: <?php echo esc_html($length); ?> days</li>
+              <?php if ($totalWeeks >= 6): ?>
+                <li>Price: <?php echo esc_html($earlyBird); ?></li>
+                <td><?php echo esc_html($earlyBird); ?></td>
+              <?php elseif ($totalWeeks < 6): ?>
+                <li>Price: <?php echo esc_html($fullPrice); ?></li>
+              <?php endif; ?>
+              <?php if ($countTrip == 10 && $tripDetailLink != 'null') : ?>
+                <li>
+                  <p style="color: #FFA500">2 Seats Left</p>
+                </li>
+              <?php elseif ($countTrip == 11 && $tripDetailLink != 'null') : ?>
+                <li>
+                  <p style="color: #FFA500">1 Seat Left</p>
+                </li>
+              <?php elseif ($countTrip == 12 && $tripDetailLink != 'null') : ?>
+                <li>
+                  <p style="color: red">Fully Booked</p>
+                </li>
+              <?php elseif ($tripDetailLink == 'null') : ?>
+                <li>
+                  <p class="text-success-btn">More info coming soon</p>
+                </li>
+              <?php endif; ?>
+            </ul>
+            <?php if ($tripDetailLink != 'null') : ?>
+              <?php if ($totalDrivers < 2 && $countTrip >= 9 && $countTrip < 12) : ?>
+                <a href="<?php echo esc_url($zohoFormLinkDriver); ?>" class="book-btn">Book Now</a>
+              <?php elseif (empty($totalDrivers) || $totalDrivers == 0 || $totalDrivers >= 1) : ?>
+                <?php if ($countTrip <= 11): ?>
+                  <a href="<?php echo esc_url($zohoFormLink); ?>" class="book-btn">Book Now</a>
+                <?php endif; ?>
+              <?php endif; ?>
+            <?php endif; ?>
+          </div>
+        <?php endif; ?>
+      <?php endforeach; ?>
     </div>
 <?php
   } else {
