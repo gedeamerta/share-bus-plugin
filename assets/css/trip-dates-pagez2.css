@@ -147,10 +147,24 @@ tr:hover {
   .card-trips {
     border: 1px solid #ddd;
     border-radius: 5px;
-    padding: 16px;
+    padding: 16px 40px 16px 16px;
     margin: 10px 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
+
+  .card-trips ul li {
+    padding: 5px 10px;
+   }
+}
+
+.pagination-btn {
+  color: white;
+  background-color: var(--brandColor2);
+  border-radius: 4px;
+  cursor: pointer;
+  padding-top: 15px;
+  padding-bottom: 30px;
+  
 }
 
 /* aaa */

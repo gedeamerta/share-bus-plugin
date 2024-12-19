@@ -194,8 +194,8 @@ try {
           const tripDetailLink = trip["Related_Trip.Page_Detail_URL"] || 'null';
           const earlyBird = trip["Related_Trip.Early_Bird_Price"] ? "$" + trip["Related_Trip.Early_Bird_Price"] : "-";
           const fullPrice = trip["Related_Trip.Full_Price"] ? "$" + trip["Related_Trip.Full_Price"] : "-";
-          const countTrip = trip["Trip_Registration_Count"];
-          const totalDrivers = trip["Total_Drivers"] || "N/A";
+          const countTrip = trip["Trip_Registration_Count"] || 0;
+          const totalDrivers = trip["Total_Drivers"] || 0;
 
           const zohoFormLink = "https://forms.zohopublic.com/admin1608/form/TESTFullFormRegistrationandPayment/formperma/ujzk8Yo2qYr13WNZpzz4PF6erUucysO21uTXuvTnYXY?trip=" + tripName + "&date=" + startDate;
           const zohoFormLinkDriver = "https://forms.zohopublic.com/admin1608/form/TripRegistrationandPaymentDriver/formperma/-Fri6gn7uIQWcB6aCKXNdeAfJlPBX9r249ysVueUtTA?trip=" + tripName + "&date=" + startDate;
@@ -215,11 +215,14 @@ try {
             ${countTrip === 12 && tripDetailLink !== 'null' ? '<li><p style="color: red">Fully Booked</p></li>' : ''}
             ${tripDetailLink === 'null' ? '<li><p class="text-success-btn">More info coming soon</p></li>' : ''}
           </ul>
+       
           ${tripDetailLink !== 'null' ? `
-            ${totalDrivers < 2 && countTrip >= 9 && countTrip < 12 ? `<a href="${zohoFormLinkDriver}" class="book-btn">Book Now</a>` : ''}
-            ${totalDrivers >= 0 && countTrip <= 11 ? `<a href="${zohoFormLink}" class="book-btn">Book Now</a>` : ''}
-          ` : ''}
-        `;
+  ${totalDrivers < 2 && countTrip >= 9 && countTrip < 12 ? 
+    `<a href="${zohoFormLinkDriver}" class="book-btn">Book Now</a>` : 
+    totalDrivers >= 0 && countTrip <= 11 ? 
+    `<a href="${zohoFormLink}" class="book-btn">Book Now</a>` : ''}
+` : ''}
+          `;
           cardContainer.appendChild(card);
         });
 

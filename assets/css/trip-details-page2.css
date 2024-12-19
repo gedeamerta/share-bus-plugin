@@ -1,0 +1,35 @@
+@media (max-width: 767px) {
+  .comp_trip_dates table tbody tr:nth-child(n + 6) {
+    display: none;
+  }
+
+  .expand-btn {
+    display: block;
+
+    margin-top: 10px;
+    color: white;
+    background-color: var(--brandColor2);
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 8px 40%;
+    margin-top: 10px;
+    
+  }
+}
+
+/* Hide the "Expand" button on larger screens */
+@media (min-width: 768px) {
+  .expand-btn {
+    display: none;
+
+    color: white;
+    background-color: var(--brandColor2);
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 8px 40%;
+    
+    margin-top: 10px;
+  }
+
+}
+

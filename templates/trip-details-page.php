@@ -139,7 +139,52 @@ try {
                 <?php endforeach; ?>
             </tbody>
         </table>
+
+
+        <button id="expandButton" class="expand-btn" data-expanded="false">Expand</button>
     </section>
+
+
+    <script>
+        const expandButton = document.getElementById('expandButton');
+        const hiddenItems = document.querySelectorAll('.comp_trip_dates table tbody tr:nth-child(n+6)');
+
+        // Function to handle item visibility based on screen width
+        function handleResize() {
+            if (window.innerWidth >= 768) {
+                // On desktop, show all items and hide the button
+                hiddenItems.forEach(item => item.style.display = 'block');
+                expandButton.style.display = 'none';
+            } else {
+                // On mobile, show only the first 5 items and display the button
+                const isExpanded = expandButton.getAttribute('data-expanded') === 'true';
+                hiddenItems.forEach(item => item.style.display = isExpanded ? 'block' : 'none');
+                expandButton.style.display = 'block';
+            }
+        }
+
+        expandButton.addEventListener('click', function () {
+            const isExpanded = this.getAttribute('data-expanded') === 'true';
+
+            if (isExpanded) {
+                hiddenItems.forEach(item => item.style.display = 'none');
+                this.textContent = 'Expand';
+                this.setAttribute('data-expanded', 'false');
+            } else {
+                hiddenItems.forEach(item => item.style.display = 'block');
+                this.textContent = 'Collapse';
+                this.setAttribute('data-expanded', 'true');
+            }
+        });
+
+        
+        // Attach the resize event listener
+        window.addEventListener('resize', handleResize);
+
+        // Run on initial load to ensure correct state
+        handleResize();
+
+    </script>
     <?php
 } catch (Exception $e) {
     echo "<p>Error: " . esc_html($e->getMessage()) . "</p>";
