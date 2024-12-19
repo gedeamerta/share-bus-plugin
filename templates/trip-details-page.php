@@ -36,6 +36,12 @@ try {
     // Dump the response
     $data = json_decode(json_decode($response, true)["details"]["output"], true);
 
+    // Check if the "output" field is empty
+    if (empty($data)) {
+        echo "<h3 style='padding: 40px 0px;'>Sorry, there are no trip details to display at the moment.</h3>";
+        return;
+    }
+
     $tripDays = $data["Trip_Days"];
     $earlyBird = $data["Early_Bird_Price"];
     $fullPrice = $data["Full_Price"];
@@ -50,9 +56,7 @@ try {
         class="compSection compSection_5 comp_trip_dates comp_trip_dates_1 py-sm textcolor__default  " data-animate="1"
         style=" z-index:1; width: 100%;">
         <table>
-            <thead style="
-    display: block;
-">
+            <thead>
                 <tr>
                     <td>START DATE</td>
                     <td>END DATE</td>
@@ -63,6 +67,27 @@ try {
             </thead>
             <tbody>
                 <?php
+
+                    // Get today's date in 'YYYY-MM-DD' format
+                    $today = date("Y-m-d");
+
+                    // Extract the 'Trip_Start_Date' column
+                    $dates = array_column($data["Trip_Dates_List"], "Trip_Start_Date");
+
+                    // Convert dates to a sortable format if needed (e.g., 'YYYY-MM-DD')
+                    $dates = array_map('strtotime', $dates);
+
+                    // Sort the dates array in ascending order
+                    array_multisort($dates, SORT_ASC, $data["Trip_Dates_List"]);
+
+                    // Filter out trips that start before today
+                    $data["Trip_Dates_List"] = array_filter($data["Trip_Dates_List"], function($trip) use ($today) {
+                        return strtotime($trip["Trip_Start_Date"]) >= strtotime($today);
+                    });
+
+                    // Reindex array to avoid gaps after filtering
+                    $data["Trip_Dates_List"] = array_values($data["Trip_Dates_List"]);
+
                 foreach ($data["Trip_Dates_List"] as $trip):
                     $startDate = $trip["Trip_Start_Date"] ?? "N/A";
                     $endDate = $trip["Trip_End_Date"] ?? "N/A";

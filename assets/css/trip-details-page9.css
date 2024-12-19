@@ -1,11 +1,12 @@
-
 .comp_trip_dates table tbody tr:nth-child(n + 0) {
   display: block;
 }
 
-
 @media (max-width: 767px) {
-  
+  .comp_trip_dates table thead {
+    display: none;
+  }
+
   .comp_trip_dates table tbody tr:nth-child(n + 6) {
     display: none;
   }
@@ -20,16 +21,24 @@
     cursor: pointer;
     padding: 8px 40%;
     margin-top: 10px;
-    
   }
 }
 
 /* Hide the "Expand" button on larger screens */
 @media (min-width: 768px) {
+  .comp_trip_dates table tbody tr td,
+  .comp_trip_dates table thead tr th {
+    width: 10%;
+  }
+
+  .comp_trip_dates table thead {
+    display: block;
+  }
+
   .comp_trip_dates table tbody tr:nth-child(n + 6) {
     display: block;
   }
-  
+
   .expand-btn {
     display: none;
 
@@ -38,9 +47,7 @@
     border-radius: 4px;
     cursor: pointer;
     padding: 8px 40%;
-    
+
     margin-top: 10px;
   }
-
 }
-

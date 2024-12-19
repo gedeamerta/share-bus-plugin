@@ -19,8 +19,8 @@ try {
 
     usort($data['data'], function ($a, $b) {
       // Extract date part from the "Name" field (last 10 characters, assuming format like "02/12/2024")
-      $dateA = DateTime::createFromFormat('d/m/Y', substr($a['Name'], -10));
-      $dateB = DateTime::createFromFormat('d/m/Y', substr($b['Name'], -10));
+      $dateA = DateTime::createFromFormat('d/m/Y', datetime: $a["Trip_Start_Date"]);
+      $dateB = DateTime::createFromFormat('d/m/Y', $b["Trip_Start_Date"]);
 
       // Compare the dates
       return $dateA <=> $dateB;
