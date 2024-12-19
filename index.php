@@ -19,7 +19,7 @@ add_shortcode('zc_trips_date', 'zc_trips_date_shortcode');
 
 // Shortcode for trip details page
 function zc_trip_details_shortcode() {
-    wp_enqueue_style('zc-crud-style', plugins_url('assets/css/trip-details-page2.css', __FILE__));
+    wp_enqueue_style('zc-crud-style', plugins_url('assets/css/trip-details-page5.css', __FILE__));
     ob_start();
     include plugin_dir_path(__FILE__) . 'templates/trip-details-page.php';
     return ob_get_clean();

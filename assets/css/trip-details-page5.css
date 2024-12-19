@@ -1,4 +1,11 @@
+
+.comp_trip_dates table tbody tr:nth-child(n + 0) {
+  display: block;
+}
+
+
 @media (max-width: 767px) {
+  
   .comp_trip_dates table tbody tr:nth-child(n + 6) {
     display: none;
   }
@@ -19,6 +26,10 @@
 
 /* Hide the "Expand" button on larger screens */
 @media (min-width: 768px) {
+  .comp_trip_dates table tbody tr:nth-child(n + 6) {
+    display: block;
+  }
+  
   .expand-btn {
     display: none;
 
