@@ -32,9 +32,14 @@ try {
 
   // Check if 'data' key exists and is an array
   if (isset($data["data"]) && is_array($data["data"])) {
+  // Pagination settings
+  $itemsPerPage = 5; // Number of cards per page
+  $totalItems = count($data["data"]); // Total number of trips
+  $totalPages = ceil($totalItems / $itemsPerPage); // Total number of pages
+  $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Current page from URL
+  $currentPage = max(1, min($totalPages, $currentPage)); // Ensure current page is valid
+  $offset = ($currentPage - 1) * $itemsPerPage; // Calculate offset for the current page
 ?>
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <script src="../assets/js/script.js"></script>
     <!-- Displaying the data in a table -->
     <div class="container-table">
       <table class="table-trips">
@@ -146,7 +151,106 @@ try {
       </table>
     </div>
 
-    <div class="card-container">
+    <div class="card-container" id="card-container">
+      <!-- Cards will be populated here by JavaScript -->
+    </div>
+
+    <div class="pagination-controls">
+      <button id="prev-page" class="pagination-btn" disabled>Previous</button>
+      <span id="pagination-info">Page 1 of 1</span>
+      <button id="next-page" class="pagination-btn">Next</button>
+    </div>
+
+    <script>
+
+      // Function to format date as d/m/Y
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, '0'); // Get day and pad with zero if needed
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Get month (0-indexed) and pad with zero
+        const year = date.getFullYear(); // Get full year
+        return `${day}/${month}/${year}`; // Return formatted date
+      }
+
+      // Pass PHP data to JavaScript
+      const tripsData = <?php echo json_encode($data["data"]); ?>; 
+      const itemsPerPage = 5; // Number of cards per page
+      let currentPage = 1;
+
+      function displayCards(page) {
+        const cardContainer = document.getElementById('card-container');
+        cardContainer.innerHTML = ''; // Clear existing cards
+
+        const start = (page - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        const paginatedItems = tripsData.slice(start, end);
+
+        paginatedItems.forEach(trip => {
+          // Check if all necessary fields are present
+          const tripName = trip["Related_Trip.Name_for_Form"] || trip["Name"];
+          const startDate = trip["Trip_Start_Date"] || "N/A";
+          const endDate = trip["Trip_End_Date"] || "N/A";
+          const length = trip["Related_Trip.Trip_Days"] || "N/A";
+          const tripDetailLink = trip["Related_Trip.Page_Detail_URL"] || 'null';
+          const earlyBird = trip["Related_Trip.Early_Bird_Price"] ? "$" + trip["Related_Trip.Early_Bird_Price"] : "-";
+          const fullPrice = trip["Related_Trip.Full_Price"] ? "$" + trip["Related_Trip.Full_Price"] : "-";
+          const countTrip = trip["Trip_Registration_Count"];
+          const totalDrivers = trip["Total_Drivers"] || "N/A";
+
+          const zohoFormLink = "https://forms.zohopublic.com/admin1608/form/TESTFullFormRegistrationandPayment/formperma/ujzk8Yo2qYr13WNZpzz4PF6erUucysO21uTXuvTnYXY?trip=" + tripName + "&date=" + startDate;
+          const zohoFormLinkDriver = "https://forms.zohopublic.com/admin1608/form/TripRegistrationandPaymentDriver/formperma/-Fri6gn7uIQWcB6aCKXNdeAfJlPBX9r249ysVueUtTA?trip=" + tripName + "&date=" + startDate;
+
+          const card = document.createElement('div');
+          card.className = 'card-trips';
+          card.innerHTML = `
+          <h3><a style="font-weight: bold" href="${tripDetailLink}">${tripName}</a></h3>
+          <ul>
+            <li>Start Date: ${formatDate(startDate)}</li>
+            <li>End Date: ${formatDate(endDate)}</li>
+            <li>Trip Length: ${length} days</li>
+            <li>Price: ${countTrip >= 6 ? earlyBird : fullPrice}</li>
+            <li>${countTrip === 12 ? '<p style="color: red">Fully Booked</p>' : ''}</li>
+            ${countTrip === 10 && tripDetailLink !== 'null' ? '<li><p style="color: #FFA500">2 Seats Left</p></li>' : ''}
+            ${countTrip === 11 && tripDetailLink !== 'null' ? '<li><p style="color: #FFA500">1 Seat Left</p></li>' : ''}
+            ${countTrip === 12 && tripDetailLink !== 'null' ? '<li><p style="color: red">Fully Booked</p></li>' : ''}
+            ${tripDetailLink === 'null' ? '<li><p class="text-success-btn">More info coming soon</p></li>' : ''}
+          </ul>
+          ${tripDetailLink !== 'null' ? `
+            ${totalDrivers < 2 && countTrip >= 9 && countTrip < 12 ? `<a href="${zohoFormLinkDriver}" class="book-btn">Book Now</a>` : ''}
+            ${totalDrivers >= 0 && countTrip <= 11 ? `<a href="${zohoFormLink}" class="book-btn">Book Now</a>` : ''}
+          ` : ''}
+        `;
+          cardContainer.appendChild(card);
+        });
+
+        // Update pagination info
+        document.getElementById('pagination-info').innerText = `Page ${currentPage} of ${Math.ceil(tripsData.length / itemsPerPage)}`;
+
+        // Enable/disable pagination buttons
+        document.getElementById('prev-page').disabled = currentPage === 1;
+        document.getElementById('next-page').disabled = currentPage === Math.ceil(tripsData.length / itemsPerPage);
+      }
+
+      document.getElementById('prev-page').addEventListener('click', () => {
+        if (currentPage > 1) {
+          currentPage--;
+          displayCards(currentPage);
+        }
+      });
+
+      document.getElementById('next-page').addEventListener('click', () => {
+        if (currentPage < Math.ceil(tripsData.length / itemsPerPage)) {
+          currentPage++;
+          displayCards(currentPage);
+        }
+      });
+
+      // Initial display
+      displayCards(currentPage);
+    </script>
+
+      <!-- old card -->
+    <!-- <div class="card-container">
       <?php $count = 0; ?>
       <?php foreach ($data["data"] as $trip) :
 
@@ -223,7 +327,7 @@ try {
           </div>
         <?php endif; ?>
       <?php endforeach; ?>
-    </div>
+    </div> -->
 <?php
   } else {
     echo "<p>No trip data available.</p>";
