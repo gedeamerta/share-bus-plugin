@@ -1,5 +1,5 @@
 <style>
-/* test */
+    /* test */
 </style>
 
 <?php
@@ -50,6 +50,15 @@ try {
         class="compSection compSection_5 comp_trip_dates comp_trip_dates_1 py-sm textcolor__default  " data-animate="1"
         style=" z-index:1">
         <table>
+            <colgroup>
+                <col style="width: 25%;">
+                <col style="width: 15%;">
+                <col style="width: 10%;">
+                <col style="width: 15%;">
+                <col style="width: 15%;">
+                <col style="width: 10%;">
+                <col style="width: 10%;">
+            </colgroup>
             <thead>
                 <tr>
                     <td>START DATE</td>
@@ -116,10 +125,12 @@ try {
                         <td data-label="BOOK NOW">
                             <?php if ($tripDetailLink != 'null'): ?>
                                 <?php if ($totalDrivers < 2 && $countTrip >= 9): ?>
-                                    <a href="<?php echo esc_url($zohoFormLinkDrivers); ?>" class="" style="font-family: 'ITCAvantGardeStd-Bold';">BOOK NOW</a>
+                                    <a href="<?php echo esc_url($zohoFormLinkDrivers); ?>" class=""
+                                        style="font-family: 'ITCAvantGardeStd-Bold';">BOOK NOW</a>
                                 <?php elseif (empty($totalDrivers) || $totalDrivers == 0 || $totalDrivers >= 1): ?>
                                     <?php if ($countTrip <= 11): ?>
-                                        <a href="<?php echo esc_url($zohoFormLink); ?>" class="" style="font-family: 'ITCAvantGardeStd-Bold';">BOOK NOW</a>
+                                        <a href="<?php echo esc_url($zohoFormLink); ?>" class=""
+                                            style="font-family: 'ITCAvantGardeStd-Bold';">BOOK NOW</a>
                                     <?php endif; ?>
                                 <?php endif; ?>
                             <?php endif; ?>

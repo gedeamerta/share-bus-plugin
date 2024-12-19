@@ -1,54 +1,3 @@
-@font-face {
-  font-family: "ITCAvantGardeStd-Bold";
-  src: url("https://sharebus.com.au/wp-content/uploads/fonts/5746/itc-avant-garde-std-bold.ttf")
-    format("truetype");
-}
-
-:root {
-  --bodycolor: ;
-  --brandColor1: #16a7fb;
-  --brandColor2: #eb6d2a;
-  --brandColor3: #212121;
-  --brandColor4: #e1f6f1;
-  --textColor1: #212121;
-  --textColor2: #212121;
-  --font1: "ITCAvantGardeStd-Demi", sans-serif;
-  --font2: "ITCAvantGardeStd-Bold", sans-serif;
-  --font3: "ITCAvantGardeStd-Md";
-  --fontsize-desktop: px;
-  --fontsize-mobile: px;
-  --content-width: 1634px;
-  --content-width-narrow: 1450px;
-  --content-width-media: 1832px;
-  --easing: cubic-bezier(0.55, 0.43, 0.31, 0.99);
-  --btn-solid-default-bg: #16a7fb;
-  --btn-solid-hover-bg: #16a7fb;
-  --btn-solid-default-text: #ffffff;
-  --btn-solid-hover-text: #212121;
-  --btn-solidgrad-def-bg: #16a7fb;
-  --btn-solidgrad-hover-bg1: #16a7fb;
-  --btn-solidgrad-hover-bg2: #eb6d2a;
-  --btn-solidgrad-def-text: #212121;
-  --btn-solidgrad-hover-text: #212121;
-  --btn-grad-bg1: #16a7fb;
-  --btn-grad-bg2: #eb6d2a;
-  --btn-grad-def-text: #212121;
-  --btn-grad-hover-text: #212121;
-  --btn-outline-border-bg: #16a7fb;
-  --btn-outline-hover-bg: #16a7fb;
-  --btn-outline-def-text: #212121;
-  --btn-outline-hover-text: #212121;
-  --btn-white-hover-bg: #16a7fb;
-  --btn-white-def-text: #212121;
-  --btn-white-hover-text: #212121;
-  --footer-bg-color: #16a7fb;
-  --footer-def-text: #ffffff;
-  --footer-def-link: #ffffff;
-  --footer-nav-link: #ffffff;
-  --footer-social-bg: #ffffff;
-  --footer-social-icon: #16a7fb;
-}
-
 .container-table {
   display: block;
   width: 100%;
@@ -70,7 +19,6 @@
   border-collapse: collapse;
   margin: 20px auto;
   background-color: #fff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   font-size: 14px;
 }
 
@@ -216,6 +164,9 @@ tr:hover {
   color: var(--brandColor3);
 }
 
+.comp_trip_dates table thead, .comp_trip_dates table tbody {
+  display: table;
+}
 .comp_trip_dates table thead td {
   font-size: 20px;
   text-transform: uppercase;
