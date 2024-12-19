@@ -91,12 +91,12 @@ try {
                         ?></td>
 
                         <?php if ($totalWeeks >= 6): ?>
-                            <td data-label="Price">$<?php echo esc_html($earlyBird); ?></td>
+                            <td data-label="PRICE">$<?php echo esc_html($earlyBird); ?></td>
                         <?php elseif ($totalWeeks < 6): ?>
-                            <td data-label="Price">$<?php echo esc_html($fullPrice); ?></td>
+                            <td data-label="PRICE">$<?php echo esc_html($fullPrice); ?></td>
                         <?php endif; ?>
 
-                        <td data-label="DETAILS">
+                        <td data-label="NOTES">
                             <?php if ($countTrip == 10 && $tripDetailLink != 'null'): ?>
                                 <p style="color: #FFA500; margin: 0px;">2 Seats Left</p>
                             <?php elseif ($countTrip == 11 && $tripDetailLink != 'null'): ?>
@@ -105,10 +105,12 @@ try {
                                 <p style="color: red; margin: 0px;">Fully Booked</p>
                             <?php elseif ($tripDetailLink == 'null'): ?>
                                 <p class="text-success-btn" style="margin: 0px;">More info coming soon</p>
+                            <?php else: ?>
+                                <p>-</p>
                             <?php endif; ?>
                         </td>
 
-                        <!-- <td data-label="DETAILS">
+                        <!-- <td data-label="NOTES">
                         <span class="">
                             12 slots left </span> 
                         </td> -->
