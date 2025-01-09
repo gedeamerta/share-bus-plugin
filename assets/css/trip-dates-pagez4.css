@@ -23,7 +23,7 @@
   border-collapse: collapse;
   margin: 20px auto;
   background-color: #fff;
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .table-trips th,
@@ -57,6 +57,12 @@ tbody tr:hover {
   background-color: var(--brandColor1);
 }
 
+tbody tr:hover td p {
+/*   background-color: #f1f1f1; */
+  color: white;
+  background-color: var(--brandColor1);
+}
+
 tbody tr:hover a {
 /*   background-color: #f1f1f1; */
   color: white;
@@ -80,6 +86,8 @@ tbody tr:hover a {
   font-weight: bold;
   background-color: #ec6f1b;
   transition: background-color 0.3s ease;
+  font-size: 16px;
+  font-family: 'ITCAvantGardeStd-Bold';
 }
 
 .full-book-btn {
@@ -128,7 +136,7 @@ tbody tr:hover a {
 }
 
 .text-success-btn {
-  color: #52b788 !important;
+  color: #52b788;
 }
 
 .text-warning-btn {
@@ -185,6 +193,7 @@ tbody tr:hover a {
 
   .card-trips ul li {
     padding: 10px 10px 10px 0px;
+    font-family: 'ITCAvantGardeStd-Bold';
    }
 }
 
@@ -229,7 +238,7 @@ tbody tr:hover a {
 }
 
 .comp_trip_dates table thead td {
-  font-size: 20px;
+  font-size: 16px;
   text-transform: uppercase;
   letter-spacing: -1px;
 }

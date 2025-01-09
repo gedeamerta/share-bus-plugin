@@ -75,7 +75,7 @@ try {
           if ($trip["Related_Trip.Full_Price"] != null) {
             $fullPrice = "$" . $trip["Related_Trip.Full_Price"];
           }
-          $tripDetailLink = $trip["Related_Trip.Page_Detail_URL"] ?? 'null';
+          $tripDetailLink = $trip["Related_Trip.Page_Detail_URL"] ?? '#';
           $startCity = $trip["Related_Trip.Start_City"] ?? "N/A";
           $zohoFormLink = "https://forms.zohopublic.com/admin1608/form/TESTFullFormRegistrationandPayment/formperma/ujzk8Yo2qYr13WNZpzz4PF6erUucysO21uTXuvTnYXY?trip=" . $tripName . "&date=" . $startDate;
           $zohoFormLinkDriver = "https://forms.zohopublic.com/admin1608/form/TripRegistrationandPaymentDriver/formperma/-Fri6gn7uIQWcB6aCKXNdeAfJlPBX9r249ysVueUtTA?trip=" . $tripName . "&date=" . $startDate;
@@ -93,7 +93,7 @@ try {
             $currentMonth = $monthYear;
         ?>
             <div class="current-month-name">
-              <p style="font-weight: bold; font-size: 1.2em;"><?= $currentMonth ?></p>
+              <h3 style="font-weight: bold;padding-top: 20px;"><?= $currentMonth ?></>
             </div>
           <?php
             // Start a new table
@@ -123,19 +123,19 @@ try {
               <td><?php echo esc_html($fullPrice); ?></td>
             <?php endif; ?>
             <td>
-              <?php if ($countTrip == 10 && $tripDetailLink != 'null') : ?>
+              <?php if ($countTrip == 10 && $tripDetailLink != '#') : ?>
                 <p style="color: #FFA500">2 Seats Left</p>
-              <?php elseif ($countTrip == 11 && $tripDetailLink != 'null') : ?>
+              <?php elseif ($countTrip == 11 && $tripDetailLink != '#') : ?>
                 <p style="color: #FFA500">1 Seat Left</p>
-              <?php elseif ($countTrip == 12 && $tripDetailLink != 'null') : ?>
+              <?php elseif ($countTrip == 12 && $tripDetailLink != '#') : ?>
                 <p style="color: red">Fully Booked</p>
-              <?php elseif ($tripDetailLink == 'null') : ?>
+              <?php elseif ($tripDetailLink == '#') : ?>
                 <p class="text-success-btn">More info coming soon</p>
               <?php endif; ?>
             </td>
             <!-- <td><?php echo esc_html($totalWeeks); ?></td> -->
             <td>
-              <?php if ($tripDetailLink != 'null') : ?>
+              <?php if ($tripDetailLink != '#') : ?>
                 <?php if ($totalDrivers < 2 && $countTrip >= 9 && $countTrip < 12) : ?>
                   <a href="<?php echo esc_url($zohoFormLinkDriver); ?>" class="book-btn">Book Now</a>
                 <?php elseif (empty($totalDrivers) || $totalDrivers == 0 || $totalDrivers >= 1) : ?>

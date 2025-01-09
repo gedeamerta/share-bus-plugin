@@ -178,7 +178,7 @@ try {
 
         // Function to handle item visibility based on screen width
         function handleResize() {
-            if (window.innerWidth >= 768) {
+            if (window.innerWidth >= 1024) {
                 // On desktop, show all items and hide the button
                 hiddenItems.forEach(item => item.style.display = 'block');
                 expandButton.style.display = 'none';
