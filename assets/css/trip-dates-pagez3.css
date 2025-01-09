@@ -4,6 +4,10 @@
   height: 100%;
 }
 
+.current-month p{
+  margin-left: 18px;
+}
+
 .date-lists ul li {
   list-style: none;
 }
@@ -19,28 +23,43 @@
   border-collapse: collapse;
   margin: 20px auto;
   background-color: #fff;
-  font-size: 14px;
+  font-size: 20px;
 }
 
 .table-trips th,
 td {
   font-family: "ITCAvantGardeStd-Bold";
-  padding: 12px !important;
+  padding: 20px !important;
   text-align: left;
-  border: 1px solid #ddd;
+  /* border: 1px solid #ddd; */
 }
 
 th {
-  background-color: var(--brandColor1);
-  color: white;
+  /* background-color: var(--brandColor1); */
+  color: black;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--brandColor3);
 }
 
 tr:nth-child(even) {
-  background-color: #f9f9f9;
+  /* background-color: #f9f9f9; */
+  background-color: var(--brandColor4);;
+
 }
 
-tr:hover {
-  background-color: #f1f1f1;
+tbody tr {
+	color: var(--brandColor3);
+}
+
+tbody tr:hover {
+/*   background-color: #f1f1f1; */
+	color: white;
+  background-color: var(--brandColor1);
+}
+
+tbody tr:hover a {
+/*   background-color: #f1f1f1; */
+  color: white;
 }
 
  /* Specific column widths */
@@ -53,11 +72,11 @@ tr:hover {
 
 .book-btn {
   display: inline-block;
-  padding: 8px 16px;
+  padding: 15px;
   background-color: var(--brandColor2);
   color: white;
   text-decoration: none;
-  border-radius: 4px;
+/*   border-radius: 4px; */
   font-weight: bold;
   background-color: #ec6f1b;
   transition: background-color 0.3s ease;
@@ -131,45 +150,62 @@ tr:hover {
   transition: background-color 0.3s ease;
 }
 
+.pagination-controls {
+  display: none !important;
+}
+
 .warning-btn:hover {
   background-color: #e6b254 !important;
 }
 
 @media (max-width: 768px) {
+
+  .pagination-controls {
+    display: block !important;
+	margin-left: 15px;
+  }
+
   .container-table {
     display: none !important;
   }
 
   .card-container {
     display: block; /* Show card container on mobile */
+	width: 100%;
+	padding: 15px;
   }
 
   .card-trips {
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 16px 40px 16px 16px;
-    margin: 10px 0;
+    margin: 20px 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
 
   .card-trips ul li {
-    padding: 5px 10px;
+    padding: 10px 10px 10px 0px;
    }
 }
 
 .pagination-btn {
+  width: 100px;
   color: white;
   background-color: var(--brandColor2);
   border-radius: 4px;
+  border: none;
+  padding: 10px;
+  margin-top: 15px;
   cursor: pointer;
-  padding-top: 15px;
-  padding-bottom: 30px;
+  font-size: 14px;
+  font-family: var(--font2);
   
 }
 
 /* aaa */
 
 .comp_trip_dates {
+
 }
 
 .comp_trip_dates .headline__text {

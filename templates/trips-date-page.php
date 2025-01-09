@@ -113,7 +113,7 @@ try {
           endif;
           ?>
           <tr>
-            <td><a style="font-weight: bold" href="<?php echo esc_url($tripDetailLink); ?>"><?php echo esc_html($tripName); ?></a></td>
+            <td><a href="<?php echo esc_url($tripDetailLink); ?>"><?php echo esc_html($tripName); ?></a></td>
             <td><?php echo esc_html(date("d/m/Y", strtotime($startDate))); ?></td>
             <td><?php echo esc_html($length); ?> days</td>
             <td><?php echo esc_html(date("d/m/Y", strtotime($endDate))); ?></td>
@@ -157,7 +157,7 @@ try {
 
     <div class="pagination-controls">
       <button id="prev-page" class="pagination-btn" disabled>Previous</button>
-      <span id="pagination-info">Page 1 of 1</span>
+      <span id="pagination-info" style="margin: 12px">Page 1 of 1</span>
       <button id="next-page" class="pagination-btn">Next</button>
     </div>
 

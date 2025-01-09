@@ -58,11 +58,11 @@ try {
         <table>
             <thead>
                 <tr>
-                    <td>START DATE</td>
-                    <td>END DATE</td>
-                    <td>PRICE</td>
-                    <td>NOTES</td>
-                    <td></td>
+                    <th>START DATE</th>
+                    <th>END DATE</th>
+                    <th>PRICE</th>
+                    <th>NOTES</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
