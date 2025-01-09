@@ -38,11 +38,11 @@
   }
 
   .comp_trip_dates table tbody tr td {
-    width: 10%;
+    width: 20%;
   }
 
   .comp_trip_dates table thead tr th {
-    width: 10%;
+    width: 20%;
   }
 }
 
@@ -50,12 +50,14 @@
 @media (min-width: 768px) {
 /*   .comp_trip_dates table tbody tr td, */
   .comp_trip_dates table thead tr th {
-	padding: 0px 10px 20px;
+	padding: 18px 70px !important;
 	border-bottom: 1px solid #212121;
+  width: 20%;
   }
 	
 	.comp_trip_dates table tbody tr td {
 		padding: 18px 70px !important; 
+    width: 20%;
 	}
 
   .comp_trip_dates table tbody tr:nth-child(n + 6) {

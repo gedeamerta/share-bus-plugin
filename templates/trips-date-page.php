@@ -203,13 +203,12 @@ try {
           const card = document.createElement('div');
           card.className = 'card-trips';
           card.innerHTML = `
-          <h3><a style="font-weight: bold" href="${tripDetailLink}">${tripName}</a></h3>
+          <h3 style="text-align: center;"><a style="font-weight: bold;" href="${tripDetailLink}">${tripName}</a></h3>
           <ul>
-            <li>Start Date: ${formatDate(startDate)}</li>
-            <li>End Date: ${formatDate(endDate)}</li>
-            <li>Trip Length: ${length} days</li>
-            <li>Price: ${countTrip >= 6 ? earlyBird : fullPrice}</li>
-            <li>${countTrip === 12 ? '<p style="color: red">Fully Booked</p>' : ''}</li>
+            <li><span>Start Date: </span><span>${formatDate(startDate)}</span></li>
+            <li><span>End Date: </span><span>${formatDate(endDate)}</span></li>
+            <li><span>Trip Length: </span><span>${length} days</span></li>
+            <li><span>Price: </span><span>${countTrip >= 6 ? earlyBird : fullPrice}</span></li>
             ${countTrip === 10 && tripDetailLink !== 'null' ? '<li><p style="color: #FFA500">2 Seats Left</p></li>' : ''}
             ${countTrip === 11 && tripDetailLink !== 'null' ? '<li><p style="color: #FFA500">1 Seat Left</p></li>' : ''}
             ${countTrip === 12 && tripDetailLink !== 'null' ? '<li><p style="color: red">Fully Booked</p></li>' : ''}
@@ -218,9 +217,9 @@ try {
        
           ${tripDetailLink !== 'null' ? `
   ${totalDrivers < 2 && countTrip >= 9 && countTrip < 12 ? 
-    `<a href="${zohoFormLinkDriver}" class="book-btn">Book Now</a>` : 
+    `<a href="${zohoFormLinkDriver}" class="book-btn-mobile">Book Now</a>` : 
     totalDrivers >= 0 && countTrip <= 11 ? 
-    `<a href="${zohoFormLink}" class="book-btn">Book Now</a>` : ''}
+    `<a href="${zohoFormLink}" class="book-btn-mobile">Book Now</a>` : ''}
 ` : ''}
           `;
           cardContainer.appendChild(card);

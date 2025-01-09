@@ -78,7 +78,7 @@ tbody tr:hover a {
 
 .book-btn {
   display: inline-block;
-  padding: 15px;
+  padding: 12px;
   background-color: var(--brandColor2);
   color: white;
   text-decoration: none;
@@ -184,17 +184,37 @@ tbody tr:hover a {
   }
 
   .card-trips {
-    border: 1px solid #ddd;
+    border: 1px solid var(--brandColor4);
     border-radius: 5px;
-    padding: 16px 40px 16px 16px;
-    margin: 20px 0;
+    padding: 15px;
+    margin: 15px 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
 
-  .card-trips ul li {
-    padding: 10px 10px 10px 0px;
-    font-family: 'ITCAvantGardeStd-Bold';
+  .card-trips ul  {
+    margin-top: 15px !important;
    }
+
+  .card-trips ul li {
+    display: flex !important;
+    justify-content: space-between !important;
+    border-bottom: 1px solid var(--brandColor4);
+    padding: 10px 10px 10px 0px;
+   }
+
+   .book-btn-mobile {
+    display: inline-block;
+    padding: 15px;
+    background-color: var(--brandColor2);
+    color: white;
+    text-decoration: none;
+    /* border-radius: 4px; */
+    font-weight: bold;
+    background-color: #ec6f1b;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    text-align: center;
+  }
 }
 
 .pagination-btn {
