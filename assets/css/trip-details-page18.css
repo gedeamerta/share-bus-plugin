@@ -34,7 +34,7 @@
 
 @media (min-width: 1024px) {
   .comp_trip_dates table thead {
-    display: block;
+    display: table; width: 100%;
   }
 
   .comp_trip_dates table tbody tr td {
@@ -53,11 +53,11 @@
 	padding: 18px 70px !important;
 	border-bottom: 1px solid #212121;
   width: 20%;
+  text-align: left;
   }
 	
 	.comp_trip_dates table tbody tr td {
-		padding: 18px 70px !important; 
-    width: 20%;
+		padding: 18px 70px !important;
 	}
 
   .comp_trip_dates table tbody tr:nth-child(n + 6) {

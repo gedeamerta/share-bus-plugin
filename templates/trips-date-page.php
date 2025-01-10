@@ -203,16 +203,16 @@ try {
           const card = document.createElement('div');
           card.className = 'card-trips';
           card.innerHTML = `
-          <h3 style="text-align: center;"><a style="font-weight: bold;" href="${tripDetailLink}">${tripName}</a></h3>
+          <h4 style="text-align: left;"><a style="font-weight: bold;" href="${tripDetailLink}">${tripName}</a></h4>
           <ul>
-            <li><span>Start Date: </span><span>${formatDate(startDate)}</span></li>
-            <li><span>End Date: </span><span>${formatDate(endDate)}</span></li>
-            <li><span>Trip Length: </span><span>${length} days</span></li>
-            <li><span>Price: </span><span>${countTrip >= 6 ? earlyBird : fullPrice}</span></li>
-            ${countTrip === 10 && tripDetailLink !== 'null' ? '<li><p style="color: #FFA500">2 Seats Left</p></li>' : ''}
-            ${countTrip === 11 && tripDetailLink !== 'null' ? '<li><p style="color: #FFA500">1 Seat Left</p></li>' : ''}
-            ${countTrip === 12 && tripDetailLink !== 'null' ? '<li><p style="color: red">Fully Booked</p></li>' : ''}
-            ${tripDetailLink === 'null' ? '<li><p class="text-success-btn">More info coming soon</p></li>' : ''}
+            <li><span>START DATE </span><span>${formatDate(startDate)}</span></li>
+            <li><span>END DATE </span><span>${formatDate(endDate)}</span></li>
+            <li><span>TRIP LENGTH </span><span>${length} days</span></li>
+            <li><span>PRICE </span><span>${countTrip >= 6 ? earlyBird : fullPrice}</span></li>
+            <li><span>NOTES</span>${countTrip === 10 && tripDetailLink !== 'null' ? '<p style="color: #FFA500">2 Seats Left</p></li>' : ''}
+            ${countTrip === 11 && tripDetailLink !== 'null' ? '<p style="color: #FFA500">1 Seat Left</p></li>' : ''}
+            ${countTrip === 12 && tripDetailLink !== 'null' ? '<p style="color: red">Fully Booked</p></li>' : ''}
+            ${tripDetailLink === 'null' ? '<p class="text-success-btn">More info coming soon</p></li>' : ''}
           </ul>
        
           ${tripDetailLink !== 'null' ? `

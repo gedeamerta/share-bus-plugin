@@ -180,12 +180,12 @@ try {
         function handleResize() {
             if (window.innerWidth >= 1024) {
                 // On desktop, show all items and hide the button
-                hiddenItems.forEach(item => item.style.display = 'block');
+                hiddenItems.forEach(item => item.style.display = 'table');
                 expandButton.style.display = 'none';
             } else {
                 // On mobile, show only the first 5 items and display the button
                 const isExpanded = expandButton.getAttribute('data-expanded') === 'true';
-                hiddenItems.forEach(item => item.style.display = isExpanded ? 'block' : 'none');
+                hiddenItems.forEach(item => item.style.display = isExpanded ? 'table' : 'none');
                 expandButton.style.display = 'block';
             }
         }
@@ -198,7 +198,7 @@ try {
                 this.textContent = 'Expand';
                 this.setAttribute('data-expanded', 'false');
             } else {
-                hiddenItems.forEach(item => item.style.display = 'block');
+                hiddenItems.forEach(item => item.style.display = 'table');
                 this.textContent = 'Collapse';
                 this.setAttribute('data-expanded', 'true');
             }
