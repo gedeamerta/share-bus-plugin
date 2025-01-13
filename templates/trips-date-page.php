@@ -93,7 +93,7 @@ try {
             $currentMonth = $monthYear;
         ?>
             <div class="current-month-name">
-              <h3 style="font-weight: bold;padding-top: 20px;"><?= $currentMonth ?></>
+              <h4 style="font-weight: bold;padding-top: 20px;text-transform: uppercase;"><?= $currentMonth ?></>
             </div>
           <?php
             // Start a new table
@@ -113,7 +113,7 @@ try {
           endif;
           ?>
           <tr>
-            <td><a href="<?php echo esc_url($tripDetailLink); ?>"><?php echo esc_html($tripName); ?></a></td>
+            <td><a style="text-transform: uppercase;" href="<?php echo esc_url($tripDetailLink); ?>"><?php echo esc_html($tripName); ?></a></td>
             <td><?php echo esc_html(date("d/m/Y", strtotime($startDate))); ?></td>
             <td><?php echo esc_html($length); ?> days</td>
             <td><?php echo esc_html(date("d/m/Y", strtotime($endDate))); ?></td>
@@ -124,23 +124,23 @@ try {
             <?php endif; ?>
             <td>
               <?php if ($countTrip == 10 && $tripDetailLink != '#') : ?>
-                <p style="color: #FFA500">2 Seats Left</p>
+                <p style="color: #FFA500">2 SEATS LEFT</p>
               <?php elseif ($countTrip == 11 && $tripDetailLink != '#') : ?>
-                <p style="color: #FFA500">1 Seat Left</p>
+                <p style="color: #FFA500">1 SEAT LEFT</p>
               <?php elseif ($countTrip == 12 && $tripDetailLink != '#') : ?>
-                <p style="color: red">Fully Booked</p>
+                <p style="color: red">FULLY BOOKED</p>
               <?php elseif ($tripDetailLink == '#') : ?>
-                <p class="text-success-btn">More info coming soon</p>
+                <p class="text-success-btn">MORE INFO COMING SOON</p>
               <?php endif; ?>
             </td>
             <!-- <td><?php echo esc_html($totalWeeks); ?></td> -->
             <td>
               <?php if ($tripDetailLink != '#') : ?>
                 <?php if ($totalDrivers < 2 && $countTrip >= 9 && $countTrip < 12) : ?>
-                  <a href="<?php echo esc_url($zohoFormLinkDriver); ?>" class="book-btn">Book Now</a>
+                  <a style="padding: 16px 32px;" href="<?php echo esc_url($zohoFormLinkDriver); ?>" class="book-btn">BOOK NOW</a>
                 <?php elseif (empty($totalDrivers) || $totalDrivers == 0 || $totalDrivers >= 1) : ?>
                   <?php if ($countTrip <= 11): ?>
-                    <a href="<?php echo esc_url($zohoFormLink); ?>" class="book-btn">Book Now</a>
+                    <a style="padding: 16px 32px;" href="<?php echo esc_url($zohoFormLink); ?>" class="book-btn">BOOK NOW</a>
                   <?php endif; ?>
                 <?php endif; ?>
               <?php endif; ?>
@@ -203,23 +203,23 @@ try {
           const card = document.createElement('div');
           card.className = 'card-trips';
           card.innerHTML = `
-          <h4 style="text-align: left;"><a style="font-weight: bold;" href="${tripDetailLink}">${tripName}</a></h4>
+          <h4 style="text-align: left;"><a style="font-weight: bold;padding-top: 20px;text-transform: uppercase;font-size: 24px;" href="${tripDetailLink}">${tripName}</a></h4>
           <ul>
             <li><span>START DATE </span><span>${formatDate(startDate)}</span></li>
             <li><span>END DATE </span><span>${formatDate(endDate)}</span></li>
             <li><span>TRIP LENGTH </span><span>${length} days</span></li>
             <li><span>PRICE </span><span>${countTrip >= 6 ? earlyBird : fullPrice}</span></li>
-            <li><span>NOTES</span>${countTrip === 10 && tripDetailLink !== 'null' ? '<p style="color: #FFA500">2 Seats Left</p></li>' : ''}
-            ${countTrip === 11 && tripDetailLink !== 'null' ? '<p style="color: #FFA500">1 Seat Left</p></li>' : ''}
-            ${countTrip === 12 && tripDetailLink !== 'null' ? '<p style="color: red">Fully Booked</p></li>' : ''}
-            ${tripDetailLink === 'null' ? '<p class="text-success-btn">More info coming soon</p></li>' : ''}
+            <li><span>NOTES</span>${countTrip === 10 && tripDetailLink !== 'null' ? '<p style="color: #FFA500">2 SEATS LEFT</p></li>' : ''}
+            ${countTrip === 11 && tripDetailLink !== 'null' ? '<p style="color: #FFA500">1 SEAT LEFT</p></li>' : ''}
+            ${countTrip === 12 && tripDetailLink !== 'null' ? '<p style="color: red">FULLY BOOKED</p></li>' : ''}
+            ${tripDetailLink === 'null' ? '<p class="text-success-btn">MORE INFO COMING SOON</p></li>' : ''}
           </ul>
        
           ${tripDetailLink !== 'null' ? `
   ${totalDrivers < 2 && countTrip >= 9 && countTrip < 12 ? 
-    `<a href="${zohoFormLinkDriver}" class="book-btn-mobile">Book Now</a>` : 
+    `<a href="${zohoFormLinkDriver}" class="book-btn-mobile">BOOK NOW</a>` : 
     totalDrivers >= 0 && countTrip <= 11 ? 
-    `<a href="${zohoFormLink}" class="book-btn-mobile">Book Now</a>` : ''}
+    `<a href="${zohoFormLink}" class="book-btn-mobile">BOOK NOW</a>` : ''}
 ` : ''}
           `;
           cardContainer.appendChild(card);
@@ -288,7 +288,7 @@ try {
       ?>
         <?php if ($count <= 5) : ?>
           <div class="card-trips">
-            <h3><a style="font-weight: bold" href="<?php echo esc_url($tripDetailLink); ?>"><?php echo esc_html($tripName); ?></a></h3>
+            <h3><a style="font-weight: bold; text-transform: uppercase;" href="<?php echo esc_url($tripDetailLink); ?>"><?php echo esc_html($tripName); ?></a></h3>
             <ul>
               <li>Start Date: <?php echo esc_html(date("d/m/Y", strtotime($startDate))); ?></li>
               <li>End Date: <?php echo esc_html(date("d/m/Y", strtotime($endDate))); ?></li>

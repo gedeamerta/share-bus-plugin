@@ -25,9 +25,13 @@
   background-color: #fff;
   font-size: 16px;
 }
+.table-trips th {
+  font-family: 'ITCAvantGardeStd-Demi';
+  padding: 20px !important;
+  text-align: left;
+}
 
-.table-trips th,
-td {
+.table-trips td {
   font-family: "ITCAvantGardeStd-Bold";
   padding: 20px !important;
   text-align: left;

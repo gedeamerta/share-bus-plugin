@@ -125,13 +125,13 @@ try {
 
                         <td data-label="NOTES">
                             <?php if ($countTrip == 10 && $tripDetailLink != 'null'): ?>
-                                <p style="color: #FFA500; margin: 0px;">2 Seats Left</p>
+                                <p style="color: #FFA500; margin: 0px;">2 SEATS LEFT</p>
                             <?php elseif ($countTrip == 11 && $tripDetailLink != 'null'): ?>
-                                <p style="color: #FFA500; margin: 0px;">1 Seat Left</p>
+                                <p style="color: #FFA500; margin: 0px;">1 SEAT LEFT</p>
                             <?php elseif ($countTrip == 12 && $tripDetailLink != 'null'): ?>
-                                <p style="color: red; margin: 0px;">Fully Booked</p>
+                                <p style="color: red; margin: 0px;">FULLY BOOKED</p>
                             <?php elseif ($tripDetailLink == 'null'): ?>
-                                <p class="text-success-btn" style="margin: 0px;">More info coming soon</p>
+                                <p class="text-success-btn" style="margin: 0px;">MORE INFO COMING SOON</p>
                             <?php else: ?>
                                 <p>-</p>
                             <?php endif; ?>
@@ -168,7 +168,7 @@ try {
         </table>
 
 
-        <button id="expandButton" class="expand-btn" data-expanded="false">Expand</button>
+        <button id="expandButton" class="expand-btn" data-expanded="false">MORE DATES</button>
     </section>
 
 
@@ -195,11 +195,11 @@ try {
 
             if (isExpanded) {
                 hiddenItems.forEach(item => item.style.display = 'none');
-                this.textContent = 'Expand';
+                this.textContent = 'MORE DATES';
                 this.setAttribute('data-expanded', 'false');
             } else {
                 hiddenItems.forEach(item => item.style.display = 'table');
-                this.textContent = 'Collapse';
+                this.textContent = 'SHOW LESS';
                 this.setAttribute('data-expanded', 'true');
             }
         });

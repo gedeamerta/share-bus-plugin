@@ -1,5 +1,10 @@
 .comp_trip_dates table tbody tr:nth-child(n + 0) {
-  display: block;
+  display: table;
+  width: 100%;
+}
+
+.comp_trip_dates table tbody td a {
+  padding: 16px 32px !important;
 }
 
 .expand-btn {
@@ -27,7 +32,7 @@
     background-color: var(--brandColor2);
     border-radius: 4px;
     cursor: pointer;
-    padding: 8px 40%;
+    padding: 8px 20%;
     margin-top: 10px;
   }
 }
