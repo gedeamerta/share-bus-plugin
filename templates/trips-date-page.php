@@ -32,18 +32,19 @@ try {
 
   // Check if 'data' key exists and is an array
   if (isset($data["data"]) && is_array($data["data"])) {
-  // Pagination settings
-  $itemsPerPage = 5; // Number of cards per page
-  $totalItems = count($data["data"]); // Total number of trips
-  $totalPages = ceil($totalItems / $itemsPerPage); // Total number of pages
-  $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Current page from URL
-  $currentPage = max(1, min($totalPages, $currentPage)); // Ensure current page is valid
-  $offset = ($currentPage - 1) * $itemsPerPage; // Calculate offset for the current page
+    // Pagination settings
+    $itemsPerPage = 5; // Number of cards per page
+    $totalItems = count($data["data"]); // Total number of trips
+    $totalPages = ceil($totalItems / $itemsPerPage); // Total number of pages
+    $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Current page from URL
+    $currentPage = max(1, min($totalPages, $currentPage)); // Ensure current page is valid
+    $offset = ($currentPage - 1) * $itemsPerPage; // Calculate offset for the current page
 ?>
     <!-- Displaying the data in a table -->
     <div class="container-table">
       <table class="table-trips">
         <?php
+
         $currentMonth = ''; // Initialize current month to detect changes
 
         // Sort the data array by 'Trip_Start_Date' in ascending order
@@ -112,7 +113,7 @@ try {
             <tbody>';
           endif;
           ?>
-          <tr>
+          <tr class="tr-dekstop">
             <td><a style="text-transform: uppercase;" href="<?php echo esc_url($tripDetailLink); ?>"><?php echo esc_html($tripName); ?></a></td>
             <td><?php echo esc_html(date("d/m/Y", strtotime($startDate))); ?></td>
             <td><?php echo esc_html($length); ?> days</td>
@@ -162,7 +163,6 @@ try {
     </div>
 
     <script>
-
       // Function to format date as d/m/Y
       function formatDate(dateString) {
         const date = new Date(dateString);
@@ -173,7 +173,7 @@ try {
       }
 
       // Pass PHP data to JavaScript
-      const tripsData = <?php echo json_encode($data["data"]); ?>; 
+      const tripsData = <?php echo json_encode($data["data"]); ?>;
       const itemsPerPage = 5; // Number of cards per page
       let currentPage = 1;
 
@@ -181,11 +181,13 @@ try {
         const cardContainer = document.getElementById('card-container');
         cardContainer.innerHTML = ''; // Clear existing cards
 
+        let currentMonth = ''
+
         const start = (page - 1) * itemsPerPage;
         const end = start + itemsPerPage;
         const paginatedItems = tripsData.slice(start, end);
 
-        paginatedItems.forEach(trip => {
+        paginatedItems.forEach((trip, index) => {
           // Check if all necessary fields are present
           const tripName = trip["Related_Trip.Name_for_Form"] || trip["Name"];
           const startDate = trip["Trip_Start_Date"] || "N/A";
@@ -200,30 +202,105 @@ try {
           const zohoFormLink = "https://forms.zohopublic.com/admin1608/form/TESTFullFormRegistrationandPayment/formperma/ujzk8Yo2qYr13WNZpzz4PF6erUucysO21uTXuvTnYXY?trip=" + tripName + "&date=" + startDate;
           const zohoFormLinkDriver = "https://forms.zohopublic.com/admin1608/form/TripRegistrationandPaymentDriver/formperma/-Fri6gn7uIQWcB6aCKXNdeAfJlPBX9r249ysVueUtTA?trip=" + tripName + "&date=" + startDate;
 
-          const card = document.createElement('div');
-          card.className = 'card-trips';
-          card.innerHTML = `
-          <h4 style="text-align: left;"><a style="font-weight: bold;padding-top: 20px;text-transform: uppercase;font-size: 24px;" href="${tripDetailLink}">${tripName}</a></h4>
+          const date = new Date(startDate);
+
+          // Get Month and Year from Start Date
+          let monthYear = date.toLocaleDateString("en-GB", {
+            month: "long",
+            year: "numeric"
+          });;
+
+          // Add month and year only once
+          if (monthYear !== currentMonth) {
+            currentMonth = monthYear;
+            const monthAndYear = document.createElement("div");
+            monthAndYear.className = "month-and-year-container";
+            monthAndYear.innerHTML = `
+              <h4 style="font-weight: bold; padding-top: 20px; text-transform: uppercase; margin: 10px 0;">${monthYear}</h4>
+            `;
+            cardContainer.appendChild(monthAndYear);
+          }
+
+          // Create table row for trip details
+          const tableRow = document.createElement("div");
+          tableRow.className = "trip-row";
+          tableRow.innerHTML = `
+          <table id="tr-trip-date-list-${index}" style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+            <tr>
+              <td style="width: 55%; font-weight: bold; text-transform: uppercase; padding-left: 5px"><a style="color: #16a7fb" href="https://${tripDetailLink}" target='_blank'">${tripName}</a></td>
+              <td id="trip-start-date-${index}" style="width: 40%; padding:10px; color: #000">${startDate !== "N/A" ? formatDate(startDate) : "N/A"}</td>
+              <td style="width: 5%; text-align: center;">
+                <span id="show-more-icon-${index}" class="show-more-icon" style="color: #FFA500; cursor: pointer; font-size: 28px">+</span>
+                <span id="show-less-icon-${index}" class="show-less-icon" style="color: #FFA500; display: none; cursor: pointer; font-size: 32px">-</span>
+              </td>
+            </tr>
+          </table>
+          <div id="trip-details-${index}" class="card-trips" style="display: none; margin-top: 0px; border-top: 1px solid #ddd; padding-top: 10px;">
           <ul>
-            <li><span>START DATE </span><span>${formatDate(startDate)}</span></li>
-            <li><span>END DATE </span><span>${formatDate(endDate)}</span></li>
-            <li><span>TRIP LENGTH </span><span>${length} days</span></li>
-            <li><span>PRICE </span><span>${countTrip >= 6 ? earlyBird : fullPrice}</span></li>
-            <li><span>NOTES</span>${countTrip === 10 && tripDetailLink !== 'null' ? '<p style="color: #FFA500">2 SEATS LEFT</p></li>' : ''}
-            ${countTrip === 11 && tripDetailLink !== 'null' ? '<p style="color: #FFA500">1 SEAT LEFT</p></li>' : ''}
-            ${countTrip === 12 && tripDetailLink !== 'null' ? '<p style="color: red">FULLY BOOKED</p></li>' : ''}
-            ${tripDetailLink === 'null' ? '<p class="text-success-btn">MORE INFO COMING SOON</p></li>' : ''}
-          </ul>
-       
-          ${tripDetailLink !== 'null' ? `
-  ${totalDrivers < 2 && countTrip >= 9 && countTrip < 12 ? 
-    `<a href="${zohoFormLinkDriver}" class="book-btn-mobile">BOOK NOW</a>` : 
-    totalDrivers >= 0 && countTrip <= 11 ? 
-    `<a href="${zohoFormLink}" class="book-btn-mobile">BOOK NOW</a>` : ''}
-` : ''}
-          `;
-          cardContainer.appendChild(card);
+              <li><span>START DATE </span><span>${formatDate(startDate)}</span></li>
+              <li><span>END DATE </span><span>${formatDate(endDate)}</span></li>
+              <li><span>TRIP LENGTH </span><span>${length} days</span></li>
+              <li><span>PRICE </span><span>${countTrip >= 6 ? earlyBird : fullPrice}</span></li>
+              <li><span>NOTES</span>${countTrip === 10 && tripDetailLink !== 'null' ? '<p style="color: #FFA500">2 SEATS LEFT</p></li>' : ''}
+              ${countTrip === 11 && tripDetailLink !== 'null' ? '<p style="color: #FFA500">1 SEAT LEFT</p></li>' : ''}
+              ${countTrip === 12 && tripDetailLink !== 'null' ? '<p style="color: red">FULLY BOOKED</p></li>' : ''}
+              ${tripDetailLink === 'null' ? '<p class="text-success-btn">MORE INFO COMING SOON</p></li>' : ''}
+            </ul>
+            ${tripDetailLink !== 'null' ? `
+            ${totalDrivers < 2 && countTrip >= 9 && countTrip < 12 ? 
+              `<a href="${zohoFormLinkDriver}" class="book-btn-mobile">BOOK NOW</a>` : 
+              totalDrivers >= 0 && countTrip <= 11 ? 
+              `<a href="${zohoFormLink}" class="book-btn-mobile">BOOK NOW</a>` : ''}
+          ` : ''}
+          </div>
+        `;
+
+          cardContainer.appendChild(tableRow);
+
+          // Add event listeners for Show More / Show Less
+          const showMoreIcon = document.getElementById(`show-more-icon-${index}`);
+          const showLessIcon = document.getElementById(`show-less-icon-${index}`);
+          const tripDetails = document.getElementById(`trip-details-${index}`);
+          const tripStartDate = document.getElementById(`trip-start-date-${index}`);
+          const trTripDateList = document.getElementById(`tr-trip-date-list-${index}`);
+
+          showMoreIcon.addEventListener("click", () => {
+            tripDetails.style.display = "block";
+            showMoreIcon.style.display = "none";
+            showLessIcon.style.display = "inline";
+            tripStartDate.style.display = "none";
+            trTripDateList.style.backgroundColor = "var(--brandColor4)";
+            trTripDateList.style.borderTop = "1px solid var(--brandColor3)";
+            trTripDateList.style.borderRight = "1px solid var(--brandColor3)";
+            trTripDateList.style.borderLeft = "1px solid var(--brandColor3)";
+            trTripDateList.style.borderBottom = "0px solid #fff";
+          });
+
+          showLessIcon.addEventListener("click", () => {
+            tripDetails.style.display = "none";
+            showMoreIcon.style.display = "inline";
+            showLessIcon.style.display = "none";
+            tripStartDate.style.display = "block";
+            trTripDateList.style.backgroundColor = "#fff";
+            trTripDateList.style.borderRadius = "0px";
+            trTripDateList.style.borderTop = "0px solid #fff";
+            trTripDateList.style.borderRight = "0px solid #fff";
+            trTripDateList.style.borderLeft = "0px solid #fff";
+          });
+
         });
+
+        // Helper function to format date
+        function formatDate(dateString) {
+          const date = new Date(dateString);
+          if (isNaN(date.getTime())) return "N/A";
+
+          const day = String(date.getDate()).padStart(2, "0");
+          const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+          const year = date.getFullYear();
+
+          return `${day}/${month}/${year}`;
+        }
 
         // Update pagination info
         document.getElementById('pagination-info').innerText = `Page ${currentPage} of ${Math.ceil(tripsData.length / itemsPerPage)}`;
@@ -251,85 +328,6 @@ try {
       displayCards(currentPage);
     </script>
 
-      <!-- old card -->
-    <!-- <div class="card-container">
-      <?php $count = 0; ?>
-      <?php foreach ($data["data"] as $trip) :
-
-        // Check if all necessary fields are present
-        $tripName = $trip["Related_Trip.Name_for_Form"] ?? $trip["Name"];
-        $startDate = $trip["Trip_Start_Date"] ?? "N/A";
-
-        $startDateForCalculationWeeks = DateTime::createFromFormat("Y-m-d", $trip["Trip_Start_Date"]) ?? "N/A";
-
-        $todayDate = new DateTime();
-        $interval = $todayDate->diff($startDateForCalculationWeeks);
-        $totalDays = $interval->days;
-        $totalWeeks = ceil($totalDays / 7);
-
-        $length = $trip["Related_Trip.Trip_Days"] ?? "N/A";
-        $countTrip = $trip["Trip_Registration_Count"];
-        $endDate = $trip["Trip_End_Date"] ?? "N/A";
-        $totalDrivers = $trip["Total_Drivers"] ?? "N/A";
-        $earlyBird = "-";
-        if ($trip["Related_Trip.Early_Bird_Price"] != null) {
-          $earlyBird = "$" . $trip["Related_Trip.Early_Bird_Price"];
-        }
-        $fullPrice = "-";
-        if ($trip["Related_Trip.Full_Price"] != null) {
-          $fullPrice = "$" . $trip["Related_Trip.Full_Price"];
-        }
-        $tripDetailLink = $trip["Related_Trip.Page_Detail_URL"] ?? 'null';
-        $startCity = $trip["Related_Trip.Start_City"] ?? "N/A";
-        $zohoFormLink = "https://forms.zohopublic.com/admin1608/form/TESTFullFormRegistrationandPayment/formperma/ujzk8Yo2qYr13WNZpzz4PF6erUucysO21uTXuvTnYXY?trip=" . $tripName . "&date=" . $startDate;
-        $zohoFormLinkDriver = "https://forms.zohopublic.com/admin1608/form/TripRegistrationandPaymentDriver/formperma/-Fri6gn7uIQWcB6aCKXNdeAfJlPBX9r249ysVueUtTA?trip=" . $tripName . "&date=" . $startDate;
-
-        $count++;
-      ?>
-        <?php if ($count <= 5) : ?>
-          <div class="card-trips">
-            <h3><a style="font-weight: bold; text-transform: uppercase;" href="<?php echo esc_url($tripDetailLink); ?>"><?php echo esc_html($tripName); ?></a></h3>
-            <ul>
-              <li>Start Date: <?php echo esc_html(date("d/m/Y", strtotime($startDate))); ?></li>
-              <li>End Date: <?php echo esc_html(date("d/m/Y", strtotime($endDate))); ?></li>
-              <li>Trip Length: <?php echo esc_html($length); ?> days</li>
-              <?php if ($totalWeeks >= 6): ?>
-                <li>Price: <?php echo esc_html($earlyBird); ?></li>
-                <td><?php echo esc_html($earlyBird); ?></td>
-              <?php elseif ($totalWeeks < 6): ?>
-                <li>Price: <?php echo esc_html($fullPrice); ?></li>
-              <?php endif; ?>
-              <?php if ($countTrip == 10 && $tripDetailLink != 'null') : ?>
-                <li>
-                  <p style="color: #FFA500">2 Seats Left</p>
-                </li>
-              <?php elseif ($countTrip == 11 && $tripDetailLink != 'null') : ?>
-                <li>
-                  <p style="color: #FFA500">1 Seat Left</p>
-                </li>
-              <?php elseif ($countTrip == 12 && $tripDetailLink != 'null') : ?>
-                <li>
-                  <p style="color: red">Fully Booked</p>
-                </li>
-              <?php elseif ($tripDetailLink == 'null') : ?>
-                <li>
-                  <p class="text-success-btn">More info coming soon</p>
-                </li>
-              <?php endif; ?>
-            </ul>
-            <?php if ($tripDetailLink != 'null') : ?>
-              <?php if ($totalDrivers < 2 && $countTrip >= 9 && $countTrip < 12) : ?>
-                <a href="<?php echo esc_url($zohoFormLinkDriver); ?>" class="book-btn">Book Now</a>
-              <?php elseif (empty($totalDrivers) || $totalDrivers == 0 || $totalDrivers >= 1) : ?>
-                <?php if ($countTrip <= 11): ?>
-                  <a href="<?php echo esc_url($zohoFormLink); ?>" class="book-btn">Book Now</a>
-                <?php endif; ?>
-              <?php endif; ?>
-            <?php endif; ?>
-          </div>
-        <?php endif; ?>
-      <?php endforeach; ?>
-    </div> -->
 <?php
   } else {
     echo "<p>No trip data available.</p>";

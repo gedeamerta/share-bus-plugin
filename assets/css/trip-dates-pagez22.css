@@ -51,24 +51,22 @@ tr:nth-child(even) {
 
 }
 
-tbody tr {
+tbody .tr-dekstop {
 	color: var(--brandColor3);
 }
 
-tbody tr:hover {
-/*   background-color: #f1f1f1; */
-	color: white;
-  background-color: var(--brandColor1);
-}
-
-tbody tr:hover td p {
+tbody .tr-dekstop:hover {
 /*   background-color: #f1f1f1; */
   color: white;
-  background-color: var(--brandColor1);
+  background-color: var(--brandColor1);    
 }
 
-tbody tr:hover a {
-/*   background-color: #f1f1f1; */
+tbody .tr-dekstop:hover td p {
+  /* background-color: #f1f1f1; */
+  color: white;
+}
+
+tbody .tr-dekstop:hover a {
   color: white;
 }
 
@@ -174,7 +172,7 @@ tbody tr:hover a {
 
   .pagination-controls {
     display: block !important;
-	margin-left: 15px;
+	  margin-left: 10px;
   }
 
   .container-table {
@@ -183,31 +181,28 @@ tbody tr:hover a {
 
   .card-container {
     display: block; /* Show card container on mobile */
-	width: 100%;
-	padding: 15px;
+	  width: 100%;
+    padding: 0px;
   }
 
   .card-trips {
-    border: 1px solid var(--brandColor4);
-    border-radius: 5px;
-    padding: 15px;
-    margin: 15px 0;
+    border-top: 0px solid #fff !important;
+    border-right: 1px solid var(--brandColor3);
+    border-left: 1px solid var(--brandColor3);
+    border-bottom: 1px solid var(--brandColor3);
+    padding: 0px 5px 20px 5px;
+    margin: 0px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border: 1px solid var(--brandColor3);
-  }
-
-  .card-trips:nth-child(even) {
     background-color: var(--brandColor4);
   }
 
-  .card-trips:hover {
-    background-color: var(--brandColor1);
+  .card-trips h4 a {
     color: white !important;
   }
 
-  .card-trips:hover h4 a {
-    color: white !important;
-  }
+  /* .card-trips:nth-child(even) {
+    background-color: var(--brandColor4);
+  } */
 
   .card-trips ul  {
     margin-top: 15px !important;
@@ -234,6 +229,27 @@ tbody tr:hover a {
     transition: background-color 0.3s ease;
     width: 100%;
     text-align: center;
+  }
+
+  .trip-row {
+    margin-bottom: 20px;
+  }
+
+  .trip-row table tbody tr:nth-child(even) {
+    background-color: var(--brandColor4) !important;
+  }
+
+  .trip-details {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  .show-more-icon, .show-less-icon {
+    cursor: pointer;
+  }
+
+  .month-and-year-container {
+    border-bottom: 1px solid #000 !important;
   }
 }
 
