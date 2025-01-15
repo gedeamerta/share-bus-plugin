@@ -51,7 +51,7 @@ try {
 
     $tripName = $data["Name_for_Form"] ?? "N/A";
 
-    ?>
+?>
     <section id="comp_trip_dates_1"
         class="compSection compSection_5 comp_trip_dates comp_trip_dates_1 py-sm textcolor__default  " data-animate="1"
         style=" z-index:1; width: 100%;">
@@ -68,25 +68,25 @@ try {
             <tbody>
                 <?php
 
-                    // Get today's date in 'YYYY-MM-DD' format
-                    $today = date("Y-m-d");
+                // Get today's date in 'YYYY-MM-DD' format
+                $today = date("Y-m-d");
 
-                    // Extract the 'Trip_Start_Date' column
-                    $dates = array_column($data["Trip_Dates_List"], "Trip_Start_Date");
+                // Extract the 'Trip_Start_Date' column
+                $dates = array_column($data["Trip_Dates_List"], "Trip_Start_Date");
 
-                    // Convert dates to a sortable format if needed (e.g., 'YYYY-MM-DD')
-                    $dates = array_map('strtotime', $dates);
+                // Convert dates to a sortable format if needed (e.g., 'YYYY-MM-DD')
+                $dates = array_map('strtotime', $dates);
 
-                    // Sort the dates array in ascending order
-                    array_multisort($dates, SORT_ASC, $data["Trip_Dates_List"]);
+                // Sort the dates array in ascending order
+                array_multisort($dates, SORT_ASC, $data["Trip_Dates_List"]);
 
-                    // Filter out trips that start before today
-                    $data["Trip_Dates_List"] = array_filter($data["Trip_Dates_List"], function($trip) use ($today) {
-                        return strtotime($trip["Trip_Start_Date"]) >= strtotime($today);
-                    });
+                // Filter out trips that start before today
+                $data["Trip_Dates_List"] = array_filter($data["Trip_Dates_List"], function ($trip) use ($today) {
+                    return strtotime($trip["Trip_Start_Date"]) >= strtotime($today);
+                });
 
-                    // Reindex array to avoid gaps after filtering
-                    $data["Trip_Dates_List"] = array_values($data["Trip_Dates_List"]);
+                // Reindex array to avoid gaps after filtering
+                $data["Trip_Dates_List"] = array_values($data["Trip_Dates_List"]);
 
                 foreach ($data["Trip_Dates_List"] as $trip):
                     $startDate = $trip["Trip_Start_Date"] ?? "N/A";
@@ -105,17 +105,17 @@ try {
                     $totalDays = $interval->days;
                     $totalWeeks = ceil($totalDays / 7);
 
-                    ?>
+                ?>
                     <tr>
                         <td data-label="START DATE"><?php
-                        $formattedDate = date("d/m/Y", strtotime($startDate));
-                        echo esc_html($formattedDate);
-                        ?></td>
+                                                    $formattedDate = date("d/m/Y", strtotime($startDate));
+                                                    echo esc_html($formattedDate);
+                                                    ?></td>
 
                         <td data-label="END DATE"><?php
-                        $formattedDate = date("d/m/Y", strtotime($endDate));
-                        echo esc_html($formattedDate);
-                        ?></td>
+                                                    $formattedDate = date("d/m/Y", strtotime($endDate));
+                                                    echo esc_html($formattedDate);
+                                                    ?></td>
 
                         <?php if ($totalWeeks >= 6): ?>
                             <td data-label="PRICE">$<?php echo esc_html($earlyBird); ?></td>
@@ -124,17 +124,40 @@ try {
                         <?php endif; ?>
 
                         <td data-label="NOTES">
-                            <?php if ($countTrip == 10 && $tripDetailLink != 'null'): ?>
-                                <p style="color: #FFA500; margin: 0px;">2 SEATS LEFT</p>
-                            <?php elseif ($countTrip == 11 && $tripDetailLink != 'null'): ?>
-                                <p style="color: #FFA500; margin: 0px;">1 SEAT LEFT</p>
-                            <?php elseif ($countTrip == 12 && $tripDetailLink != 'null'): ?>
-                                <p style="color: red; margin: 0px;">FULLY BOOKED</p>
-                            <?php elseif ($tripDetailLink == 'null'): ?>
-                                <p class="text-success-btn" style="margin: 0px;">MORE INFO COMING SOON</p>
-                            <?php else: ?>
-                                <p>-</p>
+                            <?php if ($totalWeeks >= 6): ?>
+                                <?php if ($countTrip < 10 && $tripDetailLink != '#'): ?>
+                                    <p class="text-primary">EARLY BIRD PRICE</p>
+                                <?php elseif ($countTrip == 10 && $tripDetailLink != '#'): ?>
+                                    <p class="text-primary">EARLY BIRD PRICE <br> & <br> 2 SPOTS LEFT</p>
+                                <?php elseif ($countTrip == 11 && $tripDetailLink != '#'): ?>
+                                    <p class="text-primary">EARLY BIRD PRICE <br> & <br> 1 SPOT LEFT</p>
+                                <?php else: ?>
+                                    <p>-</p>
+                                <?php endif; ?>
                             <?php endif; ?>
+
+                            <?php if ($totalWeeks == 5): ?>
+                                <?php if ($countTrip < 10 && $tripDetailLink != '#'): ?>
+                                    <p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON</p>
+                                <?php elseif ($countTrip == 10 && $tripDetailLink != '#'): ?>
+                                    <p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 2 SPOTS LEFT</p>
+                                <?php elseif ($countTrip == 11 && $tripDetailLink != '#'): ?>
+                                    <p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 1 SPOT LEFT</p>
+                                <?php else: ?>
+                                    <p>-</p>
+                                <?php endif; ?>
+                            <?php endif; ?>
+
+                            <?php if ($countTrip == 10 && $tripDetailLink != '#'): ?>
+                                <p class="text-danger-btn">2 SPOTS LEFT</p>
+                            <?php elseif ($countTrip == 11 && $tripDetailLink != '#'): ?>
+                                <p class="text-danger-btn">1 SPOT LEFT</p>
+                            <?php elseif ($countTrip == 12 && $tripDetailLink != '#'): ?>
+                                <p class="text-danger-btn">FULLY BOOKED</p>
+                            <?php elseif ($tripDetailLink == '#'): ?>
+                                <p class="text-success-btn">MORE INFO COMING SOON</p>
+                            <?php endif; ?>
+
                         </td>
 
                         <!-- <td data-label="NOTES">
@@ -190,7 +213,7 @@ try {
             }
         }
 
-        expandButton.addEventListener('click', function () {
+        expandButton.addEventListener('click', function() {
             const isExpanded = this.getAttribute('data-expanded') === 'true';
 
             if (isExpanded) {
@@ -204,15 +227,14 @@ try {
             }
         });
 
-        
+
         // Attach the resize event listener
         window.addEventListener('resize', handleResize);
 
         // Run on initial load to ensure correct state
         handleResize();
-
     </script>
-    <?php
+<?php
 } catch (Exception $e) {
     echo "<p>Error: " . esc_html($e->getMessage()) . "</p>";
 }
