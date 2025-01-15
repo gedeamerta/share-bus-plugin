@@ -126,16 +126,37 @@ try {
               <td><?php echo esc_html($fullPrice); ?></td>
             <?php endif; ?>
             <td>
+              <?php if ($totalWeeks >= 6): ?>
+                <?php if ($countTrip < 10 && $tripDetailLink != '#'): ?>
+                  <p class="text-primary">EARLY BIRD PRICE</p>
+                <?php elseif ($countTrip == 10 && $tripDetailLink != '#'): ?>
+                  <p class="text-primary">EARLY BIRD PRICE <br> & <br> 2 SPOTS LEFT</p>
+                <?php elseif ($countTrip == 11 && $tripDetailLink != '#'): ?>
+                  <p class="text-primary">EARLY BIRD PRICE <br> & <br> 1 SPOT LEFT</p>
+                <?php endif; ?>
+              <?php endif; ?>
+
+              <?php if ($totalWeeks == 5): ?>
+                <?php if ($countTrip < 10 && $tripDetailLink != '#'): ?>
+                  <p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON</p>
+                <?php elseif ($countTrip == 10 && $tripDetailLink != '#'): ?>
+                  <p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 2 SPOTS LEFT</p>
+                <?php elseif ($countTrip == 11 && $tripDetailLink != '#'): ?>
+                  <p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 1 SPOT LEFT</p>
+                <?php endif; ?>
+              <?php endif; ?>
+
               <?php if ($countTrip == 10 && $tripDetailLink != '#'): ?>
-                <p style="color: #FFA500">2 SEATS LEFT</p>
+                <p class="text-danger-btn">2 SPOTS LEFT</p>
               <?php elseif ($countTrip == 11 && $tripDetailLink != '#'): ?>
-                <p style="color: #FFA500">1 SEAT LEFT</p>
+                <p class="text-danger-btn">1 SPOT LEFT</p>
               <?php elseif ($countTrip == 12 && $tripDetailLink != '#'): ?>
-                <p style="color: red">FULLY BOOKED</p>
-              <?php elseif ($tripDetailLink == '#'): ?>
+                <p class="text-danger-btn">FULLY BOOKED</p>
+              <?php  elseif ($tripDetailLink == '#'): ?>
                 <p class="text-success-btn">MORE INFO COMING SOON</p>
               <?php endif; ?>
             </td>
+
             <!-- <td><?php echo esc_html($totalWeeks); ?></td> -->
             <td>
               <?php if ($tripDetailLink != '#'): ?>
@@ -176,7 +197,7 @@ try {
 
       // Pass PHP data to JavaScript
       const tripsData = <?php echo json_encode($data["data"]); ?>;
-      const itemsPerPage = 25; // Number of cards per page
+      const itemsPerPage = 35; // Number of cards per page
       let currentPage = 1;
 
       function displayCards(page) {
@@ -244,9 +265,9 @@ try {
           tableRow.innerHTML = `
               <table id="tr-trip-date-list-${index}" style="width: 100%; margin-top: 0px; ${isEven ? "background-color: var(--brandColor4);" : "background-color: white;"}">
                 <tr>
-                  <td style="width: 65%; font-weight: bold; text-transform: uppercase; padding-left: 10px; padding-top: 8px;"><a style="color: #16a7fb" href="https://${tripDetailLink}" target='_blank'">${tripName}</a></td>
-                  <td id="trip-start-date-${index}" style="width: 30%; padding:10px; color: #000; font-family: 'ITCAvantGardeStd-Bold'; padding-top: 0px; padding-bottom: 0px;">${startDate !== "N/A" ? formatDate(startDate) : "N/A"}</td>
-                  <td style="width: 5%; text-align: center; padding-right: 10px; padding-top: 8px;">
+                  <td style="width: 65%; font-weight: bold; text-transform: uppercase; padding-left: 10px; padding-top: 10px;"><a style="color: #16a7fb" href="https://${tripDetailLink}" target='_blank'">${tripName}</a></td>
+                  <td id="trip-start-date-${index}" style="width: 30%; padding: 10px; color: #000; font-family: 'ITCAvantGardeStd-Bold'; padding-bottom: 0px;">${startDate !== "N/A" ? formatDate(startDate) : "N/A"}</td>
+                  <td style="width: 5%; text-align: center; padding-right: 10px; padding-top: 0px;">
                     <span id="show-more-icon-${index}" class="show-more-icon" style="color: var(--brandColor2); cursor: pointer; font-size: 28px">+</span>
                     <span id="show-less-icon-${index}" class="show-less-icon" style="color: var(--brandColor2); display: none; cursor: pointer; font-size: 32px">-</span>
                   </td>
@@ -258,10 +279,43 @@ try {
                   <li><span>END DATE </span><span>${formatDate(endDate)}</span></li>
                   <li><span>TRIP LENGTH </span><span>${length} days</span></li>
                   <li><span>PRICE </span><span>${totalWeeks >= 6 ? earlyBird : fullPrice}</span></li>
-                  <li><span>NOTES</span>${countTrip === 10 && tripDetailLink !== 'null' ? '<p style="color: #FFA500">2 SEATS LEFT</p></li>' : ''}
-                  ${countTrip === 11 && tripDetailLink !== 'null' ? '<p style="color: #FFA500">1 SEAT LEFT</p></li>' : ''}
+                  <li><span>NOTES</span>
+                    ${totalWeeks >= 6 && countTrip < 10 && tripDetailLink !== 'null' 
+                    ? '<p class="text-primary">EARLY BIRD PRICE</p>' 
+                    : ''}
+                  ${totalWeeks >= 6 && countTrip === 10 && tripDetailLink !== 'null' 
+                    ? '<p class="text-primary">EARLY BIRD PRICE <br> & <br> 2 SPOTS LEFT</p>' 
+                    : ''}
+                  ${totalWeeks >= 6 && countTrip === 11 && tripDetailLink !== 'null' 
+                    ? '<p class="text-primary">EARLY BIRD PRICE <br> & <br> 1 SPOT LEFT</p>' 
+                    : ''}
+                  
+                  ${totalWeeks === 5 && countTrip < 10 && tripDetailLink !== 'null' 
+                    ? '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON</p>' 
+                    : ''}
+                  ${totalWeeks === 5 && countTrip === 10 && tripDetailLink !== 'null' 
+                    ? '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 2 SPOTS LEFT</p>' 
+                    : ''}
+                  ${totalWeeks === 5 && countTrip === 11 && tripDetailLink !== 'null' 
+                    ? '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 1 SPOT LEFT</p>' 
+                    : ''}
+
+                  ${countTrip === 10 && tripDetailLink !== 'null' 
+                    ? '<p class="text-danger-btn">2 SPOTS LEFT</p>' 
+                    : ''}
+                  ${countTrip === 11 && tripDetailLink !== 'null' 
+                    ? '<p class="text-danger-btn">1 SPOT LEFT</p>' 
+                    : ''}
+                  ${countTrip === 12 && tripDetailLink !== 'null' 
+                    ? '<p class="text-danger-btn">FULLY BOOKED</p>' 
+                    : ''}
+                  ${tripDetailLink === 'null' 
+                    ? '<p class="text-success-btn">MORE INFO COMING SOON</p>' 
+                    : ''}
+                  ${countTrip === 10 && tripDetailLink !== 'null' ? '<p style="color: #FFA500">2 SPOTS LEFT</p></li>' : ''}
+                  ${countTrip === 11 && tripDetailLink !== 'null' ? '<p style="color: #FFA500">1 SPOT LEFT</p></li>' : ''}
                   ${countTrip === 12 && tripDetailLink !== 'null' ? '<p style="color: red">FULLY BOOKED</p></li>' : ''}
-                  ${tripDetailLink === 'null' ? '<p class="text-success-btn">MORE INFO COMING SOON</p></li>' : ''}
+                  ${ (tripDetailLink === 'null' && !( totalWeeks >= 6 || totalWeeks === 5 || countTrip === 10 ||  countTrip === 11 || countTrip === 12)) ? '<p class="text-success-btn">MORE INFO COMING SOON</p></li>' : ''}
                 </ul>
                 ${tripDetailLink !== 'null' ? `
                 ${totalDrivers < 2 && countTrip >= 9 && countTrip < 12 ?
