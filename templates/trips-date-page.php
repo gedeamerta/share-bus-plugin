@@ -110,7 +110,7 @@ try {
                     <th>Book Your Seat</th>
                 </tr>
             </thead>
-            <tbody>';
+            <tbody style="padding-top: 10px">';
           endif;
           ?>
           <tr class="tr-dekstop">
@@ -138,10 +138,10 @@ try {
             <td>
               <?php if ($tripDetailLink != '#') : ?>
                 <?php if ($totalDrivers < 2 && $countTrip >= 9 && $countTrip < 12) : ?>
-                  <a style="padding: 16px 32px;" href="<?php echo esc_url($zohoFormLinkDriver); ?>" class="book-btn">BOOK NOW</a>
+                  <a style="" href="<?php echo esc_url($zohoFormLinkDriver); ?>" class="book-btn">BOOK NOW</a>
                 <?php elseif (empty($totalDrivers) || $totalDrivers == 0 || $totalDrivers >= 1) : ?>
                   <?php if ($countTrip <= 11): ?>
-                    <a style="padding: 16px 32px;" href="<?php echo esc_url($zohoFormLink); ?>" class="book-btn">BOOK NOW</a>
+                    <a style="" href="<?php echo esc_url($zohoFormLink); ?>" class="book-btn">BOOK NOW</a>
                   <?php endif; ?>
                 <?php endif; ?>
               <?php endif; ?>
@@ -186,8 +186,9 @@ try {
         const start = (page - 1) * itemsPerPage;
         const end = start + itemsPerPage;
         const paginatedItems = tripsData.slice(start, end);
-
+        
         paginatedItems.forEach((trip, index) => {
+          const isEven = ((index % 2) != 0);
           // Check if all necessary fields are present
           const tripName = trip["Related_Trip.Name_for_Form"] || trip["Name"];
           const startDate = trip["Trip_Start_Date"] || "N/A";
@@ -225,17 +226,17 @@ try {
           const tableRow = document.createElement("div");
           tableRow.className = "trip-row";
           tableRow.innerHTML = `
-          <table id="tr-trip-date-list-${index}" style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+          <table id="tr-trip-date-list-${index}" style="width: 100%; margin-top: 15px; ${isEven ? "background-color: var(--brandColor4);" : "background-color: white;"}">
             <tr>
-              <td style="width: 55%; font-weight: bold; text-transform: uppercase; padding-left: 5px"><a style="color: #16a7fb" href="https://${tripDetailLink}" target='_blank'">${tripName}</a></td>
-              <td id="trip-start-date-${index}" style="width: 40%; padding:10px; color: #000">${startDate !== "N/A" ? formatDate(startDate) : "N/A"}</td>
-              <td style="width: 5%; text-align: center;">
-                <span id="show-more-icon-${index}" class="show-more-icon" style="color: #FFA500; cursor: pointer; font-size: 28px">+</span>
-                <span id="show-less-icon-${index}" class="show-less-icon" style="color: #FFA500; display: none; cursor: pointer; font-size: 32px">-</span>
+              <td style="width: 65%; font-weight: bold; text-transform: uppercase; padding-left: 10px; padding-top: 8px;"><a style="color: #16a7fb" href="https://${tripDetailLink}" target='_blank'">${tripName}</a></td>
+              <td id="trip-start-date-${index}" style="width: 30%; padding:10px; color: #000; font-family: 'ITCAvantGardeStd-Bold'; padding-top: 8px;">${startDate !== "N/A" ? formatDate(startDate) : "N/A"}</td>
+              <td style="width: 5%; text-align: center; padding-right: 10px; padding-top: 8px;">
+                <span id="show-more-icon-${index}" class="show-more-icon" style="color: var(--brandColor2); cursor: pointer; font-size: 28px">+</span>
+                <span id="show-less-icon-${index}" class="show-less-icon" style="color: var(--brandColor2); display: none; cursor: pointer; font-size: 32px">-</span>
               </td>
             </tr>
           </table>
-          <div id="trip-details-${index}" class="card-trips" style="display: none; margin-top: 0px; border-top: 1px solid #ddd; padding-top: 10px;">
+          <div id="trip-details-${index}" class="card-trips" style="display: none; margin-top: -5px; border-top: 1px solid #ddd; padding-top: 8px; ${isEven ? "background-color: var(--brandColor4);" : "background-color: white; padding-left: 10px; padding-right: 10px;     border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;}"}">
           <ul>
               <li><span>START DATE </span><span>${formatDate(startDate)}</span></li>
               <li><span>END DATE </span><span>${formatDate(endDate)}</span></li>
@@ -269,11 +270,14 @@ try {
             showMoreIcon.style.display = "none";
             showLessIcon.style.display = "inline";
             tripStartDate.style.display = "none";
-            trTripDateList.style.backgroundColor = "var(--brandColor4)";
+            trTripDateList.style.backgroundColor = isEven ? "background-color: var(--brandColor4);" : "background-color: white;";
             trTripDateList.style.borderTop = "1px solid var(--brandColor3)";
             trTripDateList.style.borderRight = "1px solid var(--brandColor3)";
             trTripDateList.style.borderLeft = "1px solid var(--brandColor3)";
             trTripDateList.style.borderBottom = "0px solid #fff";
+            trTripDateList.style.borderCollapse = "separate";
+            trTripDateList.style.borderTopLeftRadius = "10px";
+            trTripDateList.style.borderTopRightRadius = "10px";
           });
 
           showLessIcon.addEventListener("click", () => {
@@ -281,11 +285,14 @@ try {
             showMoreIcon.style.display = "inline";
             showLessIcon.style.display = "none";
             tripStartDate.style.display = "block";
-            trTripDateList.style.backgroundColor = "#fff";
+            trTripDateList.style.backgroundColor = isEven ? "background-color: var(--brandColor4);" : "background-color: white;";
             trTripDateList.style.borderRadius = "0px";
             trTripDateList.style.borderTop = "0px solid #fff";
             trTripDateList.style.borderRight = "0px solid #fff";
             trTripDateList.style.borderLeft = "0px solid #fff";
+            trTripDateList.style.borderCollapse = "separate";
+            trTripDateList.style.borderTopLeftRadius = "0px";
+            trTripDateList.style.borderTopRightRadius = "0px";
           });
 
         });
