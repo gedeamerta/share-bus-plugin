@@ -257,7 +257,7 @@ tbody .tr-dekstop:hover a {
   }
 
   .trip-row {
-    margin-bottom: 20px;
+    margin-bottom: 0px;
   }
 
   .trip-row table tbody tr:nth-child(even) {
@@ -275,6 +275,7 @@ tbody .tr-dekstop:hover a {
 
   .month-and-year-container {
     border-bottom: 1px solid #000 !important;
+    margin-bottom: 15px;
   }
 }
 
