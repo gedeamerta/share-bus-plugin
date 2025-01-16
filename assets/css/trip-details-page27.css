@@ -29,6 +29,10 @@
   color: red;
 }
 
+.comp_trip_dates table tbody tr:hover td p {
+  color: white !important;
+}
+
 @media (max-width: 1023px) {
   .comp_trip_dates table thead {
     display: none;

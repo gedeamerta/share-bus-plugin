@@ -57,11 +57,27 @@ try {
           $tripName = $trip["Related_Trip.Name_for_Form"] ?? $trip["Name"];
           $startDate = $trip["Trip_Start_Date"] ?? "N/A";
 
-          $startDateForCalculationWeeks = DateTime::createFromFormat("Y-m-d", $trip["Trip_Start_Date"]) ?? "N/A";
+          $formattedStartDate = "N/A";
+          if ($startDate !== "N/A") {
+            // Convert the start date to DD/MM/YYYY format
+            $dateTime = new DateTime($startDate);
+            $formattedStartDate = $dateTime->format('d/m/Y');
+          } else {
+              $formattedStartDate = "N/A";
+          }
+          
+          $startDateForCalculationWeeks = DateTime::createFromFormat("Y-m-d", $trip["Trip_Start_Date"]);
 
           $todayDate = new DateTime();
+
           $interval = $todayDate->diff($startDateForCalculationWeeks);
-          $totalDays = $interval->days;
+          $totalDays = $interval->days + 1;
+          // echo "<script>console.log('debugphp');</script>";
+          // echo "<script>console.log(" . json_encode($trip["Trip_Start_Date"]) . ");</script>";
+          // echo "<script>console.log(" . json_encode($startDateForCalculationWeeks) . ");</script>";
+          // echo "<script>console.log(" . json_encode($todayDate) . ");</script>";
+          // echo "<script>console.log(" . json_encode($interval) . ");</script>";
+          // echo "<script>console.log(" . json_encode($totalDays) . ");</script>";
           $totalWeeks = ceil($totalDays / 7);
 
           $length = $trip["Related_Trip.Trip_Days"] ?? "N/A";
@@ -78,8 +94,8 @@ try {
           }
           $tripDetailLink = $trip["Related_Trip.Page_Detail_URL"] ?? '#';
           $startCity = $trip["Related_Trip.Start_City"] ?? "N/A";
-          $zohoFormLink = "https://forms.zohopublic.com/admin1608/form/TESTFullFormRegistrationandPayment/formperma/ujzk8Yo2qYr13WNZpzz4PF6erUucysO21uTXuvTnYXY?trip=" . $tripName . "&date=" . $startDate;
-          $zohoFormLinkDriver = "https://forms.zohopublic.com/admin1608/form/TripRegistrationandPaymentDriver/formperma/-Fri6gn7uIQWcB6aCKXNdeAfJlPBX9r249ysVueUtTA?trip=" . $tripName . "&date=" . $startDate;
+          $zohoFormLink = "https://forms.zohopublic.com/admin1608/form/TESTFullFormRegistrationandPayment/formperma/ujzk8Yo2qYr13WNZpzz4PF6erUucysO21uTXuvTnYXY?trip=" . $tripName . "&date=" . $formattedStartDate;
+          $zohoFormLinkDriver = "https://forms.zohopublic.com/admin1608/form/TripRegistrationandPaymentDriver/formperma/-Fri6gn7uIQWcB6aCKXNdeAfJlPBX9r249ysVueUtTA?trip=" . $tripName . "&date=" . $formattedStartDate;
 
           // Get the month and year from the start date
           $monthYear = date('F Y', strtotime($startDate));
@@ -120,13 +136,15 @@ try {
             <td><?php echo esc_html(date("d/m/Y", strtotime($startDate))); ?></td>
             <td><?php echo esc_html($length); ?> days</td>
             <td><?php echo esc_html(date("d/m/Y", strtotime($endDate))); ?></td>
-            <?php if ($totalWeeks >= 6): ?>
+            <?php if ($totalDays >= 42): ?>
               <td><?php echo esc_html($earlyBird); ?></td>
-            <?php elseif ($totalWeeks < 6): ?>
+            <?php elseif ($totalDays < 42): ?>
               <td><?php echo esc_html($fullPrice); ?></td>
+            <?php else: ?>
+              <td>-</td>
             <?php endif; ?>
             <td>
-              <?php if ($totalWeeks >= 6): ?>
+              <?php if ($totalDays >= 56): ?>
                 <?php if ($countTrip < 10 && $tripDetailLink != '#'): ?>
                   <p class="text-primary">EARLY BIRD PRICE</p>
                 <?php elseif ($countTrip == 10 && $tripDetailLink != '#'): ?>
@@ -136,7 +154,7 @@ try {
                 <?php endif; ?>
               <?php endif; ?>
 
-              <?php if ($totalWeeks == 5): ?>
+              <?php if ($totalDays >= 42 && $totalDays < 56): ?>
                 <?php if ($countTrip < 10 && $tripDetailLink != '#'): ?>
                   <p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON</p>
                 <?php elseif ($countTrip == 10 && $tripDetailLink != '#'): ?>
@@ -217,6 +235,11 @@ try {
           const startDate = trip["Trip_Start_Date"] || "N/A";
           // Define today's date
           const todayDate = new Date();
+          let formattedStartDate = "N/A";
+          if (startDate !== "N/A") {
+              const startDateObj = new Date(startDate);
+              formattedStartDate = startDateObj.toLocaleDateString("en-GB"); // en-GB formats the date as DD/MM/YYYY
+          }
           const startDateForCalculationWeeks = new Date(startDate);
           // Calculate the difference in time (milliseconds)
           const timeDifference = Math.abs(todayDate - startDateForCalculationWeeks);
@@ -226,6 +249,7 @@ try {
           const totalWeeks = Math.ceil(totalDays / 7);
 
           console.log("totalWeeks");
+          console.log(totalDays);
           console.log(totalWeeks);
           
 
@@ -237,8 +261,8 @@ try {
           const countTrip = trip["Trip_Registration_Count"] || 0;
           const totalDrivers = trip["Total_Drivers"] || 0;
 
-          const zohoFormLink = "https://forms.zohopublic.com/admin1608/form/TESTFullFormRegistrationandPayment/formperma/ujzk8Yo2qYr13WNZpzz4PF6erUucysO21uTXuvTnYXY?trip=" + tripName + "&date=" + startDate;
-          const zohoFormLinkDriver = "https://forms.zohopublic.com/admin1608/form/TripRegistrationandPaymentDriver/formperma/-Fri6gn7uIQWcB6aCKXNdeAfJlPBX9r249ysVueUtTA?trip=" + tripName + "&date=" + startDate;
+          const zohoFormLink = "https://forms.zohopublic.com/admin1608/form/TESTFullFormRegistrationandPayment/formperma/ujzk8Yo2qYr13WNZpzz4PF6erUucysO21uTXuvTnYXY?trip=" + tripName + "&date=" + formattedStartDate;
+          const zohoFormLinkDriver = "https://forms.zohopublic.com/admin1608/form/TripRegistrationandPaymentDriver/formperma/-Fri6gn7uIQWcB6aCKXNdeAfJlPBX9r249ysVueUtTA?trip=" + tripName + "&date=" + formattedStartDate;
 
           const date = new Date(startDate);
 
@@ -267,7 +291,7 @@ try {
                 <tr>
                   <td style="width: 65%; font-weight: bold; text-transform: uppercase; padding-left: 10px; padding-top: 10px;"><a style="color: #16a7fb" href="https://${tripDetailLink}" target='_blank'">${tripName}</a></td>
                   <td id="trip-start-date-${index}" style="width: 30%; padding: 10px; color: #000; font-family: 'ITCAvantGardeStd-Bold'; padding-bottom: 0px;">${startDate !== "N/A" ? formatDate(startDate) : "N/A"}</td>
-                  <td style="width: 5%; text-align: center; padding-right: 10px; padding-top: 0px;">
+                  <td style="width: 5%; text-align: center; padding-right: 10px;">
                     <span id="show-more-icon-${index}" class="show-more-icon" style="color: var(--brandColor2); cursor: pointer; font-size: 28px">+</span>
                     <span id="show-less-icon-${index}" class="show-less-icon" style="color: var(--brandColor2); display: none; cursor: pointer; font-size: 32px">-</span>
                   </td>
@@ -278,25 +302,25 @@ try {
                   <li><span>START DATE </span><span>${formatDate(startDate)}</span></li>
                   <li><span>END DATE </span><span>${formatDate(endDate)}</span></li>
                   <li><span>TRIP LENGTH </span><span>${length} days</span></li>
-                  <li><span>PRICE </span><span>${totalWeeks >= 6 ? earlyBird : fullPrice}</span></li>
+                  <li><span>PRICE </span><span>${totalDays >= 42 ? earlyBird : fullPrice}</span></li>
                   <li><span>NOTES</span>
-                    ${totalWeeks >= 6 && countTrip < 10 && tripDetailLink !== 'null' 
+                    ${totalDays >= 56 && countTrip < 10 && tripDetailLink !== 'null' 
                     ? '<p class="text-primary">EARLY BIRD PRICE</p>' 
                     : ''}
-                  ${totalWeeks >= 6 && countTrip === 10 && tripDetailLink !== 'null' 
+                  ${totalDays >= 56 && countTrip === 10 && tripDetailLink !== 'null' 
                     ? '<p class="text-primary">EARLY BIRD PRICE <br> & <br> 2 SPOTS LEFT</p>' 
                     : ''}
-                  ${totalWeeks >= 6 && countTrip === 11 && tripDetailLink !== 'null' 
+                  ${totalDays >= 56 && countTrip === 11 && tripDetailLink !== 'null' 
                     ? '<p class="text-primary">EARLY BIRD PRICE <br> & <br> 1 SPOT LEFT</p>' 
                     : ''}
                   
-                  ${totalWeeks === 5 && countTrip < 10 && tripDetailLink !== 'null' 
+                  ${totalDays >= 42 && totalDays < 56 && countTrip < 10 && tripDetailLink !== 'null' 
                     ? '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON</p>' 
                     : ''}
-                  ${totalWeeks === 5 && countTrip === 10 && tripDetailLink !== 'null' 
+                  ${totalDays >= 42 && totalDays < 56 && countTrip === 10 && tripDetailLink !== 'null' 
                     ? '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 2 SPOTS LEFT</p>' 
                     : ''}
-                  ${totalWeeks === 5 && countTrip === 11 && tripDetailLink !== 'null' 
+                  ${totalDays >= 42 && totalDays < 56 && countTrip === 11 && tripDetailLink !== 'null' 
                     ? '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 1 SPOT LEFT</p>' 
                     : ''}
 
@@ -410,6 +434,6 @@ try {
     echo "<p>No trip data available.</p>";
   }
 } catch (Exception $e) {
-  echo "<p>Error: " . esc_html($e->getMessage()) . "</p>";
+  echo "<p>Erro from Smartmates Plugin: " . esc_html($e->getMessage()) . "</p>";
 }
 ?>

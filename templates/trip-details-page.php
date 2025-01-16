@@ -93,8 +93,17 @@ try {
                     $endDate = $trip["Trip_End_Date"] ?? "N/A";
                     $countTrip = $trip["Trip_Registration_Count"];
 
-                    $zohoFormLink = "https://forms.zohopublic.com/admin1608/form/TESTFullFormRegistrationandPayment/formperma/ujzk8Yo2qYr13WNZpzz4PF6erUucysO21uTXuvTnYXY?trip=" . $tripName . "&date=" . $startDate;
-                    $zohoFormLinkDriver = "https://forms.zohopublic.com/admin1608/form/TripRegistrationandPaymentDriver/formperma/-Fri6gn7uIQWcB6aCKXNdeAfJlPBX9r249ysVueUtTA?trip=" . $tripName . "&date=" . $startDate;
+                    $formattedStartDate = "N/A";
+                    if ($startDate !== "N/A") {
+                      // Convert the start date to DD/MM/YYYY format
+                      $dateTime = new DateTime($startDate);
+                      $formattedStartDate = $dateTime->format('d/m/Y');
+                    } else {
+                        $formattedStartDate = "N/A";
+                    }
+
+                    $zohoFormLink = "https://forms.zohopublic.com/admin1608/form/TESTFullFormRegistrationandPayment/formperma/ujzk8Yo2qYr13WNZpzz4PF6erUucysO21uTXuvTnYXY?trip=" . $tripName . "&date=" . $formattedStartDate;
+                    $zohoFormLinkDriver = "https://forms.zohopublic.com/admin1608/form/TripRegistrationandPaymentDriver/formperma/-Fri6gn7uIQWcB6aCKXNdeAfJlPBX9r249ysVueUtTA?trip=" . $tripName . "&date=" . $formattedStartDate;
                     $totalDrivers = $trip["Total_Drivers"] ?? "N/A";
 
 
@@ -124,7 +133,7 @@ try {
                         <?php endif; ?>
 
                         <td data-label="NOTES">
-                            <?php if ($totalWeeks >= 6): ?>
+                            <?php if ($totalWeeks >= 8): ?>
                                 <?php if ($countTrip < 10 && $tripDetailLink != '#'): ?>
                                     <p class="text-primary">EARLY BIRD PRICE</p>
                                 <?php elseif ($countTrip == 10 && $tripDetailLink != '#'): ?>
@@ -136,7 +145,7 @@ try {
                                 <?php endif; ?>
                             <?php endif; ?>
 
-                            <?php if ($totalWeeks == 5): ?>
+                            <?php if ($totalWeeks >= 6 && $totalWeeks < 8): ?>
                                 <?php if ($countTrip < 10 && $tripDetailLink != '#'): ?>
                                     <p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON</p>
                                 <?php elseif ($countTrip == 10 && $tripDetailLink != '#'): ?>
