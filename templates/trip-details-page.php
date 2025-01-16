@@ -111,7 +111,7 @@ try {
 
                     $todayDate = new DateTime();
                     $interval = $todayDate->diff($startDateForCalculationWeeks);
-                    $totalDays = $interval->days;
+                    $totalDays = $interval->days + 1;
                     $totalWeeks = ceil($totalDays / 7);
 
                 ?>
@@ -126,14 +126,14 @@ try {
                                                     echo esc_html($formattedDate);
                                                     ?></td>
 
-                        <?php if ($totalWeeks >= 6): ?>
+                        <?php if ($totalDays >= 42): ?>
                             <td data-label="PRICE">$<?php echo esc_html($earlyBird); ?></td>
-                        <?php elseif ($totalWeeks < 6): ?>
+                        <?php elseif ($totalWeeks < 42): ?>
                             <td data-label="PRICE">$<?php echo esc_html($fullPrice); ?></td>
                         <?php endif; ?>
 
                         <td data-label="NOTES">
-                            <?php if ($totalWeeks >= 8): ?>
+                            <?php if ($totalDays >= 56): ?>
                                 <?php if ($countTrip < 10 && $tripDetailLink != '#'): ?>
                                     <p class="text-primary">EARLY BIRD PRICE</p>
                                 <?php elseif ($countTrip == 10 && $tripDetailLink != '#'): ?>
@@ -145,7 +145,7 @@ try {
                                 <?php endif; ?>
                             <?php endif; ?>
 
-                            <?php if ($totalWeeks >= 6 && $totalWeeks < 8): ?>
+                            <?php if ($totalDays >= 42 && $totalDays < 56): ?>
                                 <?php if ($countTrip < 10 && $tripDetailLink != '#'): ?>
                                     <p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON</p>
                                 <?php elseif ($countTrip == 10 && $tripDetailLink != '#'): ?>
