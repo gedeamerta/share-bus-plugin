@@ -128,7 +128,7 @@ try {
 
                         <?php if ($totalDays >= 42): ?>
                             <td data-label="PRICE">$<?php echo esc_html($earlyBird); ?></td>
-                        <?php elseif ($totalWeeks < 42): ?>
+                        <?php elseif ($totalDays < 42): ?>
                             <td data-label="PRICE">$<?php echo esc_html($fullPrice); ?></td>
                         <?php endif; ?>
 
