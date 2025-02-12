@@ -1,0 +1,133 @@
+.comp_trip_dates table tbody tr:nth-child(n + 0) {
+  display: table;
+  width: 100%;
+  border-collapse: separate;
+}
+
+.expand-btn {
+  width: 100%;
+  border: none;
+}
+
+.expand-btn:hover {
+  background-color: #cd5c20;
+}
+
+.text-primary {
+  color: var(--brandColor1);
+}
+
+.text-success-btn {
+  color: #52b788;
+}
+
+.text-warning-btn {
+  color: #ffa500;
+}
+
+.text-danger-btn {
+  color: red;
+}
+
+.comp_trip_dates table tbody tr:hover td p {
+  color: white !important;
+}
+
+@media (max-width: 1023px) {
+  .comp_trip_dates table thead {
+    display: none;
+  }
+
+  .comp_trip_dates table tbody tr:nth-child(n + 6) {
+    display: none;
+  }
+
+  .expand-btn {
+    display: block;
+    margin-top: 10px;
+    color: white;
+    background-color: var(--brandColor2);
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 8px 20%;
+    margin-top: 10px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .comp_trip_dates table thead {
+    display: table;
+    width: 100%;
+  }
+
+  .comp_trip_dates table tbody tr td {
+    width: 20%;
+  }
+
+  .comp_trip_dates table thead tr th {
+    width: 20%;
+  }
+}
+
+@media (min-width: 1680px) and (max-width: 4000px) {
+  .comp_trip_dates table tbody td a {
+    padding: 16px 32px !important;
+  }
+}
+
+@media (min-width: 1234px) and (max-width: 1680px) {
+  .comp_trip_dates table tbody td a {
+    padding: 16px 25px !important;
+  }
+}
+
+
+@media (min-width: 1065px) and (max-width: 1234px) {
+  .comp_trip_dates table tbody td a {
+    padding: 8px 14px !important;
+    font-size: 10px;
+  }
+}
+
+@media (min-width: 1042px) and (max-width: 1065px) {
+  .comp_trip_dates table tbody td a {
+    padding: 8px 11px !important;
+    font-size: 10px;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1042px) {
+  .comp_trip_dates table tbody td a {
+    padding: 8px 10px !important;
+    font-size: 9px;
+  }
+}
+
+
+
+
+
+/* Hide the "Expand" button on larger screens */
+@media (min-width: 768px) {
+  /*   .comp_trip_dates table tbody tr td, */
+  .comp_trip_dates table thead tr th {
+    border-bottom: 1px solid #212121;
+    width: 20%;
+    text-align: left;
+    padding: 18px 70px !important;
+  }
+
+  .comp_trip_dates table tbody tr:nth-child(n + 6) {
+    display: block;
+  }
+
+  .expand-btn {
+    color: white;
+    background-color: var(--brandColor2);
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 8px 20%;
+    margin-top: 10px;
+    border: none;
+  }
+}

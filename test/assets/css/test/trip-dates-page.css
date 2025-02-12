@@ -1,0 +1,530 @@
+.container-table {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.current-month p{
+  margin-left: 18px;
+}
+
+.date-lists ul li {
+  list-style: none;
+}
+
+.card-container {
+  display: none;
+}
+
+.table-trips {
+  display: block;
+  font-family: "ITCAvantGardeStd-Bold";
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px auto;
+  background-color: #fff;
+  font-size: 16px;
+}
+.table-trips th {
+  font-family: 'ITCAvantGardeStd-Demi';
+  padding: 20px !important;
+  text-align: left;
+}
+
+.table-trips td {
+  font-family: "ITCAvantGardeStd-Bold";
+  padding: 20px !important;
+  text-align: left;
+  /* border: 1px solid #ddd; */
+}
+
+th {
+  /* background-color: var(--brandColor1); */
+  color: black;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--brandColor3);
+}
+
+tr:nth-child(even) {
+  /* background-color: #f9f9f9; */
+  background-color: var(--brandColor4);;
+
+}
+
+tbody .tr-dekstop {
+	color: var(--brandColor3);
+}
+
+tbody .tr-dekstop:hover {
+/*   background-color: #f1f1f1; */
+  color: white;
+  background-color: var(--brandColor1);    
+}
+
+tbody .tr-dekstop:hover td p {
+  /* background-color: #f1f1f1; */
+  color: white;
+}
+
+tbody .tr-dekstop:hover a {
+  color: white;
+}
+
+ /* Specific column widths */
+ .table-trips tr th:nth-child(1), .table-trips tr td:nth-child(1) {
+  width: 15%;
+}
+.table-trips tr th:nth-child(n+2), .table-trips tr td:nth-child(n+2) {
+  width: 10%; 
+}
+
+.book-btn {
+  display: inline-block;
+  background-color: var(--brandColor2);
+  color: white;
+  text-decoration: none;
+/*   border-radius: 4px; */
+  font-weight: bold;
+  background-color: #ec6f1b;
+  transition: background-color 0.3s ease;
+  font-size: 14px;
+  font-family: 'ITCAvantGardeStd-Bold';
+}
+
+.full-book-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: red;
+  color: white !important;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.book-btn:hover {
+  background-color: #c65e26;
+}
+
+.full-book-btn:hover {
+  background-color: #d62828;
+}
+
+.book-btn-date {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #ec6f1b;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.book-btn-date:hover {
+  background-color: #bf4e14;
+}
+
+.success-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #52b788;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.text-primary {
+  color: var(--brandColor1);
+}
+
+.text-success-btn {
+  color: #52b788;
+}
+
+.text-warning-btn {
+  color: #ffa500;
+}
+
+.text-danger-btn {
+  color: red;
+}
+
+.success-btn:hover {
+  background-color: #419a6e !important;
+}
+
+.warning-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #ffd166;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.pagination-controls {
+  display: none !important;
+}
+
+.warning-btn:hover {
+  background-color: #e6b254 !important;
+}
+
+
+@media (min-width: 1340px) {
+  .book-btn {
+    padding: 12px 22px;
+  }
+}
+
+
+@media (min-width: 1041px) and (max-width: 1339px) {
+  .book-btn {
+    padding: 10px;
+    font-size: 10px;
+  }
+}
+
+
+@media (min-width: 1px) and (max-width: 1041px) {
+  .book-btn {
+    padding: 5px 8px;
+    font-size: 10px;
+  }
+}
+
+
+
+
+@media (max-width: 768px) {
+
+  .pagination-controls {
+    display: block !important;
+	  margin-left: 10px;
+  }
+
+  .container-table {
+    display: none !important;
+  }
+
+  .card-container {
+    display: block; /* Show card container on mobile */
+	  width: 100%;
+    padding: 0px;
+  }
+
+  .card-trips {
+    border-top: 0px solid #fff !important;
+    border-right: 1px solid var(--brandColor3);
+    border-left: 1px solid var(--brandColor3);
+    border-bottom: 1px solid var(--brandColor3);
+    padding: 0px 10px 15px 10px;
+    margin: 0px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .card-trips h4 a {
+    color: white !important;
+  }
+
+  /* .card-trips:nth-child(even) {
+    background-color: var(--brandColor4);
+  } */
+
+  .card-trips ul  {
+    margin-top: 5px !important;
+    margin-bottom: 10px;
+   }
+
+  .card-trips ul li {
+    display: flex !important;
+    justify-content: space-between !important;
+    border-bottom: 1px solid var(--brandColor4);
+    padding: 10px 10px 10px 0px;
+    font-weight: bold;
+    font-family: 'ITCAvantGardeStd-Bold';
+   }
+
+   .book-btn-mobile {
+    display: inline-block;
+    padding: 15px;
+    background-color: var(--brandColor2);
+    color: white;
+    text-decoration: none;
+    /* border-radius: 4px; */
+    font-weight: bold;
+    background-color: #ec6f1b;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    text-align: center;
+    font-family: 'ITCAvantGardeStd-Bold';
+    letter-spacing: 0px;
+  }
+
+  .trip-row {
+    margin-bottom: 20px;
+  }
+
+  .trip-row table tbody tr:nth-child(even) {
+    background-color: var(--brandColor4) !important;
+  }
+
+  .trip-details {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  .show-more-icon, .show-less-icon {
+    cursor: pointer;
+  }
+
+  .month-and-year-container {
+    border-bottom: 1px solid #000 !important;
+    margin-bottom: 20px;
+  }
+}
+
+.pagination-btn {
+  width: 100px;
+  color: white;
+  background-color: var(--brandColor2);
+  border-radius: 4px;
+  border: none;
+  padding: 10px;
+  margin-top: 15px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: var(--font2);
+  
+}
+
+/* aaa */
+
+.comp_trip_dates {
+
+}
+
+.comp_trip_dates .headline__text {
+  text-transform: uppercase;
+}
+
+.comp_trip_dates table {
+  width: 100%;
+  margin-top: 80px;
+  border-collapse: collapse;
+}
+
+.comp_trip_dates table td {
+  font-family: "ITCAvantGardeStd-Bold";
+  color: var(--brandColor3);
+}
+
+.table-trips thead, .table-trips tbody {
+  display: table;
+  width: 100%;
+}
+
+.comp_trip_dates table thead td {
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+}
+
+.comp_trip_dates table thead tr td {
+  border-bottom: 1px solid var(--brandColor3);
+  padding: 0 70px 20px;
+}
+
+.comp_trip_dates table tbody tr {
+  transition: background-color 0.3s ease;
+}
+
+.comp_trip_dates table tbody tr:nth-child(even) {
+  background-color: var(--brandColor4);
+}
+
+.comp_trip_dates table tbody td {
+  padding: 18px 70px;
+}
+
+.comp_trip_dates table tbody td span {
+  text-transform: uppercase;
+}
+
+.comp_trip_dates table tbody td span.full-booked {
+  color: var(--brandColor2);
+}
+
+.comp_trip_dates table tbody tr:hover {
+  background: var(--brandColor1);
+}
+
+.comp_trip_dates table tbody tr:hover td,
+.comp_trip_dates table tbody tr:hover td .full-booked {
+  color: #fff;
+}
+
+.comp_trip_dates table tbody td a {
+  background: var(--brandColor2);
+  color: #fff;
+  display: inline-block;
+  padding: 12px 28px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 12px;
+  letter-spacing: 1.2px;
+  font-family: "ITCAvantGardeStd-Bold";
+}
+
+.comp_trip_dates .more-info {
+  max-width: 500px;
+  margin: 40px auto;
+}
+
+.comp_trip_dates .more-info-text {
+  max-width: 600px;
+  margin: 40px auto 0;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.comp_trip_dates .more-info .site__button.site__button_size--default {
+  margin: 0 auto;
+  height: unset;
+  padding: 15px;
+  height: 70px;
+  background: var(--brandColor2);
+}
+
+.comp_trip_dates .more-info a .icon {
+  display: none;
+}
+
+.trip-dates-accordion {
+  display: none;
+}
+
+.comp_trip_dates .trip-dates-accordion table {
+  margin-top: 10px;
+}
+
+@media all and (max-width: 1440px) {
+  .comp_trip_dates table tbody td {
+    padding: 18px 50px;
+  }
+}
+
+@media all and (max-width: 1024px) {
+  .comp_trip_dates table thead,
+  .trip-dates-table {
+    display: none;
+  }
+
+  .trip-dates-accordion {
+    display: block;
+    width: 100%;
+    margin-top: 50px;
+  }
+
+  .comp_trip_dates table,
+  .comp_trip_dates table tbody,
+  .comp_trip_dates table tr,
+  .comp_trip_dates table td {
+    display: block;
+    width: 100%;
+  }
+
+  .comp_trip_dates table tr {
+    margin-bottom: 15px;
+    border: 1px solid var(--brandColor3);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .comp_trip_dates table tbody td {
+    padding: 10px;
+    text-align: right;
+    position: relative;
+    border-bottom: 1px solid var(--brandColor4);
+  }
+
+  .comp_trip_dates table td:before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 50%;
+    padding-left: 10px;
+    font-weight: bold;
+    text-align: left;
+    text-transform: uppercase;
+  }
+
+  .comp_trip_dates table td:last-child:before {
+    display: none;
+  }
+
+  .comp_trip_dates table tbody td:last-child {
+    border-bottom: none;
+  }
+
+  .comp_trip_dates table tbody td a {
+    display: block;
+    width: 100%;
+  }
+
+  .comp_trip_dates .headline__text {
+    text-align: center;
+  }
+
+  .comp_trip_dates .trip-dates-headings {
+    width: 100%;
+  }
+
+  .trip-dates-accordion .accordion-content {
+    border-top: none;
+    margin-top: 10px;
+  }
+
+  .trip-dates-accordion .accordion-title {
+    border: 1px solid var(--brandColor3);
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: "ITCAvantGardeStd-Bold";
+  }
+
+  .trip-dates-accordion .accordion-title span {
+    color: var(--brandColor3);
+  }
+
+  .trip-dates-accordion .accordion-toggle {
+    background: none;
+    border: none;
+    color: var(--brandColor2);
+  }
+
+  .trip-dates-accordion .accordion-item.active .accordion-title {
+    background: var(--brandColor4);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .comp_trip_dates table {
+    margin-top: 40px;
+  }
+
+  .comp_trip_dates .accordion-content table {
+    margin-top: 0;
+  }
+
+  .comp_trip_dates .headline__text {
+    text-align: center;
+  }
+}
