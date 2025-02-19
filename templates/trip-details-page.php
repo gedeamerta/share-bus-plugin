@@ -50,8 +50,7 @@ try {
     $startCity = $data["Start_City"] ?? "N/A";
 
     $tripName = $data["Name_for_Form"] ?? "N/A";
-
-?>
+    ?>
     <section id="comp_trip_dates_1"
         class="compSection compSection_5 comp_trip_dates comp_trip_dates_1 py-sm textcolor__default  " data-animate="1"
         style=" z-index:1; width: 100%;">
@@ -92,18 +91,21 @@ try {
                     $startDate = $trip["Trip_Start_Date"] ?? "N/A";
                     $endDate = $trip["Trip_End_Date"] ?? "N/A";
                     $countTrip = $trip["Trip_Registration_Count"];
+                    $tripNote = $trip["Note_For_Website"] ?? "";
+
 
                     $formattedStartDate = "N/A";
                     if ($startDate !== "N/A") {
-                      // Convert the start date to DD/MM/YYYY format
-                      $dateTime = new DateTime($startDate);
-                      $formattedStartDate = $dateTime->format('d/m/Y');
+                        // Convert the start date to DD/MM/YYYY format
+                        $dateTime = new DateTime($startDate);
+                        $formattedStartDate = $dateTime->format('d/m/Y');
                     } else {
                         $formattedStartDate = "N/A";
                     }
 
                     $zohoFormLink = "https://forms.zohopublic.com/admin1608/form/TESTFullFormRegistrationandPayment/formperma/ujzk8Yo2qYr13WNZpzz4PF6erUucysO21uTXuvTnYXY?trip=" . $tripName . "&date=" . $formattedStartDate;
                     $zohoFormLinkDriver = "https://forms.zohopublic.com/admin1608/form/TripRegistrationandPaymentDriver/formperma/-Fri6gn7uIQWcB6aCKXNdeAfJlPBX9r249ysVueUtTA?trip=" . $tripName . "&date=" . $formattedStartDate;
+                    $zohoFormLinkJoinWaitingList = "https://forms.zohopublic.com/admin1608/form/JoinTripWaitlist/formperma/CpEBRo3XbmkXJWrKMpLp1oBKQgElwZk7mwjUVszcW_g?trip=" . $data["Name"] . "&date=" . $formattedStartDate;
                     $totalDrivers = $trip["Total_Drivers"] ?? "N/A";
 
 
@@ -114,17 +116,17 @@ try {
                     $totalDays = $interval->days + 1;
                     $totalWeeks = ceil($totalDays / 7);
 
-                ?>
+                    ?>
                     <tr>
                         <td data-label="START DATE"><?php
-                                                    $formattedDate = date("d/m/Y", strtotime($startDate));
-                                                    echo esc_html($formattedDate);
-                                                    ?></td>
+                        $formattedDate = date("d/m/Y", strtotime($startDate));
+                        echo esc_html($formattedDate);
+                        ?></td>
 
                         <td data-label="END DATE"><?php
-                                                    $formattedDate = date("d/m/Y", strtotime($endDate));
-                                                    echo esc_html($formattedDate);
-                                                    ?></td>
+                        $formattedDate = date("d/m/Y", strtotime($endDate));
+                        echo esc_html($formattedDate);
+                        ?></td>
 
                         <?php if ($totalDays >= 42): ?>
                             <td data-label="PRICE">$<?php echo esc_html($earlyBird); ?></td>
@@ -133,59 +135,88 @@ try {
                         <?php endif; ?>
 
                         <td data-label="NOTES">
-                            <?php if ($totalDays >= 56): ?>
-                                <?php if ($countTrip < 10 && $tripDetailLink != '#'): ?>
-                                    <p class="text-primary">EARLY BIRD PRICE</p>
-                                <?php elseif ($countTrip == 10 && $tripDetailLink != '#'): ?>
-                                    <p class="text-primary">EARLY BIRD PRICE <br> & <br> 2 SPOTS LEFT</p>
-                                <?php elseif ($countTrip == 11 && $tripDetailLink != '#'): ?>
-                                    <p class="text-primary">EARLY BIRD PRICE <br> & <br> 1 SPOT LEFT</p>
-                                <?php else: ?>
-                                    <p>-</p>
-                                <?php endif; ?>
-                            <?php endif; ?>
 
-                            <?php if ($totalDays >= 42 && $totalDays < 56): ?>
-                                <?php if ($countTrip < 10 && $tripDetailLink != '#'): ?>
-                                    <p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON</p>
-                                <?php elseif ($countTrip == 10 && $tripDetailLink != '#'): ?>
-                                    <p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 2 SPOTS LEFT</p>
-                                <?php elseif ($countTrip == 11 && $tripDetailLink != '#'): ?>
-                                    <p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 1 SPOT LEFT</p>
-                                <?php else: ?>
-                                    <p>-</p>
-                                <?php endif; ?>
-                            <?php endif; ?>
+                            <?php
+                            if ($tripNote != "") {
+                                echo '<p>' . $tripNote . '</p>';
+                            } else {
+                                $contentDisplayed = false;
+                                $message = ''; // Store the message to be displayed
+                    
+                                // Check for EARLY BIRD PRICE based on totalDays
+                                if ($totalDays >= 56) {
+                                    if ($countTrip < 10 && $tripDetailLink != '#') {
+                                        $message = '<p class="text-primary">EARLY BIRD PRICE</p>';
+                                    } elseif ($countTrip == 10 && $tripDetailLink != '#') {
+                                        $message = '<p class="text-primary">EARLY BIRD PRICE <br> & <br> 2 SPOTS LEFT</p>';
+                                    } elseif ($countTrip == 11 && $tripDetailLink != '#') {
+                                        $message = '<p class="text-primary">EARLY BIRD PRICE <br> & <br> 1 SPOT LEFT</p>';
+                                    } else {
+                                        $message = '<p>-</p>';
+                                    }
+                                    $contentDisplayed = true; // Mark content as displayed
+                                }
 
-                            <?php if ($countTrip == 10 && $tripDetailLink != '#'): ?>
-                                <p class="text-danger-btn">2 SPOTS LEFT</p>
-                            <?php elseif ($countTrip == 11 && $tripDetailLink != '#'): ?>
-                                <p class="text-danger-btn">1 SPOT LEFT</p>
-                            <?php elseif ($countTrip == 12 && $tripDetailLink != '#'): ?>
-                                <p class="text-danger-btn">FULLY BOOKED</p>
-                            <?php elseif ($tripDetailLink == '#'): ?>
-                                <p class="text-success-btn">MORE INFO COMING SOON</p>
-                            <?php endif; ?>
+                                // Check for EARLY BIRD PRICE ENDS SOON based on totalDays between 42 and 56
+                                if ($totalDays >= 42 && $totalDays < 56) {
+                                    if ($countTrip < 10 && $tripDetailLink != '#') {
+                                        $message = '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON</p>';
+                                    } elseif ($countTrip == 10 && $tripDetailLink != '#') {
+                                        $message = '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 2 SPOTS LEFT</p>';
+                                    } elseif ($countTrip == 11 && $tripDetailLink != '#') {
+                                        $message = '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 1 SPOT LEFT</p>';
+                                    } else {
+                                        $message = '<p>-</p>';
+                                    }
+                                    $contentDisplayed = true; // Mark content as displayed
+                                }
 
+                                // Additional checks for spots available or fully booked
+                                if ($countTrip == 10 && $tripDetailLink != '#') {
+                                    $message = '<p class="text-danger-btn">2 SPOTS LEFT</p>';
+                                    $contentDisplayed = true;
+                                } elseif ($countTrip == 11 && $tripDetailLink != '#') {
+                                    $message = '<p class="text-danger-btn">1 SPOT LEFT</p>';
+                                    $contentDisplayed = true;
+                                } elseif ($countTrip == 12 && $tripDetailLink != '#') {
+                                    $message = '<p class="text-danger-btn">FULLY BOOKED</p>';
+                                    $contentDisplayed = true;
+                                } elseif ($tripDetailLink == '#') {
+                                    $message = '<p class="text-success-btn">MORE INFO COMING SOON</p>';
+                                    $contentDisplayed = true;
+                                }
+
+                                // Output the message if it exists, otherwise display an invisible span
+                                if ($contentDisplayed) {
+                                    echo $message;
+                                } else {
+                                    echo '<span style="visibility: hidden">empty</span>';
+                                }
+                            }
+
+                            ?>
                         </td>
 
-                        <!-- <td data-label="NOTES">
-                        <span class="">
-                            12 slots left </span> 
-                        </td> -->
-
                         <td data-label="BOOK NOW">
-                            <?php if ($tripDetailLink != 'null'): ?>
-                                <?php if ($totalDrivers < 2 && $countTrip >= 9): ?>
-                                    <a href="<?php echo esc_url($zohoFormLinkDrivers); ?>" class=""
-                                        style="font-family: 'ITCAvantGardeStd-Bold';">BOOK NOW</a>
-                                <?php elseif (empty($totalDrivers) || $totalDrivers == 0 || $totalDrivers >= 1): ?>
-                                    <?php if ($countTrip <= 11): ?>
-                                        <a href="<?php echo esc_url($zohoFormLink); ?>" class=""
-                                            style="font-family: 'ITCAvantGardeStd-Bold';">BOOK NOW</a>
+                            <?php if ($countTrip == 12): ?>
+                                <a href="<?php echo esc_url($zohoFormLinkJoinWaitingList); ?>" class=""
+                                style="font-family: 'ITCAvantGardeStd-Bold'; font-size: 14px; font-weight: bold;" target="_blank">JOIN WAITLIST</a>
+                            <?php else: ?>
+                                <?php if ($tripDetailLink != 'null'): ?>
+                                    <?php if ($totalDrivers < 2 && $countTrip >= 9): ?>
+                                        <a target="_blank" href="<?php echo esc_url($zohoFormLinkDriver); ?>" class=""
+                                            style="font-family: 'ITCAvantGardeStd-Bold'; font-size: 14px; font-weight: bold; letter-spacing: normal;" target="_blank">BOOK
+                                            NOW</a>
+                                    <?php elseif (empty($totalDrivers) || $totalDrivers == 0 || $totalDrivers >= 1): ?>
+                                        <?php if ($countTrip <= 11): ?>
+                                            <a target="_blank" href="<?php echo esc_url($zohoFormLink); ?>" class=""
+                                                style="font-family: 'ITCAvantGardeStd-Bold'; font-size: 14px; font-weight: bold; letter-spacing: normal;" target="_blank">BOOK
+                                                NOW</a>
+                                        <?php endif; ?>
                                     <?php endif; ?>
                                 <?php endif; ?>
                             <?php endif; ?>
+
 
                         </td>
                         <!--                         
@@ -222,7 +253,7 @@ try {
             }
         }
 
-        expandButton.addEventListener('click', function() {
+        expandButton.addEventListener('click', function () {
             const isExpanded = this.getAttribute('data-expanded') === 'true';
 
             if (isExpanded) {
@@ -243,7 +274,7 @@ try {
         // Run on initial load to ensure correct state
         handleResize();
     </script>
-<?php
+    <?php
 } catch (Exception $e) {
     echo "<p>Error: " . esc_html($e->getMessage()) . "</p>";
 }

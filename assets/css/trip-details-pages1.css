@@ -131,3 +131,7 @@
     border: none;
   }
 }
+
+.comp_trip_dates table tbody td {
+  padding: 18px 60px !important;
+}

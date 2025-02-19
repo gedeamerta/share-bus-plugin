@@ -262,10 +262,8 @@ tbody .tr-dekstop:hover a {
     transition: background-color 0.3s ease;
     width: 100%;
     text-align: center;
-  }
-
-  .trip-row {
-    margin-bottom: 20px;
+    font-family: 'ITCAvantGardeStd-Bold';
+    letter-spacing: 0px;
   }
 
   .trip-row table tbody tr:nth-child(even) {
