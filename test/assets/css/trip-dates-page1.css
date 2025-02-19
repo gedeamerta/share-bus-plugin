@@ -266,10 +266,6 @@ tbody .tr-dekstop:hover a {
     letter-spacing: 0px;
   }
 
-  .trip-row {
-    margin-bottom: 20px;
-  }
-
   .trip-row table tbody tr:nth-child(even) {
     background-color: var(--brandColor4) !important;
   }

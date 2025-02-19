@@ -97,6 +97,7 @@ try {
           $startCity = $trip["Related_Trip.Start_City"] ?? "N/A";
           $zohoFormLink = "https://forms.zohopublic.com/admin1608/form/TESTFullFormRegistrationandPayment/formperma/ujzk8Yo2qYr13WNZpzz4PF6erUucysO21uTXuvTnYXY?trip=" . $tripName . "&date=" . $formattedStartDate;
           $zohoFormLinkDriver = "https://forms.zohopublic.com/admin1608/form/TripRegistrationandPaymentDriver/formperma/-Fri6gn7uIQWcB6aCKXNdeAfJlPBX9r249ysVueUtTA?trip=" . $tripName . "&date=" . $formattedStartDate;
+          $zohoFormLinkJoinWaitingList = "https://forms.zohopublic.com/admin1608/form/JoinTripWaitlist/formperma/CpEBRo3XbmkXJWrKMpLp1oBKQgElwZk7mwjUVszcW_g?trip=" . $trip["Related_Trip.Name"] . "&date=" . $formattedStartDate;
 
           // Get the month and year from the start date
           $monthYear = date('F Y', strtotime($startDate));
@@ -132,7 +133,7 @@ try {
           endif;
           ?>
           <tr class="tr-dekstop">
-            <td><a style="text-transform: uppercase;"
+            <td><a target="_blank" style="text-transform: uppercase;"
                 href="<?php echo esc_url($tripDetailLink); ?>"><?php echo esc_html($tripName); ?></a></td>
             <td><?php echo esc_html(date("d/m/Y", strtotime($startDate))); ?></td>
             <td><?php echo esc_html($length); ?> days</td>
@@ -151,55 +152,55 @@ try {
               } else {
                 $contentDisplayed = false;
                 $message = ''; // We'll store the message to be displayed here
-
+        
                 // Total days >= 56: EARLY BIRD PRICE related messages
                 if ($totalDays >= 56) {
-                    if ($countTrip < 10 && $tripDetailLink != '#') {
-                        $message = '<p class="text-primary">EARLY BIRD PRICE</p>';
-                        $contentDisplayed = true;
-                    } elseif ($countTrip == 10 && $tripDetailLink != '#') {
-                        $message = '<p class="text-primary">EARLY BIRD PRICE <br> & <br> 2 SPOTS LEFT</p>';
-                        $contentDisplayed = true;
-                    } elseif ($countTrip == 11 && $tripDetailLink != '#') {
-                        $message = '<p class="text-primary">EARLY BIRD PRICE <br> & <br> 1 SPOT LEFT</p>';
-                        $contentDisplayed = true;
-                    }
+                  if ($countTrip < 10 && $tripDetailLink != '#') {
+                    $message = '<p class="text-primary">EARLY BIRD PRICE</p>';
+                    $contentDisplayed = true;
+                  } elseif ($countTrip == 10 && $tripDetailLink != '#') {
+                    $message = '<p class="text-primary">EARLY BIRD PRICE <br> & <br> 2 SPOTS LEFT</p>';
+                    $contentDisplayed = true;
+                  } elseif ($countTrip == 11 && $tripDetailLink != '#') {
+                    $message = '<p class="text-primary">EARLY BIRD PRICE <br> & <br> 1 SPOT LEFT</p>';
+                    $contentDisplayed = true;
+                  }
                 }
 
                 // Total days between 42 and 56: EARLY BIRD PRICE ENDS SOON related messages
                 if ($totalDays >= 42 && $totalDays < 56) {
-                    if ($countTrip < 10 && $tripDetailLink != '#') {
-                        $message = '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON</p>';
-                        $contentDisplayed = true;
-                    } elseif ($countTrip == 10 && $tripDetailLink != '#') {
-                        $message = '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 2 SPOTS LEFT</p>';
-                        $contentDisplayed = true;
-                    } elseif ($countTrip == 11 && $tripDetailLink != '#') {
-                        $message = '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 1 SPOT LEFT</p>';
-                        $contentDisplayed = true;
-                    }
+                  if ($countTrip < 10 && $tripDetailLink != '#') {
+                    $message = '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON</p>';
+                    $contentDisplayed = true;
+                  } elseif ($countTrip == 10 && $tripDetailLink != '#') {
+                    $message = '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 2 SPOTS LEFT</p>';
+                    $contentDisplayed = true;
+                  } elseif ($countTrip == 11 && $tripDetailLink != '#') {
+                    $message = '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 1 SPOT LEFT</p>';
+                    $contentDisplayed = true;
+                  }
                 }
 
                 // Additional conditions for the number of spots
                 if ($countTrip == 10 && $tripDetailLink != '#') {
-                    $message = '<p class="text-danger-btn">2 SPOTS LEFT</p>';
-                    $contentDisplayed = true;
+                  $message = '<p class="text-danger-btn">2 SPOTS LEFT</p>';
+                  $contentDisplayed = true;
                 } elseif ($countTrip == 11 && $tripDetailLink != '#') {
-                    $message = '<p class="text-danger-btn">1 SPOT LEFT</p>';
-                    $contentDisplayed = true;
+                  $message = '<p class="text-danger-btn">1 SPOT LEFT</p>';
+                  $contentDisplayed = true;
                 } elseif ($countTrip == 12 && $tripDetailLink != '#') {
-                    $message = '<p class="text-danger-btn">FULLY BOOKED</p>';
-                    $contentDisplayed = true;
+                  $message = '<p class="text-danger-btn">FULLY BOOKED</p>';
+                  $contentDisplayed = true;
                 } elseif ($tripDetailLink == '#') {
-                    $message = '<p class="text-success-btn">MORE INFO COMING SOON</p>';
-                    $contentDisplayed = true;
+                  $message = '<p class="text-success-btn">MORE INFO COMING SOON</p>';
+                  $contentDisplayed = true;
                 }
 
                 // Output the message if it exists, otherwise display an invisible span to indicate empty
                 if ($contentDisplayed) {
-                    echo $message;
+                  echo $message;
                 } else {
-                    echo '<span style="visibility: hidden">empty</span>';
+                  echo '<span style="visibility: hidden">empty</span>';
                 }
               }
               ?>
@@ -207,15 +208,20 @@ try {
 
             <!-- <td><?php echo esc_html($totalWeeks); ?></td> -->
             <td>
-              <?php if ($tripDetailLink != '#'): ?>
-                <?php if ($totalDrivers < 2 && $countTrip >= 9 && $countTrip < 12): ?>
-                  <a style="" href="<?php echo esc_url($zohoFormLinkDriver); ?>" class="book-btn">BOOK NOW</a>
-                <?php elseif (empty($totalDrivers) || $totalDrivers == 0 || $totalDrivers >= 1): ?>
-                  <?php if ($countTrip <= 11): ?>
-                    <a style="" href="<?php echo esc_url($zohoFormLink); ?>" class="book-btn">BOOK NOW</a>
+              <?php if ($countTrip < 12 && $countTrip >= 0): ?>
+                <?php if ($tripDetailLink != '#'): ?>
+                  <?php if ($totalDrivers < 2 && $countTrip >= 9 && $countTrip < 12): ?>
+                    <a target="_blank" style="" href="<?php echo esc_url($zohoFormLinkDriver); ?>" class="book-btn">BOOK NOW</a>
+                  <?php elseif (empty($totalDrivers) || $totalDrivers == 0 || $totalDrivers >= 1): ?>
+                    <?php if ($countTrip <= 11): ?>
+                      <a target="_blank" style="" href="<?php echo esc_url($zohoFormLink); ?>" class="book-btn">BOOK NOW</a>
+                    <?php endif; ?>
                   <?php endif; ?>
                 <?php endif; ?>
-              <?php endif; ?>
+              <? else: ?>
+                <a target="_blank" href="<?php echo esc_url($zohoFormLinkJoinWaitingList); ?>" class="book-btn"
+                  style="">JOIN WAITLIST</a>
+              <? endif; ?>
             </td>
           </tr>
         <?php endforeach; ?>
@@ -263,6 +269,8 @@ try {
           // Check if all necessary fields are present
           const tripName = trip["Related_Trip.Name_for_Form"] || trip["Name"];
           const startDate = trip["Trip_Start_Date"] || "N/A";
+          const tripNote = trip["Note_For_Website"];
+
           // Define today's date
           const todayDate = new Date();
           let formattedStartDate = "N/A";
@@ -293,6 +301,7 @@ try {
 
           const zohoFormLink = "https://forms.zohopublic.com/admin1608/form/TESTFullFormRegistrationandPayment/formperma/ujzk8Yo2qYr13WNZpzz4PF6erUucysO21uTXuvTnYXY?trip=" + tripName + "&date=" + formattedStartDate;
           const zohoFormLinkDriver = "https://forms.zohopublic.com/admin1608/form/TripRegistrationandPaymentDriver/formperma/-Fri6gn7uIQWcB6aCKXNdeAfJlPBX9r249ysVueUtTA?trip=" + tripName + "&date=" + formattedStartDate;
+          const zohoFormLinkJoinWaitingList = "https://forms.zohopublic.com/admin1608/form/JoinTripWaitlist/formperma/CpEBRo3XbmkXJWrKMpLp1oBKQgElwZk7mwjUVszcW_g?trip=" + trip["Related_Trip.Name"] + "&date=" + formattedStartDate;
 
           const date = new Date(startDate);
 
@@ -324,103 +333,115 @@ try {
             tableRow.style.backgroundColor = "white";
           }
 
+          // Initialise notes variable to build the message
+          let notes = "";
+
+          // Check for EARLY BIRD PRICE
+          if (totalDays >= 56) {
+            if (countTrip < 10 && tripDetailLink !== "null") {
+              notes = '<p class="text-primary">EARLY BIRD PRICE</p>';
+            } else if (countTrip === 10 && tripDetailLink !== "null") {
+              notes = '<p class="text-primary">EARLY BIRD PRICE <br> & <br> 2 SPOTS LEFT</p>';
+            } else if (countTrip === 11 && tripDetailLink !== "null") {
+              notes = '<p class="text-primary">EARLY BIRD PRICE <br> & <br> 1 SPOT LEFT</p>';
+            }
+          }
+
+          // Check for EARLY BIRD PRICE ENDS SOON
+          if (totalDays >= 42 && totalDays < 56) {
+            if (countTrip < 10 && tripDetailLink !== "null") {
+              notes = '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON</p>';
+            } else if (countTrip === 10 && tripDetailLink !== "null") {
+              notes = '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 2 SPOTS LEFT</p>';
+            } else if (countTrip === 11 && tripDetailLink !== "null") {
+              notes = '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 1 SPOT LEFT</p>';
+            }
+          }
+
+          // Check for availability and fully booked status
+          if (countTrip === 10 && tripDetailLink !== "null") {
+            notes = '<p class="text-danger-btn">2 SPOTS LEFT</p>';
+          } else if (countTrip === 11 && tripDetailLink !== "null") {
+            notes = '<p class="text-danger-btn">1 SPOT LEFT</p>';
+          } else if (countTrip === 12 && tripDetailLink !== "null") {
+            notes = '<p class="text-danger-btn">FULLY BOOKED</p>';
+          } else if (tripDetailLink === "null") {
+            notes = '<p class="text-success-btn">MORE INFO COMING SOON</p>';
+          }
+
+          // Fallback if no conditions are met
+          if (notes === "") {
+            notes = '<span style="visibility: hidden">empty</span>';
+          }
+
+          // Append tripNote if not empty
+          if (tripNote && tripNote.trim() !== "") {
+            notes = `<p>${tripNote}</p>`;
+          }
+
+          // Check for EARLY BIRD PRICE
+          if (totalDays >= 56) {
+            if (countTrip < 10 && tripDetailLink !== "null") {
+              notes = '<p class="text-primary">EARLY BIRD PRICE</p>';
+            } else if (countTrip === 10 && tripDetailLink !== "null") {
+              notes = '<p class="text-primary">EARLY BIRD PRICE <br> & <br> 2 SPOTS LEFT</p>';
+            } else if (countTrip === 11 && tripDetailLink !== "null") {
+              notes = '<p class="text-primary">EARLY BIRD PRICE <br> & <br> 1 SPOT LEFT</p>';
+            }
+          }
+
+          // Check for EARLY BIRD PRICE ENDS SOON
+          if (totalDays >= 42 && totalDays < 56) {
+            if (countTrip < 10 && tripDetailLink !== "null") {
+              notes = '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON</p>';
+            } else if (countTrip === 10 && tripDetailLink !== "null") {
+              notes = '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 2 SPOTS LEFT</p>';
+            } else if (countTrip === 11 && tripDetailLink !== "null") {
+              notes = '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 1 SPOT LEFT</p>';
+            }
+          }
+
+          // Check for availability and fully booked status
+          if (countTrip === 10 && tripDetailLink !== "null") {
+            notes = '<p class="text-danger-btn">2 SPOTS LEFT</p>';
+          } else if (countTrip === 11 && tripDetailLink !== "null") {
+            notes = '<p class="text-danger-btn">1 SPOT LEFT</p>';
+          } else if (countTrip === 12 && tripDetailLink !== "null") {
+            notes = '<p class="text-danger-btn">FULLY BOOKED</p>';
+          } else if (tripDetailLink === "null") {
+            notes = '<p class="text-success-btn">MORE INFO COMING SOON</p>';
+          }
+
+          // Append tripNote if not empty
+          if (tripNote && tripNote.trim() !== "") {
+            notes = `<p>${tripNote}</p>`;
+          }
+
+          // Fallback if no conditions are met
+          if (notes === "") {
+            notes = '<span style="visibility: hidden">empty</span>';
+          }
 
 
-// Initialise notes variable to build the message
-let notes = "";
-
-// Check for EARLY BIRD PRICE
-if (totalDays >= 56) {
-  if (countTrip < 10 && tripDetailLink !== "null") {
-    notes = '<p class="text-primary">EARLY BIRD PRICE</p>';
-  } else if (countTrip === 10 && tripDetailLink !== "null") {
-    notes = '<p class="text-primary">EARLY BIRD PRICE <br> & <br> 2 SPOTS LEFT</p>';
-  } else if (countTrip === 11 && tripDetailLink !== "null") {
-    notes = '<p class="text-primary">EARLY BIRD PRICE <br> & <br> 1 SPOT LEFT</p>';
-  }
-}
-
-// Check for EARLY BIRD PRICE ENDS SOON
-if (totalDays >= 42 && totalDays < 56) {
-  if (countTrip < 10 && tripDetailLink !== "null") {
-    notes = '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON</p>';
-  } else if (countTrip === 10 && tripDetailLink !== "null") {
-    notes = '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 2 SPOTS LEFT</p>';
-  } else if (countTrip === 11 && tripDetailLink !== "null") {
-    notes = '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 1 SPOT LEFT</p>';
-  }
-}
-
-// Check for availability and fully booked status
-if (countTrip === 10 && tripDetailLink !== "null") {
-  notes = '<p class="text-danger-btn">2 SPOTS LEFT</p>';
-} else if (countTrip === 11 && tripDetailLink !== "null") {
-  notes = '<p class="text-danger-btn">1 SPOT LEFT</p>';
-} else if (countTrip === 12 && tripDetailLink !== "null") {
-  notes = '<p class="text-danger-btn">FULLY BOOKED</p>';
-} else if (tripDetailLink === "null") {
-  notes = '<p class="text-success-btn">MORE INFO COMING SOON</p>';
-}
-
-// Fallback if no conditions are met
-if (notes === "") {
-  notes = '<span style="visibility: hidden">empty</span>';
-}
-
-// Append tripNote if not empty
-if (tripNote && tripNote.trim() !== "") {
-  notes = `<p>${tripNote}</p>`;
-}
-
-// Check for EARLY BIRD PRICE
-if (totalDays >= 56) {
-  if (countTrip < 10 && tripDetailLink !== "null") {
-    notes = '<p class="text-primary">EARLY BIRD PRICE</p>';
-  } else if (countTrip === 10 && tripDetailLink !== "null") {
-    notes = '<p class="text-primary">EARLY BIRD PRICE <br> & <br> 2 SPOTS LEFT</p>';
-  } else if (countTrip === 11 && tripDetailLink !== "null") {
-    notes = '<p class="text-primary">EARLY BIRD PRICE <br> & <br> 1 SPOT LEFT</p>';
-  }
-}
-
-// Check for EARLY BIRD PRICE ENDS SOON
-if (totalDays >= 42 && totalDays < 56) {
-  if (countTrip < 10 && tripDetailLink !== "null") {
-    notes = '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON</p>';
-  } else if (countTrip === 10 && tripDetailLink !== "null") {
-    notes = '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 2 SPOTS LEFT</p>';
-  } else if (countTrip === 11 && tripDetailLink !== "null") {
-    notes = '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 1 SPOT LEFT</p>';
-  }
-}
-
-// Check for availability and fully booked status
-if (countTrip === 10 && tripDetailLink !== "null") {
-  notes = '<p class="text-danger-btn">2 SPOTS LEFT</p>';
-} else if (countTrip === 11 && tripDetailLink !== "null") {
-  notes = '<p class="text-danger-btn">1 SPOT LEFT</p>';
-} else if (countTrip === 12 && tripDetailLink !== "null") {
-  notes = '<p class="text-danger-btn">FULLY BOOKED</p>';
-} else if (tripDetailLink === "null") {
-  notes = '<p class="text-success-btn">MORE INFO COMING SOON</p>';
-}
-
-// Append tripNote if not empty
-if (tripNote && tripNote.trim() !== "") {
-  notes += `<p>${tripNote}</p>`;
-}
-
-// Fallback if no conditions are met
-if (notes === "") {
-  notes = '<span style="visibility: hidden">empty</span>';
-}
+          let buttonBookOrJoinWait = "";
+          if(countTrip == 12) {
+            buttonBookOrJoinWait = `<a target="_blank" href="${zohoFormLinkJoinWaitingList}" class="book-btn-mobile">JOIN WAITLIST</a>`;
+          } else {
+            if (tripDetailLink !== 'null') {
+              if (totalDrivers < 2 && countTrip >= 9 && countTrip < 12) {
+                  buttonBookOrJoinWait = `<a target="_blank" href="${zohoFormLinkDriver}" class="book-btn-mobile">BOOK NOW</a>`;
+              } else if (totalDrivers >= 0 && countTrip <= 11) {
+                  buttonBookOrJoinWait = `<a target="_blank" href="${zohoFormLink}" class="book-btn-mobile">BOOK NOW</a>`;
+              }
+            }
+          }
 
 
           tableRow.innerHTML = `
                       <table id="tr-trip-date-list-${index}" style="width: 100%; margin-top: 0px;">
                         <tr>
-                          <td style="width: 65%; font-weight: bold; text-transform: uppercase; padding-left: 10px; padding-top: 10px;"><a style="color: #16a7fb" href="https://${tripDetailLink}" target='_blank'">${tripName}</a></td>
-                          <td id="trip-start-date-${index}" style="width: 30%; padding: 10px; color: #000; font-family: 'ITCAvantGardeStd-Bold'; padding-bottom: 0px;">${startDate !== "N/A" ? formatDate(startDate) : "N/A"}</td>
+                          <td style="width: 65%; font-weight: bold; text-transform: uppercase; padding-left: 8px; padding-top: 5px;"><a style="color: #16a7fb" href="${tripDetailLink}" target='_blank'">${tripName}</a></td>
+                          <td id="trip-start-date-${index}" style="width: 30%; padding-right: 8px; padding-top: 5px; color: #000; font-family: 'ITCAvantGardeStd-Bold'; padding-bottom: 0px;">${startDate !== "N/A" ? formatDate(startDate) : "N/A"}</td>
                           <td style="width: 5%; text-align: center; padding-right: 10px;">
                             <span id="show-more-icon-${index}" class="show-more-icon" style="color: var(--brandColor2); cursor: pointer; font-size: 28px">+</span>
                             <span id="show-less-icon-${index}" class="show-less-icon" style="color: var(--brandColor2); display: none; cursor: pointer; font-size: 32px">-</span>
@@ -433,51 +454,11 @@ if (notes === "") {
                           <li><span>END DATE </span><span>${formatDate(endDate)}</span></li>
                           <li><span>TRIP LENGTH </span><span>${length} days</span></li>
                           <li><span>PRICE </span><span>${totalDays >= 42 ? earlyBird : fullPrice}</span></li>
-                          <li><span>NOTES</span>
-                            ${totalDays >= 56 && countTrip < 10 && tripDetailLink !== 'null'
-              ? '<p class="text-primary">EARLY BIRD PRICE</p>'
-              : ''}
-                          ${totalDays >= 56 && countTrip === 10 && tripDetailLink !== 'null'
-              ? '<p class="text-primary">EARLY BIRD PRICE <br> & <br> 2 SPOTS LEFT</p>'
-              : ''}
-                          ${totalDays >= 56 && countTrip === 11 && tripDetailLink !== 'null'
-              ? '<p class="text-primary">EARLY BIRD PRICE <br> & <br> 1 SPOT LEFT</p>'
-              : ''}
-                  
-                          ${totalDays >= 42 && totalDays < 56 && countTrip < 10 && tripDetailLink !== 'null'
-              ? '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON</p>'
-              : ''}
-                          ${totalDays >= 42 && totalDays < 56 && countTrip === 10 && tripDetailLink !== 'null'
-              ? '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 2 SPOTS LEFT</p>'
-              : ''}
-                          ${totalDays >= 42 && totalDays < 56 && countTrip === 11 && tripDetailLink !== 'null'
-              ? '<p class="text-danger-btn">EARLY BIRD PRICE ENDS SOON <br> & <br> 1 SPOT LEFT</p>'
-              : ''}
-
-                          ${countTrip === 10 && tripDetailLink !== 'null'
-              ? '<p class="text-danger-btn">2 SPOTS LEFT</p>'
-              : ''}
-                          ${countTrip === 11 && tripDetailLink !== 'null'
-              ? '<p class="text-danger-btn">1 SPOT LEFT</p>'
-              : ''}
-                          ${countTrip === 12 && tripDetailLink !== 'null'
-              ? '<p class="text-danger-btn">FULLY BOOKED</p>'
-              : ''}
-                          ${tripDetailLink === 'null'
-              ? '<p class="text-success-btn">MORE INFO COMING SOON</p>'
-              : ''}
-                          ${countTrip === 10 && tripDetailLink !== 'null' ? '<p style="color: #FFA500">2 SPOTS LEFT</p></li>' : ''}
-                          ${countTrip === 11 && tripDetailLink !== 'null' ? '<p style="color: #FFA500">1 SPOT LEFT</p></li>' : ''}
-                          ${countTrip === 12 && tripDetailLink !== 'null' ? '<p style="color: red">FULLY BOOKED</p></li>' : ''}
-                          ${(tripDetailLink === 'null' && !(totalWeeks >= 6 || totalWeeks === 5 || countTrip === 10 || countTrip === 11 || countTrip === 12)) ? '<p class="text-success-btn">MORE INFO COMING SOON</p></li>' : ''}
+                          <li><span>NOTES</span>${notes}</li>
                         </ul>
-                        ${tripDetailLink !== 'null' ? `
-                        ${totalDrivers < 2 && countTrip >= 9 && countTrip < 12 ?
-                `<a href="${zohoFormLinkDriver}" class="book-btn-mobile">BOOK NOW</a>` :
-                totalDrivers >= 0 && countTrip <= 11 ?
-                  `<a href="${zohoFormLink}" class="book-btn-mobile">BOOK NOW</a>` : ''}
-                      ` : ''}
-                      </div>
+
+                        ${buttonBookOrJoinWait}
+</div>
                     `;
 
           cardContainer.appendChild(tableRow);
@@ -502,13 +483,18 @@ if (notes === "") {
             trTripDateList.style.borderCollapse = "separate";
             trTripDateList.style.borderTopLeftRadius = "10px";
             trTripDateList.style.borderTopRightRadius = "10px";
+            //
+            trTripDateList.parentElement.style.paddingTop = "0px";
+            trTripDateList.parentElement.style.paddingBottom = "0px";
+            trTripDateList.parentElement.style.borderRadius = "10px";
+            trTripDateList.parentElement.style.marginBottom = "15px";
           });
 
           showLessIcon.addEventListener("click", () => {
             tripDetails.style.display = "none";
             showMoreIcon.style.display = "inline";
             showLessIcon.style.display = "none";
-            tripStartDate.style.display = "block";
+            tripStartDate.style.display = "table-cell";
             trTripDateList.style.backgroundColor = isEven ? "background-color: var(--brandColor4);" : "background-color: white;";
             trTripDateList.style.borderRadius = "0px";
             trTripDateList.style.borderTop = "0px solid #fff";
@@ -517,6 +503,12 @@ if (notes === "") {
             trTripDateList.style.borderCollapse = "separate";
             trTripDateList.style.borderTopLeftRadius = "0px";
             trTripDateList.style.borderTopRightRadius = "0px";
+            //
+            trTripDateList.parentElement.style.paddingTop = "5px";
+            trTripDateList.parentElement.style.paddingBottom = "5px";
+            trTripDateList.parentElement.style.borderRadius = "0px";
+            trTripDateList.parentElement.style.marginBottom = "0px";
+
           });
 
         });
