@@ -103,10 +103,6 @@
   }
 }
 
-
-
-
-
 /* Hide the "Expand" button on larger screens */
 @media (min-width: 768px) {
   /*   .comp_trip_dates table tbody tr td, */
@@ -130,8 +126,8 @@
     margin-top: 10px;
     border: none;
   }
-}
 
-.comp_trip_dates table tbody td {
-  padding: 18px 60px !important;
+  .comp_trip_dates table tbody td {
+    padding: 18px 60px !important;
+  }
 }
