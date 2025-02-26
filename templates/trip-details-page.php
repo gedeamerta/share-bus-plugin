@@ -8,7 +8,7 @@ try {
 
     // Prepare the request body
     $body = [
-        'Website' => basename($actual_link), // Pass the current page URL
+        'Website' => $_SERVER["REQUEST_URI"], // Pass the current page URL
     ];
 
     $args = array(
@@ -230,8 +230,9 @@ try {
             </tbody>
         </table>
 
-
-        <button id="expandButton" class="expand-btn" data-expanded="false">MORE DATES</button>
+        <?php if (count($data["Trip_Dates_List"]) >= 6): ?>
+            <button id="expandButton" class="expand-btn" data-expanded="false">MORE DATES</button>
+        <?php endif; ?>
     </section>
 
 

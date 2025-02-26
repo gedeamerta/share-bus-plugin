@@ -218,10 +218,10 @@ try {
                     <?php endif; ?>
                   <?php endif; ?>
                 <?php endif; ?>
-              <? else: ?>
+              <?php else: ?>
                 <a target="_blank" href="<?php echo esc_url($zohoFormLinkJoinWaitingList); ?>" class="book-btn"
                   style="">JOIN WAITLIST</a>
-              <? endif; ?>
+              <?php endif; ?>
             </td>
           </tr>
         <?php endforeach; ?>
@@ -293,7 +293,7 @@ try {
 
           const endDate = trip["Trip_End_Date"] || "N/A";
           const length = trip["Related_Trip.Trip_Days"] || "N/A";
-          const tripDetailLink = trip["Related_Trip.Page_Detail_URL"] || 'null';
+          let tripDetailLink = trip["Related_Trip.Page_Detail_URL"] || 'null';
           const earlyBird = trip["Related_Trip.Early_Bird_Price"] ? "$" + trip["Related_Trip.Early_Bird_Price"] : "-";
           const fullPrice = trip["Related_Trip.Full_Price"] ? "$" + trip["Related_Trip.Full_Price"] : "-";
           const countTrip = trip["Trip_Registration_Count"] || 0;
@@ -436,11 +436,14 @@ try {
             }
           }
 
+          if (!tripDetailLink.startsWith("http")) {
+              tripDetailLink = "https://" + tripDetailLink;
+          }
 
           tableRow.innerHTML = `
                       <table id="tr-trip-date-list-${index}" style="width: 100%; margin-top: 0px;">
                         <tr>
-                          <td style="width: 65%; font-weight: bold; text-transform: uppercase; padding-left: 8px; padding-top: 5px;"><a style="color: #16a7fb" href="${tripDetailLink}" target='_blank'">${tripName}</a></td>
+                          <td style="width: 65%; font-weight: bold; text-transform: uppercase; padding-left: 8px; padding-top: 5px;"><a style="color: #16a7fb" href="${tripDetailLink}" target="_blank">${tripName}</a></td>
                           <td id="trip-start-date-${index}" style="width: 30%; padding-right: 8px; padding-top: 5px; color: #000; font-family: 'ITCAvantGardeStd-Bold'; padding-bottom: 0px;">${startDate !== "N/A" ? formatDate(startDate) : "N/A"}</td>
                           <td style="width: 5%; text-align: center; padding-right: 10px;">
                             <span id="show-more-icon-${index}" class="show-more-icon" style="color: var(--brandColor2); cursor: pointer; font-size: 28px">+</span>
