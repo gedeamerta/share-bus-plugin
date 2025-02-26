@@ -293,7 +293,7 @@ try {
 
           const endDate = trip["Trip_End_Date"] || "N/A";
           const length = trip["Related_Trip.Trip_Days"] || "N/A";
-          const tripDetailLink = trip["Related_Trip.Page_Detail_URL"] || 'null';
+          let tripDetailLink = trip["Related_Trip.Page_Detail_URL"] || 'null';
           const earlyBird = trip["Related_Trip.Early_Bird_Price"] ? "$" + trip["Related_Trip.Early_Bird_Price"] : "-";
           const fullPrice = trip["Related_Trip.Full_Price"] ? "$" + trip["Related_Trip.Full_Price"] : "-";
           const countTrip = trip["Trip_Registration_Count"] || 0;
@@ -439,7 +439,7 @@ try {
           if (!tripDetailLink.startsWith("http")) {
               tripDetailLink = "https://" + tripDetailLink;
           }
-          
+
           tableRow.innerHTML = `
                       <table id="tr-trip-date-list-${index}" style="width: 100%; margin-top: 0px;">
                         <tr>

@@ -6,11 +6,6 @@
 try {
     $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
-    // echo "hi";
-    // var_dump($actual_link);
-
-    // var_dump($_SERVER["REQUEST_URI"]);
-    
     // Prepare the request body
     $body = [
         'Website' => $_SERVER["REQUEST_URI"], // Pass the current page URL
